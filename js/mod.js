@@ -11,7 +11,7 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.08503",
+	num: "0.0851",
 	name: "REBALANCE",
 }
 
@@ -21,7 +21,7 @@ let changelog = `<h1>更新日志</h1><br>
 - 添加“PTT”，包括3个可点击<br>
 - 添加5+3+1=9个升级，3+1+2=6个里程碑<br>
 - 重新制作了游戏（修改很多升级及平衡）<br>
-- 游戏结局：1e17800 Notes（1e100 源点，1e15 Phidata）<br>
+- 游戏结局：1e18000 Notes（1e100 源点，1e15 Phidata）<br>
 v0.06 Early Game 2023/10/06-2023/10/16<br>
 - 添加4个层级：歌曲，Arcaea，Phigros,魔王曲<br>
 - 添加14+14+14+2=44个升级<br>

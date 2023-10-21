@@ -241,6 +241,9 @@ addLayer("s", {
   doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
+            if (resettingLayer == "a") {
+                if (hasUpgrade("a", 12)&&!inChallenge) {kept.push("upgrades")}
+            }
             if (resettingLayer == "p") {
                 if (hasMilestone("p", 5)) {kept.push("buyables")}
             }
@@ -308,15 +311,15 @@ addLayer("s", {
     cost: new Decimal(1e14),
     unlocked() { return (hasUpgrade('a', 17))},},
     24:{title:"歌曲太多了…",
-    description:"解锁第二个歌曲可购买，源点获取指数+0.1（软上限前）",
+    description:"解锁两个歌曲可购买，源点获取指数+0.1（软上限前）",
     cost: new Decimal(1e28),
     unlocked() { return (hasUpgrade('a', 21))},},
     25:{title:"极限数值",
     description:"根据歌曲数量增益源点获取量",
-    cost: new Decimal(9.6e96),
+    cost: new Decimal(1e96),
     unlocked() { return (hasMilestone('l', 1))},
     effect() {
-        return player.s.points.add(10).log(2).pow(1.2).div(2).add(1) },
+        return player.s.points.add(10).log(2).pow(1.2).add(1) },
  effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" },
     },
     26:{title:"无限歌曲",
@@ -541,14 +544,14 @@ challenges: {
 },
 upgrades: {
     11:{ title: "我们音游玩家是这样的",
-    description:"根据源点数量乘歌曲的获取量，效果是源点^3",
+    description:"根据源点数量乘以歌曲的获取量，效果是源点^3",
     cost: new Decimal(1),
     effect() {
     return player['a'].points.add(1).pow(3)
     },
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     12:{ title: "韵律的力量",
-    description:"升级11效果提升（源点^3——^8）",
+    description:"升级11效果提升（源点^3——^8），源点不重置歌曲升级",
     cost: new Decimal(2),
     unlocked() { return (hasUpgrade('a', 11))},
     effect() {
@@ -735,7 +738,8 @@ addLayer("l", {
         return mult
     },
     gainExp() { 
-      exp= new Decimal(0.06)
+      exp= new Decimal(0.07)
+      if(player.l.points.gte(3)) exp= new Decimal(0.06)
       if(player.l.points.gte(15)) exp= new Decimal(0.015).div(player.l.points.sub(14).pow(0.5))
        return exp
     },
