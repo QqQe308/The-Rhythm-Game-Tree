@@ -1,0 +1,41 @@
+/* Global things */
+body {
+	color: var(--color);
+	overflow: hidden;
+	--background: #0f0f0f;
+	--color: #dfdfdf;
+	--points: #ffffff;
+	background: var(--background)
+}
+
+/* General text */
+h1, h2, h3, b, input {
+	display: inline;
+	font-family: "Lucida Console", "Courier New", monospace
+}
+
+/* These are styles for different states of components. You can make layer-specific versions with .c.locked, for example */
+.locked {
+	background-color: #bf8f8f;
+	cursor: not-allowed;
+}
+
+/* Can meens can be clicked/bought/etc */
+.can {
+	cursor: pointer;
+}
+
+.can:hover {
+	transform: scale(1.15, 1.15);
+	box-shadow: 0 0 20px var(--points)
+}
+
+.bought {
+	background-color: #77bf5f;
+	cursor: default;
+}
+
+#points {
+	color: var(--points);
+	text-shadow: 0 0 10px var(--points);
+}
