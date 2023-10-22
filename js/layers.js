@@ -145,7 +145,7 @@ addLayer("A", {
         },
         44: {
             name: "韵律源神<br>II",
-            done() {return player.a.points.gte(1e20)},
+            done() {return player.a.points.gte(1e200)},
             tooltip: "达到1e200源点！<br>奖励：游戏通关",
             textStyle: {'color': '#e989d1e7'},
         },
