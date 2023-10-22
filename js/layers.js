@@ -79,18 +79,21 @@ addLayer("A", {
         24: {
             name: "一古戈尔",
             done() {return player.s.points.gte(1e100)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得1e100(1 Googol)歌曲",
             textStyle: {'color': '#5244ff'},
         },
         25: {
             name: "有必要吗",
             done() {return player.potential.gte(2.886499075)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得2.886499075PTT",
             textStyle: {'color': '#ff5eee'},
         },
         31: {
             name: "下一进展<br>🏆",
             done() {return player.p.points.gte(1)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得一个PhiData！<br>奖励：源点获取量变为原来的10倍（软上限前）",
             textStyle: {'color': '#CC11AA'},
             
@@ -98,6 +101,7 @@ addLayer("A", {
         32: {
             name: "再次挑战",
             done() {return hasUpgrade('p',13)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "解锁Phidata挑战！",
             textStyle: {'color': '#CCBBAA'},
             
@@ -105,6 +109,7 @@ addLayer("A", {
         33: {
             name: "遗忘的层<br>🏆",
             done() {return player.l.points.gte(8)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得8个诗篇！<br>奖励：100%Phidata每秒",
             textStyle: {'color': '#98f8f2'},
             
@@ -112,6 +117,7 @@ addLayer("A", {
         34: {
             name: "从未遗忘<br>🏆",
             done() {return player.l.points.gte(15)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得15个诗篇！<br>奖励：解锁更多Phidata升级",
             textStyle: {'color': '#BBCCDD'},
             
@@ -119,6 +125,7 @@ addLayer("A", {
         35: {
             name: "DABCABCD<br>ABCADBAA<br>BABCABCD<br>BAAADBAB",
             done() {return hasUpgrade('a',32)},
+           onComplete(){player.ach=player.ach.add(1)},
             tooltip: "购买升级“Cyaegha”<br>梗来源：人声部分的空耳",
             textStyle: {'color': '#DABCAB'},
             
@@ -126,6 +133,7 @@ addLayer("A", {
         41: {
             name: "困难魔王<br>🏆",
             done() {return hasUpgrade('p',27)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "解锁第五个层级：魔王曲<br>奖励：Phidata^1.1",
             textStyle: {'color': '#55BB11'},
             
@@ -133,6 +141,7 @@ addLayer("A", {
         42: {
             name: "人如其名",
             done() {return hasUpgrade('a',35)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "购买升级“#1f1e33”",
             textStyle: {'color': '#1f1e33'},
             
@@ -140,11 +149,13 @@ addLayer("A", {
         43: {
             name: "韵律源神<br>🏆",
             done() {return player.a.points.gte(1e100)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "达到1e100源点！<br>奖励：源点^1.04（软上限后）",
             textStyle: {'color': '#e381caf7'},
         },
         44: {
             name: "韵律源神<br>II",
+            onComplete(){player.ach=player.ach.add(1)},
             done() {return player.a.points.gte(1e200)},
             tooltip: "达到1e200源点！<br>奖励：游戏通关",
             textStyle: {'color': '#e989d1e7'},
@@ -1148,21 +1159,21 @@ addLayer("p", {
     unlocked() {return hasUpgrade('p',31)},},
     33:{ title: "Impossible",
     description:"PTT对歌曲也有提升效果（软上限后）",
-    cost: new Decimal(1e15),
+    cost: new Decimal(5e14),
     unlocked() {return hasMilestone('m',1)},
     effect() {return player.potential.add(15).log(15).pow(0.25)},
     effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
     },
     34:{ title: "Difficult",
     description:"PTT对源点提升增加（软上限后）",
-    cost: new Decimal(2e15),
+    cost: new Decimal(1e15),
     unlocked() {return hasMilestone('m',1)},
     effect() {return player.potential.add(15).log(15).pow(0.2)},
     effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
     },
     35:{ title: "Anxious",
     description:"解锁更多PTT升级，解锁魔王曲升级",
-    cost: new Decimal(2e16),
+    cost: new Decimal(2e15),
     unlocked() {return hasUpgrade('p',34)},
     },
     36:{ title: "Terrible",
