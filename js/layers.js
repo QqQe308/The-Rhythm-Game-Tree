@@ -1359,7 +1359,7 @@ addLayer("m", {
     upgrades: {
     11:{ title: "我想你懂得",
     description:"解锁RKS（在Phidata界面），Phidata×1e5（软上限前）",
-    cost: new Decimal(5),
+    cost: new Decimal(0),
     unlocked() {return hasUpgrade('p',35)}, },
    },
     milestones: {
