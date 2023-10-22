@@ -11,28 +11,29 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.0851",
+	num: "0.0888",
 	name: "REBALANCE",
 }
 
 let changelog = `<h1>更新日志</h1><br>
-<h3>v0.085 REBALANCE 2023/10/18~2023/10/20<br>
+<h3>v0.0888 REBALANCE 2023/10/18~2023/10/20<br>
 - 添加1个层级：Lanota<br>
 - 添加“PTT”，包括3个可点击<br>
-- 添加5+3+1=9个升级，3+1+2=6个里程碑<br>
-- 重新制作了游戏（修改很多升级及平衡）<br>
-- 游戏结局：1e18000 Notes（1e100 源点，1e15 Phidata）<br>
+- 添加“RKS”，包括1个可点击<br>
+- 添加6+3+5+1=15个升级，3+1+2=6个里程碑<br>
+- 重新制作了游戏（修改很多升级，重新平衡）<br>
+- 游戏结局：1e35000 Notes（2.5e18 Phidata，1e200源点）<br>
 v0.06 Early Game 2023/10/06-2023/10/16<br>
 - 添加4个层级：歌曲，Arcaea，Phigros,魔王曲<br>
-- 添加14+14+14+2=44个升级<br>
+- 添加14+14+16=44个升级<br>
 - 添加8个挑战，3个可购买，7个里程碑<br>
 - 游戏结局：1e20000 Notes（1e14 Phidata）`//changelog
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e17800 Notes，下一个更新:！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e35000 Notes，下一个更新:！`
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e17800"))
+	return player.points.gte(new Decimal("1e35000"))
 }
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -80,6 +81,8 @@ function addedPlayerData() { return {
   potential: new Decimal(0),
   pttMax: new Decimal(1),
   pttMax2: new Decimal(1),
+  rks:new Decimal(0),
+  rksMax:new Decimal(1),
 }}
 
 // Display extra things at the top of the page
@@ -106,3 +109,5 @@ function maxTickLength() {
 // you can cap their current resources with this.
 function fixOldSave(oldVersion){
 }
+
+function rksRandom() {if(new Decimal(player.A.resetTime).sub(new Decimal(player.A.resetTime).floor())<0.3) return true}

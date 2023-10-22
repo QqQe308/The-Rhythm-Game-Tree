@@ -23,48 +23,56 @@ addLayer("A", {
         11: {
             name: "音游之始",
             done() {return player.s.points.gte(1)}, 
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得你的第一首歌曲！", 
             textStyle: {'color': '#ABCDEF'},
         },
         12: {
             name: "进展很快",
             done() {return player.points.gte(1.79e308)}, 
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得1.8e308Notes！", 
             textStyle: {'color': '#ABABAB'},
         },
         13: {
             name: "制作音游<br>🏆",
             done() {return player.a.points.gte(1)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得一个源点！<br>奖励：源点获取基本指数为0.5，点数*1e50",
             textStyle: {'color': '#DDBBDD'},
         },
         14: {
             name: "进展快吗",
             done() {return player.points.gte('1e400')},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "达到1e400Notes！",
             textStyle: {'color': '#DDAAAA'},
         },
         15: {
             name: "进入挑战",
             done() {return hasUpgrade('a',15)},
+           onComplete(){player.ach=player.ach.add(1)},
             tooltip: "解锁挑战！",
             textStyle: {'color': '#DDCCCC'},
         },
         21: {
             name: "音游之盛",
             done() {return player.s.points.gte(1e15)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "达到1e15歌曲！",
             textStyle: {'color': '#ABBBBB'},
         },
         22: {
             name: "韵律源点<br>🏆",
             done() {return player.a.points.gte(1e10)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "达到1e10源点！<br>奖励：歌曲基本指数+0.616",
             textStyle: {'color': '#DD66AA'},
         },
         23: {
             name: "调律诗篇",
             done() {return player.l.points.gte(1)},
+            onComplete(){player.ach=player.ach.add(1)},
             tooltip: "获得一个诗篇",
             textStyle: {'color': '#44DDDD'},
         },
@@ -132,8 +140,14 @@ addLayer("A", {
         43: {
             name: "韵律源神<br>🏆",
             done() {return player.a.points.gte(1e100)},
-            tooltip: "达到1e100源点！<br>奖励：恭喜通关",
+            tooltip: "达到1e100源点！<br>奖励：源点^1.04（软上限后）",
             textStyle: {'color': '#e381caf7'},
+        },
+        44: {
+            name: "韵律源神<br>II",
+            done() {return player.a.points.gte(1e20)},
+            tooltip: "达到1e200源点！<br>奖励：游戏通关",
+            textStyle: {'color': '#e989d1e7'},
         },
     },
     tabFormat: {
@@ -177,6 +191,7 @@ addLayer("s", {
         mult = new Decimal(0.5)
         mult = mult.times(player['a'].points).add(1)
         if (hasUpgrade('a', 11)) mult = mult.times(upgradeEffect('a', 11))
+        if (hasUpgrade('a', 11)&&hasUpgrade('s',15)) mult = mult.times(100)
         if (hasUpgrade('a', 12)) mult = mult.times(upgradeEffect('a', 12))
         mult=mult.times(buyableEffect('s',11))
         if (hasUpgrade('p',13)) mult = mult.times(1e15)
@@ -242,7 +257,7 @@ addLayer("s", {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
             if (resettingLayer == "a") {
-                if (hasUpgrade("a", 12)&&!inChallenge) {kept.push("upgrades")}
+                if (hasUpgrade("a", 12)&&!player.a.activeChallenge) {kept.push("upgrades")}
             }
             if (resettingLayer == "p") {
                 if (hasMilestone("p", 5)) {kept.push("buyables")}
@@ -281,7 +296,7 @@ addLayer("s", {
         return player.s.points.add(1).pow(4)},
  effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     15:{ title: "这游戏就这点内容吗？",
-                description:"解锁下一个层级，韵律",
+                description:"解锁下一个层级，韵律，歌曲*100（软上限前）",
                 cost: new Decimal(1500),
                 unlocked() { return (hasUpgrade('s', 14))},
               },
@@ -453,6 +468,9 @@ addLayer("a", {
       if(hasUpgrade('s',27)){exp= exp.times(1.15)}
       if(inChallenge('p',13)){exp= exp.times(0.1)}
       if(hasChallenge('p',15)){exp = exp.times(challengeEffect('p',15))}
+      if(hasAchievement('A',33)){exp= exp.times(1.04)}
+      if(hasUpgrade('p',34)){exp= exp.times(upgradeEffect('p',34))}
+      if(hasUpgrade('a',36)){exp= exp.times(1.005)}
       return exp
     },
     row: 1, 
@@ -486,13 +504,11 @@ addLayer("a", {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
             if (resettingLayer == "p") {
-                if (hasMilestone("p", 3)) {kept.push("challenges")}
+                if (hasMilestone("p", 4)) {kept.push("challenges")}
             }
             if (resettingLayer == "m") {
                 if (hasMilestone("m", 1)) {kept.push("challenges")}
             }
-            if (!hasMilestone('p',1)) {player.potential=0,
-            player.pttMax=1}
             layerDataReset(this.layer, kept)
         }
     },
@@ -648,6 +664,10 @@ upgrades: {
     effect() {
    return player.p.points.add(10).log(10).pow(1.2)},
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
+    36:{ 
+      fullDisplay() {return "Dantalion<br>源点^1.005（软上限后）<br>当前效果：^1.005<br>需要：10.3 PTT"},
+    canAfford() {return player.potential.gte(10.3)},
+    unlocked() { return (hasUpgrade('p',35))},}
 },
 clickables: {
     11: {
@@ -679,6 +699,9 @@ tabFormat: {
         content: [ ["infobox","introBox"],
           "main-display",
     "prestige-button",
+        ["display-text",
+      function() {return '你有 ' + format(player.s.points) + ' 歌曲<br>你正在获得 ' + format(new Decimal(tmp.a.resetGain).mul(tmp.a.passiveGeneration))+' 源点每秒'},
+     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],
     "upgrades",
 ],
     },
@@ -702,7 +725,7 @@ tabFormat: {
      {"color": "#ff9af6", "font-size": "15px", "font-family": "Comic Sans MS"}],
     ["display-text",
       function() {return '确切来说，你有 ' + player.potential + ' PTT'+'<br>当前的PTT上限为 ' + player.pttMax},
-     {"color": "#ffffff", "font-size": "6px", "font-family": "Comic Sans MS"}],
+     {"color": "#ffffff", "font-size": "9px", "font-family": "Comic Sans MS"}],
      "blank",
     "clickables",
     ['row',[['upgrade',31],['upgrade',32],['upgrade',33],['upgrade',34],['upgrade',35],['upgrade',36]]]
@@ -739,8 +762,9 @@ addLayer("l", {
     },
     gainExp() { 
       exp= new Decimal(0.07)
-      if(player.l.points.gte(3)) exp= new Decimal(0.06)
+      if(player.l.points.gte(4)) exp= new Decimal(0.06)
       if(player.l.points.gte(15)) exp= new Decimal(0.015).div(player.l.points.sub(14).pow(0.5))
+      if(player.l.points.gte(30)) exp= new Decimal(0.003)
        return exp
     },
     row: 1, 
@@ -830,7 +854,7 @@ tabFormat: {
         content: [ ["infobox","introBox"],
           "main-display",
     "prestige-button",
-        ["display-text",function() {return '软上限：15诗篇！'},
+        ["display-text",function() {return '软上限：4诗篇，15诗篇！'},
         {"color": "#ffffff", "font-size": "px", "font-family": "Comic Sans MS"}],
     "milestones",],},
     "升级": {
@@ -866,6 +890,11 @@ addLayer("p", {
     chalBox: {
     title: "Phigros挑战",
     body(){ return "和前面的挑战不同的是，Phigros挑战可以完成多次，后续还可以提升挑战次数，根据你的完成次数，挑战的奖励会变得更强"
+                },
+        },
+    RKSBox: {
+    title: "RKS",
+    body(){ return "和PTT类似，RKS是Phigros中的游戏实力衡量标准，有了越多的RKS，就会给其他资源一些增益，不过RKS是有上限的，接下来可以解锁更多和RKS相关的内容。不同点是，RKS的增加方式是可购买"
                 },
         },
 },
@@ -908,6 +937,8 @@ addLayer("p", {
         if(hasUpgrade('a',35)){mult = mult.times(upgradeEffect('a',35))}
         if(hasChallenge('p',14)){mult = mult.pow(challengeEffect('p',14))}
         if(hasChallenge('p',15)){mult = mult.pow(challengeEffect('p',15))}
+        if(hasUpgrade('m',11)){mult = mult.times(100000)}
+        if(hasUpgrade('p',36)){mult = mult.pow(upgradeEffect('p',36))}
         return mult
     },
     gainExp() { 
@@ -1027,7 +1058,7 @@ addLayer("p", {
     upgrades: {
     11:{ title: "增强data I",
     description:"data对歌曲和源点的增益变为原来的5次方",
-    cost: new Decimal(3),
+    cost: new Decimal(1),
     unlocked() {return hasMilestone('p',4)},
     effect() {
     return player['p'].points.add(1).pow(5)
@@ -1035,12 +1066,12 @@ addLayer("p", {
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     12:{ title: "Qol为什么不在里程碑里面？",
     description:"自动购买诗篇，诗篇不重置任何东西",
-    cost: new Decimal(4),
+    cost: new Decimal(2),
     unlocked() {return hasUpgrade('p',11)},
     },
     13:{ title: "别搞时间墙了",
     description:"解锁Phidata挑战，被动获取歌曲和源点速度*5",
-    cost: new Decimal(5),
+    cost: new Decimal(3),
     unlocked() {return hasUpgrade('p',12)},
     },
     14:{ title: "增强data II",
@@ -1070,7 +1101,7 @@ addLayer("p", {
     17:{ title: "高物量歌曲",
     description:"Notes增益Phidata获取量，效果为log(Notes)^0.2",
     cost: new Decimal(10000),
-    unlocked() {return challengeCompletions('p',12)>1},
+    unlocked() {return hasUpgrade('p',16)},
     effect() {
     return player.points.add(10).log(10).pow(0.2)
     },
@@ -1107,31 +1138,55 @@ addLayer("p", {
     description:"解锁下一个层级：魔王曲",
     cost: new Decimal(5e12),
     unlocked() {return hasUpgrade('p',26)},},
-    31:{ title: "RKS16.23",
+    31:{ title: "Painful",
     description:"增加Phidata公式的效果<br>(^5~^8)",
     cost: new Decimal(1e13),
     unlocked() {return hasMilestone('m',0)},},
-    32:{ title: "百九十八",
+    32:{ title: "Horrrible",
     description:"解锁两个Phidata挑战：AT、SP",
     cost: new Decimal(1e14),
-    unlocked() {return hasMilestone('m',0)},},
-    33:{ title: "Painful",
+    unlocked() {return hasUpgrade('p',31)},},
+    33:{ title: "Impossible",
     description:"PTT对歌曲也有提升效果（软上限后）",
     cost: new Decimal(1e15),
     unlocked() {return hasMilestone('m',1)},
-    effect() {return player.potential.add(10).log(15)},
+    effect() {return player.potential.add(15).log(15).pow(0.25)},
     effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
+    },
+    34:{ title: "Difficult",
+    description:"PTT对源点提升增加（软上限后）",
+    cost: new Decimal(2e15),
+    unlocked() {return hasMilestone('m',1)},
+    effect() {return player.potential.add(15).log(15).pow(0.2)},
+    effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
+    },
+    35:{ title: "Anxious",
+    description:"解锁更多PTT升级，解锁魔王曲升级",
+    cost: new Decimal(2e16),
+    unlocked() {return hasUpgrade('p',34)},
+    },
+    36:{ title: "Terrible",
+    description:"RKS指数提升Phidata,源点,歌曲获取量（软上限前）",
+    cost: new Decimal(2e17),
+    unlocked() {return hasUpgrade('p',35)},
+    effect() {return player.rks.add(1).pow(0.3).div(5).add(0.8)},
+    effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
+    },
+    37:{ title: "Anguished",
+    description:"解锁更多升级，解锁下一个RKS可点击（未制作）<br>有没有发现这一行升级的首字母是Phidta",
+    cost: new Decimal(2e18),
+    unlocked() {return hasUpgrade('p',36)},
     },
    },
     milestones: {
     0: {
         requirementDescription: "获得1个Phidata",
-        effectDescription: "源点挑战要求为0，被动获取歌曲和源点增加500%每秒",
+        effectDescription: "源点挑战要求为0，被动获取歌曲和源点增加500%每秒（PTT永远不重置）",
         done() { return player.p.points.gte(1) }
     },
     1: {
         requirementDescription: "获得2个Phidata",
-        effectDescription: "保留PTT和Lanota里程碑",
+        effectDescription: "保留Lanota里程碑",
         done() { return player.p.points.gte(2) }
     },
     2: {
@@ -1140,14 +1195,14 @@ addLayer("p", {
         done() { return player.p.points.gte(3) }
     },
     3: {
-        requirementDescription: "获得5个Phidata",
+        requirementDescription: "获得4个Phidata",
         effectDescription: "歌曲和源点层级不重置任何东西",
-        done() { return player.p.points.gte(5) }
+        done() { return player.p.points.gte(4) }
     },
     4: {
-        requirementDescription: "获得7个Phidata",
+        requirementDescription: "获得5个Phidata",
         effectDescription: "保留源点挑战，解锁Phidata升级",
-        done() { return player.p.points.gte(7) }
+        done() { return player.p.points.gte(5) }
     },
     5: {
         requirementDescription: "获得300个Phidata",
@@ -1162,11 +1217,21 @@ addLayer("p", {
         done() { return player.p.points.gte(100000) }
     },
 },
+    clickables:{
+      11: {
+      title() {return "增加RKS"},
+      display() {return "这是有规律的哦！点击增加RKS"},
+      canClick() {return rksRandom()},
+      onClick() {player.rks=player.rks.add(player.rksMax.sub(player.rks).div(5))},
+    },},
 tabFormat: {
     "里程碑": {
         content: [ "main-display",
         ["infobox","introBox"],
     "prestige-button",
+            ["display-text",
+      function() {return '你有 ' + format(player.a.points) + ' 源点<br>你正在获得 ' + format(new Decimal(tmp.p.resetGain).mul(tmp.p.passiveGeneration))+' Phidata每秒'},
+     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],
     "milestones",],},
     "升级": {
         content: [ ["infobox","upgBox"],
@@ -1176,14 +1241,32 @@ tabFormat: {
 ],
 unlocked(){return hasMilestone('p',4)}
     },
-"挑战": {
+    "挑战": {
         content: [["infobox","chalBox"],
           "main-display",
     "prestige-button",
     "challenges",
 ],
   unlocked(){return hasUpgrade('p',13)}
+},
+    "RKS": {
+     content: [["infobox","RKSBox"],
+          "main-display",
+    "prestige-button",
+       ["display-text",
+      function() {return '你有 ' + format(player.rks)+ ' RKS!'},
+     {"color": "#ff5eee", "font-size": "20px", "font-family": "Comic Sans MS"}],
+    ["display-text",
+      function() {return '当前RKS上限： ' + format(player.rksMax) + ' RKS'},
+     {"color": "#ff9af6", "font-size": "15px", "font-family": "Comic Sans MS"}],
+    ["display-text",
+      function() {return '确切来说，你有 ' + player.rks + ' RKS'+'<br>当前的RKS上限为 ' + player.rksMax},
+     {"color": "#ffffff", "font-size": "9px", "font-family": "Comic Sans MS"}],
+    "clickables",
+],
+  unlocked(){return hasUpgrade('m',11)}
 }
+
 },
 })//Phigros
 addLayer("m", {
@@ -1263,14 +1346,10 @@ addLayer("m", {
         },
     },
     upgrades: {
-    11:{ title: "增强data I",
-    description:"data对歌曲和源点的增益变为原来的5次方",
+    11:{ title: "我想你懂得",
+    description:"解锁RKS（在Phidata界面），Phidata×1e5（软上限前）",
     cost: new Decimal(5),
-    unlocked() {return hasMilestone('p',4)},
-    effect() {
-    return player['p'].points.add(1).pow(5)
-    },
-    effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
+    unlocked() {return hasUpgrade('p',35)}, },
    },
     milestones: {
     0: {
@@ -1295,7 +1374,7 @@ tabFormat: {
     "prestige-button",
     "upgrades",
 ],
-unlocked(){return hasMilestone('m',4)}
+unlocked(){return hasUpgrade('p',35)}
     },
 "挑战": {
         content: [ "main-display",
