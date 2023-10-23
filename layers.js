@@ -156,8 +156,8 @@ addLayer("A", {
         44: {
             name: "韵律源神<br>II",
             onComplete(){player.ach=player.ach.add(1)},
-            done() {return player.a.points.gte(1e200)},
-            tooltip: "达到1e200源点！<br>奖励：游戏通关",
+            done() {return player.a.points.gte(1e175)},
+            tooltip: "达到1e175源点！<br>奖励：游戏通关",
             textStyle: {'color': '#e989d1e7'},
         },
     },
@@ -970,10 +970,10 @@ addLayer("p", {
     doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
-            //if (resettingLayer == "") {
-               // if (hasMilestone("p", 5)) {kept.push("buyables")}
-           // }
-            //layerDataReset(this.layer, kept)
+            if (resettingLayer == "t") {
+               if (hasMilestone("m", 0)) {kept.push("buyables","upgrades","chllenges")}
+            }
+            layerDataReset(this.layer, kept)
         }
     },
  passiveGeneration()
@@ -1161,14 +1161,14 @@ addLayer("p", {
     description:"PTT对歌曲也有提升效果（软上限后）",
     cost: new Decimal(3e14),
     unlocked() {return hasMilestone('m',1)},
-    effect() {return player.potential.add(15).log(15).pow(0.25)},
+    effect() {return player.potential.add(10).log(10).pow(0.5)},
     effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
     },
     34:{ title: "Difficult",
     description:"PTT对源点提升增加（软上限后）",
     cost: new Decimal(5e14),
     unlocked() {return hasMilestone('m',1)},
-    effect() {return player.potential.add(15).log(15).pow(0.2)},
+    effect() {return player.potential.add(10).log(10).pow(0.4)},
     effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
     },
     35:{ title: "Anxious",
@@ -1180,12 +1180,12 @@ addLayer("p", {
     description:"RKS指数提升Phidata,源点,歌曲获取量（软上限前）",
     cost: new Decimal(2e15),
     unlocked() {return hasUpgrade('p',35)},
-    effect() {return player.rks.add(1).pow(0.3).div(5).add(0.8)},
+    effect() {return player.rks.add(1).pow(0.4).div(5).add(0.8)},
     effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
     },
     37:{ title: "Anguished",
     description:"解锁更多升级，解锁下一个RKS可点击（未制作）<br>有没有发现这一行升级的首字母是Phidta",
-    cost: new Decimal(2e18),
+    cost: new Decimal(5e17),
     unlocked() {return hasUpgrade('p',36)},
     },
    },
@@ -1359,7 +1359,7 @@ addLayer("m", {
     upgrades: {
     11:{ title: "我想你懂得",
     description:"解锁RKS（在Phidata界面），Phidata×1e5（软上限前）",
-    cost: new Decimal(5),
+    cost: new Decimal(0),
     unlocked() {return hasUpgrade('p',35)}, },
    },
     milestones: {
@@ -1396,3 +1396,43 @@ unlocked(){return hasUpgrade('p',35)}
 }
 },
 })//Monster Songs
+//test
+addLayer("t", {
+    name: "test",
+    symbol: "test",
+    position: 0,
+    startData() { return {
+        unlocked() { return (hasUpgrade('s', 11))},
+		points: new Decimal(0),
+    }},
+    color: "#ffffff",
+    requires: new Decimal(0), 
+    resource: "test",
+    baseResource: "notes", 
+    baseAmount() {return player.points}, 
+    type: "static", 
+    exponent: 1, 
+    effect(){
+      return {Notes: 1}
+    },
+    effectDescription() { 
+    },
+    gainMult() { 
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { 
+      exp= new Decimal(0.5)
+       return exp
+    },
+    row: 3, 
+    hotkeys: [
+        {key: "m", description: "M: Reset for Monster Songs", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    
+    layerShown(){shown= false
+  //  if(hasUpgrade('s',11)){shown=true}
+    return shown},
+  softcap:new Decimal (1e1000000),
+  softcapPower:new Decimal(0.05),
+})//test
