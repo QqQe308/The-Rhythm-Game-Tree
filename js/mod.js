@@ -11,19 +11,20 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.101",
-	name: "REBALANCE+",
+	num: "0.11",
+	name: "Cytusser",
 }
 
 let changelog = `<h1>更新日志</h1><br>
-<h3>v0.101 Cytenner 2023/10/28~?<br>
-- 添加1个层级：Cytus<br>
+<h2>v0.11 Cytusser 2023/10/28~?<br>
+<h3>- 添加1个层级：Cytus<br>
 - 添加Cytus力量<br>
-- 添加3个里程碑<br>
-- 平衡游戏部分地方<br>
-- 游戏结局：不变<br><br>
-v0.1 REBALANCE 2023/10/18~2023/10/26<br>
-- 添加2个层级：Lanota，魔王曲<br>
+- 添加7个里程碑，4个可购买<br>
+- 添加1+1+1=3个升级<br>
+- 重新平衡游戏，更改部分显示文本<br>
+- 游戏结局：1e42000 Notes（1e7 Cytus力量）<br><br>
+<h2>v0.1 REBALANCE 2023/10/18~2023/10/26<br>
+<h3>- 添加2个层级：Lanota，魔王曲<br>
 - 添加“PTT”，包括3个可点击<br>
 - 添加“RKS”，包括2个可点击<br>
 - 添加7+4+5+1=17个升级，3+1+2=6个里程碑<br>
@@ -31,17 +32,17 @@ v0.1 REBALANCE 2023/10/18~2023/10/26<br>
 - 添加了“炸档修复”层级<br>
 - 添加了剧情<br>
 - 游戏结局：1e33000 Notes（1e20 Phidata，1e240源点）<br><br>
-v0.06 Early Game 2023/10/06-2023/10/16<br>
-- 添加3个层级：歌曲，Arcaea，Phigros<br>
+<h2>v0.06 Early Game 2023/10/06-2023/10/16<br>
+<h3>- 添加3个层级：歌曲，Arcaea，Phigros<br>
 - 添加14+14+16=44个升级<br>
 - 添加8个挑战，3个可购买，7个里程碑<br>
 - 游戏结局：1e20000 Notes（1e14 Phidata）`//changelog
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e33000 Notes，下一个更新:新层级！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e42000 Notes，下一个更新:Cytus层级更多内容！`
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e33000"))
+	return player.points.gte(new Decimal("1e42000"))
 }
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -76,6 +77,7 @@ function getPointGen() {
 	if (hasUpgrade('p', 14)) gain = gain.times(upgradeEffect('p', 14))
 	if (inChallenge('p', 13)) gain = gain.times(1e-55)
 	if (hasUpgrade('p', 25)) gain = gain.times(1e308)
+	if(buyableEffect('c',11)>1) gain = gain.times(buyableEffect('c',11))
 	
 	if(inChallenge('p',12)){gain= gain.pow(0.1)}
 	if(hasChallenge('p',13)){gain = gain.pow(challengeEffect('p',13))}
@@ -87,11 +89,6 @@ function getPointGen() {
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
   ach: new Decimal(0),
-  potential: new Decimal(0),
-  pttMax: new Decimal(1),
-  pttMax2: new Decimal(1),
-  rks:new Decimal(0),
-  rksMax:new Decimal(1),
 }}
 
 // Display extra things at the top of the page
