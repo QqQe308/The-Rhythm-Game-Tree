@@ -1181,7 +1181,7 @@ tabFormat: {
         content: [ ["infobox","introBox"],
           "main-display",
     "prestige-button",
-        ["display-text",function() {return '软上限：3诗篇，15诗篇，30诗篇！'},
+        ["display-text",function() {if(!hasChallenge('c',11)) return '软上限：3诗篇，15诗篇，30诗篇！'},
         {"color": "#ffffff", "font-size": "px", "font-family": "Comic Sans MS"}],
     "milestones",],},
     "升级": {
@@ -1938,7 +1938,7 @@ addLayer("c", {
     effectDisplay() { return format(upgradeEffect(this.layer, this.id),5)+"×"},
     unlocked() {return hasUpgrade('c',12)}, },
     14:{ title: "扫线，不是下落",
-    description:"解锁下两个Cytus可购买，Cytus力量^1.1",
+    description:"Cytus力量^1.1",
     cost: new Decimal(50),
     unlocked() {return hasUpgrade('c',13)}, },
     15:{ title: "时代既去",
