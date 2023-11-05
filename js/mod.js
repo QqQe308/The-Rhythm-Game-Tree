@@ -56,7 +56,7 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-	return player.points.gte('1e100000')
+	return !player.points.gte('1e100000')
 }
 
 // Calculate points/sec!
