@@ -1851,7 +1851,7 @@ addLayer("c", {
       return "这些是Cytus可购买，你可以消耗Cytus力量（基于Cyten数量和一些升级）购买，这些可购买拥有不同的效果，随着进度还会解锁更多可购买"},},
       chalBox: {title: "Cytus挑战",
     body(){
-      return "恭喜通关，静待更新"},},},
+      return "完成Cytus挑战获得奖励！如果无法完成，再刷刷别的资源吧"},},},
     name: "Cytus",
     symbol: "C",
     position: 0,
