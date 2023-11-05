@@ -275,7 +275,7 @@ addLayer("S", {
         return ("统计")
     },
     tabFormat: {
-   "升级": {
+   "统计": {
        content: [ ["infobox","introBox"],
        ["display-text",
       function() {if(player.s.unlocked)
@@ -703,7 +703,7 @@ addLayer("a", {
         
         if(inChallenge('c',11))mult=mult.pow(0.2)
         
-        mult=mult.min('1e3600')
+        mult=mult.min('1e3650')
         return mult
     },
     gainExp() { 
@@ -970,8 +970,8 @@ upgrades: {
       effect() {return new Decimal(1).div(player.a.points.add(15).log(150).pow(0.2).min(8).max(1))},
     unlocked() { return hasChallenge('c',11)&&hasUpgrade('s',34)},},
     45:{ 
-      fullDisplay() {return "Tempetissimo<br>根据累计Cytus可购买数量增益点数<br>当前效果:×"+format(this.effect())+"<br>价格: 1e1236源点"},
-      cost: new Decimal('1e1236'),
+      fullDisplay() {return "Tempetissimo<br>根据累计Cytus可购买数量增益点数<br>当前效果:×"+format(this.effect())+"<br>价格: 1e1250源点"},
+      cost: new Decimal('1e1250'),
       effect() {return new Decimal(2.1e21).pow(getBuyableAmount('c',11).add(getBuyableAmount('c',12)).add(getBuyableAmount('c',13)).add(getBuyableAmount('c',14)).add(getBuyableAmount('c',21)).add(getBuyableAmount('c',22)).add(getBuyableAmount('c',23)).add(getBuyableAmount('c',24)))},
     unlocked() { return hasChallenge('c',11)&&hasUpgrade('l',17)},},
 },
