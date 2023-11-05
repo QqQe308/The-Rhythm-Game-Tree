@@ -703,7 +703,7 @@ addLayer("a", {
         
         if(inChallenge('c',11))mult=mult.pow(0.2)
         
-        mult=mult.min('1e3650')
+        mult=mult.min('1e4000')
         return mult
     },
     gainExp() { 
@@ -970,9 +970,9 @@ upgrades: {
       effect() {return new Decimal(1).div(player.a.points.add(15).log(150).pow(0.2).min(8).max(1))},
     unlocked() { return hasChallenge('c',11)&&hasUpgrade('s',34)},},
     45:{ 
-      fullDisplay() {return "Tempetissimo<br>根据累计Cytus可购买数量增益点数<br>当前效果:×"+format(this.effect())+"<br>价格: 1e1250源点"},
-      cost: new Decimal('1e1250'),
-      effect() {return new Decimal(2.1e21).pow(getBuyableAmount('c',11).add(getBuyableAmount('c',12)).add(getBuyableAmount('c',13)).add(getBuyableAmount('c',14)).add(getBuyableAmount('c',21)).add(getBuyableAmount('c',22)).add(getBuyableAmount('c',23)).add(getBuyableAmount('c',24)))},
+      fullDisplay() {return "Tempetissimo<br>根据累计Cytus可购买数量增益点数<br>当前效果:×"+format(this.effect())+"<br>价格: 1e1230源点"},
+      cost: new Decimal('1e1230'),
+      effect() {return new Decimal(2.02e20).pow(getBuyableAmount('c',11).add(getBuyableAmount('c',12)).add(getBuyableAmount('c',13)).add(getBuyableAmount('c',14)).add(getBuyableAmount('c',21)).add(getBuyableAmount('c',22)).add(getBuyableAmount('c',23)).add(getBuyableAmount('c',24)))},
     unlocked() { return hasChallenge('c',11)&&hasUpgrade('l',17)},},
 },
 clickables: {
@@ -981,7 +981,6 @@ clickables: {
       display() {return "点击或按住以增加PTT！"},
       canClick() {return true},
       onClick() {player.a.ptt = player.a.ptt.add(new Decimal(10).pow(player.a.pttMax.add(1)).log(2).div(new Decimal(10).pow(player.a.ptt.add(1)).log(2)).log(3).div(5).max(0))},
-      
       onHold() {player.a.ptt = player.a.ptt.add(new Decimal(10).pow(player.a.pttMax.add(1)).log(2).div(new Decimal(10).pow(player.a.ptt.add(1)).log(2)).log(3).div(5).max(0))},
     },
     12: {
@@ -989,7 +988,7 @@ clickables: {
       display() {return "点击或按住以增加PTT上限<br>（基于诗篇数量，最大35）"},
       canClick() {return true},
       onClick() {player.a.pttMax = player.a.pttMax.add(player.l.points.min(35).add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0))},
-      onHold() {player.a.pttMax = player.a.pttMax.add(player.l.points.add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0))},
+      onHold() {player.a.pttMax = player.a.pttMax.add(player.l.points.min(35).add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0))},
       unlocked() {return hasMilestone('l',2)||hasMilestone('p',1)}
     },
     13: {
@@ -1952,7 +1951,7 @@ addLayer("c", {
     17:{ title: "黎明已至",
     description:"解锁下一个层级，未制作，恭喜通关",
     cost: new Decimal(10000),
-    unlocked() {return hasUpgrade('a',45)}, },
+    unlocked() {return hasUpgrade('a',45)||hasUpgrade('c',17)}, },
    },
 		milestones: {
     0: {
