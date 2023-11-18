@@ -8,22 +8,29 @@ let modInfo = {
 	discordLink: "https://b23.tv/Hlg9D5u",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
-	endgame: new Decimal("e100000"),
+	endgame: new Decimal("e210000"),
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.15",
-	name: "Cytusser",
+	num: "0.18",
+	name: "Chart Design",
 }
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e100000 Notes，下一个更新:第五行的层级！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e210000 Notes，下一个更新:谱面——课题模式！`
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e100000"))
+	return player.points.gte(new Decimal("1e210000"))
 }
 
 let changelog = `<h1>更新日志</h1><br>
+<h2>v0.18 Chart Design 2023/11/11~2023/11/17<br>
+<h3>- 添加1个层级：Chart<br>
+- 添加物量和定数，添加Phigros-Notes和特殊Notes<br>
+- 添加2个里程碑，2个挑战，4个可购买<br>
+- 添加14个升级<br>
+- Phigros 3.3.0 Rotaeno精选集更新！ 祝贺Phigros常驻曲目达到200首！
+- 游戏结局：1e210000 Notes<br><br>
 <h2>v0.15 Cytusser 2023/10/28~2023/11/5<br>
 <h3>- 添加1个层级：Cytus<br>
 - 添加Cytus力量<br>
@@ -56,7 +63,8 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-	return !player.points.gte('1e100000')
+return !player.points.gte('1e210000')
+//return true
 }
 
 // Calculate points/sec!
@@ -88,16 +96,27 @@ if (hasUpgrade('s', 36)) gain = gain.times(1e300)
 if (hasUpgrade('l', 16)) gain = gain.times(upgradeEffect('l', 16))
 if (hasUpgrade('l', 17)) gain = gain.times(upgradeEffect('l', 17))
 if (hasUpgrade('a', 45)) gain = gain.times(upgradeEffect('a', 45))
+if (hasMilestone('ch', 0)) gain = gain.times('1e960')
+if (hasMilestone('ch', 1)) gain = gain.times('1e1145')
+	if (hasUpgrade('ch', 13)) gain = gain.times(upgradeEffect('ch', 13))
 	
 	if(inChallenge('p',12)){gain= gain.pow(0.1)}
 	if(hasChallenge('p',13)){gain = gain.pow(challengeEffect('p',13))}
 	if(inChallenge('p',15)){gain= gain.pow(0.3)}
 	if (hasUpgrade('l', 12)) gain = gain.pow(upgradeEffect('l', 12))
 	if (hasUpgrade('l', 14)) gain = gain.pow(upgradeEffect('l', 14))
+	if (hasUpgrade('ch', 21)) gain = gain.pow(1.01)
+ if(tmp.ch.dragEff>1) gain = gain.pow(tmp.ch.dragEff)
+ if (hasUpgrade('ch', 26)) gain = gain.pow(1.02)
+if (hasUpgrade('ch', 27)) gain = gain.pow(1.05)
+
 	if(inChallenge('c',11))gain= gain.pow(0.1)
-	if(inChallenge('c',12))gain= gain.pow(0.1)
+	if(inChallenge('c',12))gain= gain.pow(0.01)
+	if(inChallenge('c',12))gain= gain.div(5e7)
+	if(inChallenge('c',13))gain= gain.pow(new Decimal(0.9).pow(player.c.challengeTime))
+//	gain=gain.pow(1.2)
 	
-	gain=gain.min('1e100000')
+gain=gain.min('1e210000')
 
 	return gain
 }
@@ -108,7 +127,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-  "v0.15 游戏结局: 1e100000 Notes（硬上限）",
+  "v0.175 游戏结局: 1e210000 Notes",
 ]
 
 
