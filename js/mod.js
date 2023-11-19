@@ -12,7 +12,7 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.18",
+	num: "0.185",
 	name: "Chart Design",
 }
 
@@ -23,12 +23,18 @@ function isEndgame() {
 	return player.points.gte(new Decimal("1e210000"))
 }
 
+// Display extra things at the top of the page
+var displayThings = [
+  "v0.185 游戏结局: 1e210000 Notes",
+]
+
 let changelog = `<h1>更新日志</h1><br>
-<h2>v0.18 Chart Design 2023/11/11~2023/11/17<br>
+<h2>v0.185 Chart Design 2023/11/11~2023/11/19<br>
 <h3>- 添加1个层级：Chart<br>
 - 添加物量和定数，添加Phigros-Notes和特殊Notes<br>
 - 添加2个里程碑，2个挑战，4个可购买<br>
 - 添加14个升级<br>
+- 修复了一堆bug
 - Phigros 3.3.0 Rotaeno精选集更新！ 祝贺Phigros常驻曲目达到200首！
 - 游戏结局：1e210000 Notes<br><br>
 <h2>v0.15 Cytusser 2023/10/28~2023/11/5<br>
@@ -125,10 +131,7 @@ function addedPlayerData() { return {
   
 }}
 
-// Display extra things at the top of the page
-var displayThings = [
-  "v0.175 游戏结局: 1e210000 Notes",
-]
+
 
 
  

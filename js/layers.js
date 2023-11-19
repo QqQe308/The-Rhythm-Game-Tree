@@ -1133,7 +1133,7 @@ addLayer("l", {
       if(player.l.points.gte(4)) exp= new Decimal(0.06)
       if(player.l.points.gte(15)) exp= new Decimal(0.015).div(player.l.points.sub(14).pow(0.5))
       if(player.l.points.gte(30)) exp= new Decimal(0.001)
-      if(hasChallenge('c',11)) exp=new Decimal(0.003)
+      if(hasChallenge('c',11)) exp=exp.max(0.003)
       if(buyableEffect('c',24)>1) exp = exp.times(buyableEffect('c',24))
        return exp
     },
@@ -1960,7 +1960,7 @@ addLayer("c", {
       return exp
     },
     powercal(){
-      mult = player.c.points.add(1).pow(2).sub(1)
+      mult = player.c.points.add(1).pow(2).sub(1).max(1)
       if(hasUpgrade('ch',17)) mult = player.c.points.add(1).pow(3).sub(1)
       if(buyableEffect('c',14)>1) mult = mult.times(buyableEffect('c',14))
       if(tmp.ch.tapEff>1) mult = mult.times(tmp.ch.tapEff)
@@ -2521,6 +2521,8 @@ addLayer("ch", {
     hold = hold.pow(player.ch.dif.max(1).log(20).add(1)).min(1.44)
       return hold},
     row: 3, 
+    autoPrestige() {return hasUpgrade('ch',23)},
+    resetsNothing() {return hasUpgrade('ch',23)},
     hotkeys: [
         {key: "h", description: "H: Reset for charts", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
@@ -2741,6 +2743,8 @@ buyables:{
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
 				},
+				sellOne() {player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].sub(1)},
+				sellAll() {player[this.layer].buyables[this.id] = new Decimal(0)},
      style: {'height':'100px'},
 			},
   12: {
@@ -2767,6 +2771,8 @@ buyables:{
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
 				},
+				sellOne() {player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].sub(1)},
+				sellAll() {player[this.layer].buyables[this.id] = new Decimal(0)},
      style: {'height':'100px'},
 			},
 	21: {
@@ -2793,6 +2799,8 @@ buyables:{
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
 				},
+				sellOne() {player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].sub(1)},
+				sellAll() {player[this.layer].buyables[this.id] = new Decimal(0)},
      style: {'height':'100px'},
 			},
 	22: {
@@ -2819,6 +2827,8 @@ buyables:{
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
 				},
+				sellOne() {player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].sub(1)},
+				sellAll() {player[this.layer].buyables[this.id] = new Decimal(0)},
      style: {'height':'100px'},
 			},
 },
