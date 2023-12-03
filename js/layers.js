@@ -483,8 +483,9 @@ addLayer("s", {
         if(inChallenge('c',11))mult=mult.pow(0.1)
         if(inChallenge('c',13))mult = mult.pow(new Decimal(0.9).pow(player.c.challengeTime))
         
-        if(mult.log10()>sc) mult = new Decimal(10).pow(mult.log10().sub(sc).pow(sce).add(sc))//sc2
+        
         if(!hasChallenge('c',13)) mult=mult.min(new Decimal(10).pow(sc))
+        if(mult.log10()>sc&&hasChallenge('c',13)) mult = new Decimal(10).pow(mult.log10().sub(sc).pow(sce).add(sc))//sc2
         return mult
     },
     gainExp() { 
