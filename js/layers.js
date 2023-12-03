@@ -3248,14 +3248,14 @@ onPurchase() {player.ch.enp=player.ch.enp.sub(1.8e5)},
       },
   },
   46:{ 
-    fullDisplay() {return " IN 13.1<br>歌曲软上限指数^0.50——^0.75<br>需要：200000课题力量 && 164谱面"},
+    fullDisplay() {return "I Must Say No IN 13.5<br>歌曲软上限指数^0.50——^0.75<br>需要：200000课题力量 && 164谱面"},
     unlocked(){return hasUpgrade('ch',45)},
 onPurchase() {player.ch.enp=player.ch.enp.sub(2e5)},
   canAfford() {return player.ch.enp.gte(2e5)},
     cost() {return new Decimal(164)},
   },
   47:{ 
-    fullDisplay() {return "Snow Desert IN 13.3<br>Phidata的获取指数变成原来的1.1倍，基于超过3的课题能量增益课题力量<br>当前效果：×"+format(this.effect())+"<br>需要：250000课题力量 && 194谱面"},
+    fullDisplay() {return "Journey with You IN 13.8<br>Phidata的获取指数变成原来的1.1倍，基于超过3的课题能量增益课题力量<br>当前效果：×"+format(this.effect())+"<br>需要：250000课题力量 && 194谱面"},
     unlocked(){return hasUpgrade('ch',46)},
 onPurchase() {player.ch.enp=player.ch.enp.sub(2.5e5)},
   canAfford() {return player.ch.enp.gte(2.5e5)},
@@ -3484,7 +3484,7 @@ points: new Decimal(0),
     hotkeys: [
         {key: "O", description: "O： Reset for Song Pack", },
     ],
-    layerShown(){ return true},
+    layerShown(){ return hasUpgrade('ch',37)},
     tabFormat: {
    "里程碑": {
         content: [ ["infobox","introBox"],
@@ -3527,7 +3527,7 @@ milestones: {
     },
     4: {
         requirementDescription: "获得8个曲包",
-        effectDescription: "解锁曲包，解锁Arcaea曲包（基于源点获得），源点获取量乘以1e",
+        effectDescription: "解锁曲包，解锁Arcaea曲包（基于源点获得），源点指数乘以1.03",
         done() { return player.sp.points.gte(8) }
     },
 },
