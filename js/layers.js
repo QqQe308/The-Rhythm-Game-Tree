@@ -255,9 +255,9 @@ addLayer("A", {
         },
        73: {
             name: "歌曲之峰<br>🏆",
-            done() {return player.s.points.gte('1e44000')},
+            done() {return player.s.points.gte('1e41888')},
             onComplete(){player.A.ach=player.A.ach.add(1)},
-            tooltip: "获得1e44000歌曲！<br>奖励：歌曲软上限延后1e1500生效。",
+            tooltip: "获得1e41888歌曲！<br>奖励：歌曲软上限延后1e4000生效。",
             textStyle: {'color': '#7398ed'},
         },
     },
@@ -529,7 +529,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
       if(hasMilestone('sp',3)) sc=new Decimal(18000)
       if(hasMilestone('sp',3)) sc=new Decimal(18000)
       if(hasUpgrade('ch',45)) sc=sc.add(upgradeEffect('ch',45).log(10))
-      if(hasAchievement('A',73)) sc=sc.add(1500)
+      if(hasAchievement('A',73)) sc=sc.add(4000)
       
       return sc
     },
@@ -1144,7 +1144,7 @@ upgrades: {
       cost: new Decimal('1e1855'),
       effect() {eff= player.a.points.pow(5)
     if(eff.gte('1e50000')) eff=new Decimal(10).pow(eff.log(10).sub(50000).pow(0.8).add(50000))
-        return eff},
+        return eff.max(1)},
     unlocked() { return hasUpgrade('ch',35)},},
 },
 clickables: {
@@ -2620,7 +2620,7 @@ addLayer("c", {
                 },
                 buyMax() {
 					if (!this.canAfford()) return;
-					if (tempBuy.gte(25) && tmp[this.layer].buyables[this.id].costScalingEnabled) tempBuy = tempBuy.times(25).sqrt();
+					if (tempBuy.gte(25) && tmp[this.layer].buyables[this.id].costScalingEnabled) tempBuy = tempBuy.times(25).cbrt();
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
 				},
@@ -2649,7 +2649,7 @@ addLayer("c", {
                 },
                 buyMax() {
 					if (!this.canAfford()) return;
-					if (tempBuy.gte(25) && tmp[this.layer].buyables[this.id].costScalingEnabled) tempBuy = tempBuy.times(25).sqrt();
+					if (tempBuy.gte(25) && tmp[this.layer].buyables[this.id].costScalingEnabled) tempBuy = tempBuy.times(25).cbrt();
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
 				},
@@ -2678,7 +2678,7 @@ addLayer("c", {
                 },
                 buyMax() {
 					if (!this.canAfford()) return;
-					if (tempBuy.gte(25) && tmp[this.layer].buyables[this.id].costScalingEnabled) tempBuy = tempBuy.times(25).sqrt();
+					if (tempBuy.gte(25) && tmp[this.layer].buyables[this.id].costScalingEnabled) tempBuy = tempBuy.times(25).cbrt();
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
 				},
@@ -2936,7 +2936,7 @@ addLayer("ch", {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
             if (resettingLayer == "t") {
-               kept.push("upgrades","milestones")
+               kept.push("milestones")
             }
 
             layerDataReset(this.layer, kept)
@@ -3160,7 +3160,7 @@ unlocked(){return hasUpgrade('ch',27)}
   canAfford() {return player.ch.en.gte(2.2)},
     cost() {return new Decimal(49)},
     effect() { eff= new Decimal(1).div(player.ch.en).pow(0.12).max(0.6)
-        return eff
+        return eff.min(1)
       },
   },
   33:{ 
@@ -3182,7 +3182,7 @@ unlocked(){return hasUpgrade('ch',27)}
     cost() {return new Decimal(72)},
     effect() { eff= new Decimal(1e100).pow(player.ch.points)
     if(eff.gte('1e10000')) eff=new Decimal(10).pow(eff.log(10).sub(10000).pow(0.9).add(10000))
-        return eff
+        return eff.max(1)
       },
   },
   36:{ 
@@ -3192,7 +3192,7 @@ unlocked(){return hasUpgrade('ch',27)}
     cost() {return new Decimal(87)},
     effect() { eff= new Decimal('1e1000').pow(player.p.rks)
     if(eff.gte('1e8000')) eff=new Decimal(10).pow(eff.log(10).sub(8000).pow(0.85).add(8000))
-        return eff
+        return eff.max(1)
       },
   },
   37:{ 
@@ -3203,7 +3203,7 @@ unlocked(){return hasUpgrade('ch',27)}
     cost() {return new Decimal(98)},
     effect() { eff= new Decimal('1e1200').pow(player.ch.en)
     if(eff.gte('1e5000')) eff=new Decimal(10).pow(eff.log(10).sub(5000).pow(0.95).add(5000))
-        return eff
+        return eff.max(1)
       },
   },
   41:{ 
@@ -3227,7 +3227,7 @@ onPurchase() {player.ch.enp=player.ch.enp.sub(1.2e5)},
     cost() {return new Decimal(143)},
     effect() { eff= player.ch.enp.pow(10000)
     if(eff.gte('1e10000')) eff=new Decimal(10).pow(eff.log(10).sub(10000).pow(0.8).add(10000))
-        return eff
+        return eff.max(1)
       },
   },
   44:{ 
@@ -3239,28 +3239,28 @@ onPurchase() {player.ch.enp=player.ch.enp.sub(1.5e5)},
   },
   45:{ 
     fullDisplay() {return "Snow Desert IN 13.3<br>基于曲包数量延后歌曲获得量软上限<br>当前效果：×"+format(this.effect())+"<br>需要：180000课题力量 && 170谱面"},
-    unlocked(){return hasUpgrade('ch',42)},
+    unlocked(){return hasUpgrade('ch',44)},
 onPurchase() {player.ch.enp=player.ch.enp.sub(1.8e5)},
   canAfford() {return player.ch.enp.gte(1.8e5)},
     cost() {return new Decimal(170)},
     effect() { eff= new Decimal('1e100').pow(player.sp.points)
     if(eff.gte('1e1000')) eff=new Decimal(10).pow(eff.log(10).sub(1000).pow(0.8).add(1000))
-        return eff
+        return eff.max(1)
       },
   },
   46:{ 
-    fullDisplay() {return "I Must Say No IN 13.5<br>歌曲软上限指数^0.50——^0.75<br>需要：200000课题力量 && 164谱面"},
+    fullDisplay() {return "I Must Say No IN 13.5<br>歌曲软上限指数^0.50——^0.75<br>需要：200000课题力量 && 172谱面"},
     unlocked(){return hasUpgrade('ch',45)},
 onPurchase() {player.ch.enp=player.ch.enp.sub(2e5)},
   canAfford() {return player.ch.enp.gte(2e5)},
-    cost() {return new Decimal(164)},
+    cost() {return new Decimal(172)},
   },
   47:{ 
-    fullDisplay() {return "Journey with You IN 13.8<br>Phidata的获取指数变成原来的1.1倍，基于超过3的课题能量增益课题力量<br>当前效果：×"+format(this.effect())+"<br>需要：250000课题力量 && 194谱面"},
+    fullDisplay() {return "Journey with You IN 13.8<br>Phidata的获取指数变成原来的1.1倍，基于超过3的课题能量增益课题力量<br>当前效果：×"+format(this.effect())+"<br>需要：250000课题力量 && 173谱面"},
     unlocked(){return hasUpgrade('ch',46)},
 onPurchase() {player.ch.enp=player.ch.enp.sub(2.5e5)},
   canAfford() {return player.ch.enp.gte(2.5e5)},
-    cost() {return new Decimal(194)},
+    cost() {return new Decimal(173)},
     effect() { eff= new Decimal(1000).pow(player.ch.en.sub(3))
     if(eff.gte(1e10)) eff=new Decimal(10).pow(eff.log(10).sub(10).pow(0.9).add(10))
         return eff.max(1)
@@ -3500,7 +3500,9 @@ points: new Decimal(0),
         content: [  ["infobox","buyBox"],
      "main-display",
     "prestige-button",
+    "blank",
     "buyables",
+    
 ],
 unlocked(){return hasMilestone('sp',4)}
     },
@@ -3532,5 +3534,36 @@ milestones: {
         done() { return player.sp.points.gte(8) }
     },
 },
-
+buyables:{
+  11: {
+				title: "获得一个Arcaea曲包",
+				cost(x=player[this.layer].buyables[this.id]) { // cost for buying xth buyable, can be an object if there are multiple currencies
+     if (x.gte(25)) x = x.pow(2).div(25)
+     let cost = new Decimal(1e3000)
+     cost=cost.times(new Decimal(1e20).pow(x.pow(1.2)))
+    return cost
+                },
+				effect(x=player[this.layer].buyables[this.id]) {return x},
+				display() { // Everything else displayed in the buyable button after the title
+       let data = tmp[this.layer].buyables[this.id]
+       return (("需要 " + format(data.cost) + " 源点")+"<br>数量: " + format(player[this.layer].buyables[this.id]))
+                },
+      unlocked() { return hasMilestone('sp',4)}, 
+      canAfford() {
+      return player.a.points.gte(tmp[this.layer].buyables[this.id].cost)},
+       buy() { 
+    player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+                },
+     buyMax() {
+					if (!this.canAfford()) return;
+					if (tempBuy.gte(25) && tmp[this.layer].buyables[this.id].costScalingEnabled) tempBuy = tempBuy.times(25).sqrt();
+					let target = tempBuy.plus(1).floor();
+					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
+				},
+     style: {'height':'150px'},
+			},
+},
+upgrades:{
+    //11：在Arcaea页面解锁“蛇”，玩蛇增长note
+},
 })//Song Pack

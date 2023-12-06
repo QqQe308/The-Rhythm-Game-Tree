@@ -8,33 +8,31 @@ let modInfo = {
 	discordLink: "https://b23.tv/Hlg9D5u",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
-	endgame: new Decimal("e600000"),
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.21",
+	num: "0.211",
 	name: "Song Packed",
 }
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e600000 Notes，下一个更新:曲包！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e570000 Notes，下一个更新:Arcaea曲包！`
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e600000"))
+	return player.points.gte(new Decimal("e570000"))
 }
 
 // Display extra things at the top of the page
 var displayThings = [
-  "v0.21 游戏结局: 1e600000 Notes！",
+  "v0.21 游戏结局: 1e570000 Notes！",
 ]
 
 let changelog = `<h1>更新日志</h1><br>
-<h2>v0.21 Song Packed 2023/11/25~2023/12/03<br>
+<h2>v0.211 Song Packed 2023/11/25~2023/12/06<br>
 <h3>- 添加1个层级：曲包<br>
 - 添加3个可购买，0个挑战，5个里程碑，添加课题力量<br>
 - 添加7个升级<br>
-- 游戏结局：1e600000 Notes<br><br>
-- 我保证第四行会在Rotaeno国服出来之前更新完<br><br>
+- 游戏结局：1e570000 Notes<br><br>
 <h2>v0.185 Chart Design 2023/11/11~2023/11/27<br>
 <h3>- 添加1个层级：Chart<br>
 - 添加物量和定数，添加Phigros-Notes和特殊Notes，添加课题模式，添加课题能量<br>
