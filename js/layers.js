@@ -957,9 +957,9 @@ return sna
     },
     snsCal() {
       sns=new Decimal(2)
-      if(hasUpgrade('sp',14)) sns=new Decimal(4)
-      if(hasUpgrade('ch',53)) sns=new Decimal(5)
-      if(hasUpgrade('ch',55)) sns=new Decimal(6)
+      if(hasUpgrade('sp',14)) sns=sns.add(2)
+      if(hasUpgrade('ch',53)) sns=sns.add(1)
+      if(hasUpgrade('ch',55)) sns=sns.add(1)
       return sns
     },
     snEff1() {
@@ -1317,6 +1317,14 @@ player.a.snRandom=new Decimal(Math.random()).times(player.a.sns).floor().add(1)}
 player.a.snRandom=new Decimal(Math.random()).times(player.a.sns).floor().add(1)},
       unlocked() {return hasUpgrade('ch',55)}
     },
+    41: {
+      title() {return "强制重置"},
+      display() {return "当所有蛇可点击都不能点击时，点此重置（这八成是因为你漏了某些升级）"},
+      canClick() {return true},
+      onClick() {
+player.a.snRandom=new Decimal(Math.random()).times(player.a.sns).floor().add(1)},
+      unlocked() {return true}
+    },
 },
 tabFormat: {
    "升级": {
@@ -1384,7 +1392,8 @@ tabFormat: {
      {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
      "blank",
     ['row',[['clickable',21],['clickable',22],['clickable',23],['clickable',24]]],
-    ['row',[['clickable',31],['clickable',32],['clickable',33],['clickable',34]]]
+    ['row',[['clickable',31],['clickable',32],['clickable',33],['clickable',34]]],
+        ['row',[['clickable',41],['clickable',42],['clickable',43],['clickable',44]]],
 ],
   unlocked(){return hasUpgrade('sp',11)}
 },
@@ -3518,7 +3527,7 @@ onPurchase() {player.ch.enp=player.ch.enp.sub(1.5e8)},
     cost() {return new Decimal(215)},
   },
   56:{ 
-    fullDisplay() {return "狂喜蘭舞 IN 14.5<br>解锁下两个可以提供双倍的蛇增加量的可点击，基于课题力量增益课题力量<br>当前效果：×"+format(this.effect())+"<br>需要：2.5e8 课题力量 && 218谱面"},
+    fullDisplay() {return "狂喜蘭舞 IN 14.5<br>基于课题力量增益课题力量<br>当前效果：×"+format(this.effect())+"<br>需要：2.5e8 课题力量 && 218谱面"},
     unlocked(){return hasUpgrade('ch',55)},
   canAfford() {return player.ch.enp.gte(2.5e8)},
     cost() {return new Decimal(218)},
