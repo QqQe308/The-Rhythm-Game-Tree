@@ -139,7 +139,7 @@ if(inChallenge('p',12)){gain= gain.pow(0.1)}
 if(inChallenge('c',14))gain= gain.pow(0.05)
 //gain=gain.pow(2)
 	
- gain=gain.max('1e654321')
+ gain=gain.min('1e654321')
 
 	return gain
 }
