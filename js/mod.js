@@ -11,29 +11,30 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.211",
+	num: "0.23",
 	name: "Song Packed",
 }
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e570000 Notes，下一个更新:Arcaea曲包！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e654321 Notes，下一个更新:龙，Lanota曲包！`
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e570000"))
+	return player.points.gte(new Decimal("e654321"))
 }
 
 // Display extra things at the top of the page
 var displayThings = [
-  "v0.21 游戏结局: 1e570000 Notes！",
+  "v0.23 游戏结局: 1e654321 Notes！",
 ]
 
 let changelog = `<h1>更新日志</h1><br>
-<h2>v0.211 Song Packed 2023/11/25~2023/12/06<br>
+<h2>v0.23 Song Packed 2023/11/25~2023/12/09<br>
 <h3>- 添加1个层级：曲包<br>
-- 添加3个可购买，0个挑战，5个里程碑，添加课题力量<br>
-- 添加7个升级<br>
-- 游戏结局：1e570000 Notes<br><br>
-<h2>v0.185 Chart Design 2023/11/11~2023/11/27<br>
+- 添加4=5+1个可购买，6个可点击，5个里程碑<br>
+- 添加课题力量，添加Arcaea中的蛇<br>
+- 添加14+7=21个升级<br>
+- 游戏结局：1e654321 Notes<br><br>
+<h2>v0.2 Chart Design 2023/11/11~2023/11/27<br>
 <h3>- 添加1个层级：Chart<br>
 - 添加物量和定数，添加Phigros-Notes和特殊Notes，添加课题模式，添加课题能量<br>
 - 添加2个里程碑，4个挑战，8个可购买<br>
@@ -73,8 +74,8 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-//return !player.points.gte('1e210000')
-return true
+return !player.points.gte('1e654321')
+//return true
 }
 
 // Calculate points/sec!
@@ -115,6 +116,7 @@ if (hasMilestone('ch', 1)) gain = gain.times('1e1145')
 	if (hasUpgrade('ch', 36)) gain = gain.times(upgradeEffect('ch', 36))
 	if (hasUpgrade('ch', 37)) gain = gain.times(upgradeEffect('ch', 37))
 	if (hasUpgrade('ch', 43)) gain = gain.times(upgradeEffect('ch', 43))
+	if(tmp.a.snEff4.gte(1)) gain=gain.times(tmp.a.snEff4)
 
 
 	if (hasUpgrade('l', 12)) gain = gain.pow(upgradeEffect('l', 12))
@@ -134,10 +136,10 @@ if(inChallenge('p',12)){gain= gain.pow(0.1)}
 	if(inChallenge('c',13))gain= gain.pow(new Decimal(0.9).pow(player.c.challengeTime))
 	
 	if(inChallenge('c',14))gain= gain.max(10).log(1.0001)
-	if(inChallenge('c',14))gain= gain.pow(0.05)
-//	gain=gain.pow(2)
+if(inChallenge('c',14))gain= gain.pow(0.05)
+//gain=gain.pow(2)
 	
- //gain=gain.min('1e210000')
+ gain=gain.max('1e654321')
 
 	return gain
 }
@@ -170,4 +172,5 @@ function fixOldSave(oldVersion){
 }
 
 function rksRandom() {return new Decimal(player.A.resetTime).sub(new Decimal(player.A.resetTime).floor())}
+
 
