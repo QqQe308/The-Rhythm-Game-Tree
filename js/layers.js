@@ -3878,7 +3878,7 @@ points: new Decimal(0),
     row: 3,
     branches(){return ['r']},
     hotkeys: [
-        {key: "O", description: "O： Reset for Song Pack", },
+        {key: "O", description: "O： Reset for Song Pack", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){ return hasUpgrade('ch',37)},
     tabFormat: {
