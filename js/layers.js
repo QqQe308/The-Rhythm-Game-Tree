@@ -10,7 +10,6 @@ addLayer("A", {
   symbol:"🏆",
     startData() { return {
         unlocked: true,
-        points: new Decimal(0),
         ach: new Decimal(0),
     }},
     color: "#ffe125",
@@ -274,6 +273,13 @@ addLayer("A", {
             tooltip: "让蛇的长度超过100000物量！",
             textStyle: {'color': '#e630dc'},
         },
+       81: {
+            name: "无尽之雨❌<br>无尽之树✅<br>🏆",
+            done() {return false },
+            onComplete(){player.A.ach=player.A.ach.add(1)},
+            tooltip: "获得一个旋律（第九层Rotaeno重置资源）<br>奖励：新年快乐",
+            textStyle: {'color': '#00ddff'},
+        },
     },
     tabFormat: {
    "成就": {
@@ -323,7 +329,7 @@ addLayer("t", {
       exp= new Decimal(0.5)
        return exp
     },
-    row: 4, 
+    row: 5, 
     hotkeys: [
         {key: "t", description: "T： Reset for Test", },
     ],
@@ -383,9 +389,12 @@ addLayer("S", {
       function() {if(player.a.ptt.gt(0))
         {return '你有 ' + format(player.a.ptt) + ' PTT<br>PTT上限1：' + format(player.a.pttMax.mul(player.a.pttMax2)) + '<br>PTT上限2：' + format(player.a.pttMax) }},
      {"color": "#ffffff", "font-size": "16px", "font-family": "Comic Sans MS"},],//ptt
-    ["display-text",
+     ["display-text",
       function() {if(hasUpgrade('sp',11)) return '当前蛇的长度：' +format(player.a.sn)},
      {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],//sn
+     ["display-text",
+      function() {if(hasUpgrade('sp',11)) return '当前龙的长度：' +format(player.a.dr)},
+     {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],//dr
      "blank",
      "blank",
      ["display-text",
@@ -644,6 +653,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
     update(diff) {
 			player.s.sc=tmp.s.scCal
 			player.s.sce=tmp.s.sceCal
+		//	player.l.points=new Decimal(0)
 	},
       upgrades: {
     11:{ title: "困难游戏的开始",
@@ -842,7 +852,7 @@ addLayer("a", {
     symbol: "A",
     position: 0,
     startData() { return {
-        unlocked() { return (hasUpgrade('s', 15))},
+        unlocked() { return (hasUpgrade('s',15))},
 		points: new Decimal(0),
 		sc:new Decimal(4000),
 		sce:new Decimal(0.5),
@@ -854,6 +864,7 @@ addLayer("a", {
 		sns:new Decimal(2),//蛇可点击数量
 		snRandom:new Decimal(1),
 		dr:new Decimal(0),//龙
+		dra:new Decimal(0)//龙增加
     }},
     color: "#DDBBDD",
     requires: new Decimal(2000), 
@@ -923,6 +934,7 @@ addLayer("a", {
       
      if(inChallenge('c',11))exp=exp.pow(0.2)
      
+     if(tmp.a.snEff5.gte(0)) exp=exp.add(tmp.a.snEff5)
      if(!hasChallenge('c',12)) exp=exp.min(4.5)
       return exp
     },
@@ -953,6 +965,9 @@ if(tmp.a.snEff3.gte(1)) sna=sna.times(tmp.a.snEff3)
 if(hasUpgrade('sp',14)) sna=sna.times(2)
 if(hasUpgrade('sp',15)) sna=sna.times(upgradeEffect('sp',15))
 if(hasUpgrade('sp',16)) sna=sna.times(upgradeEffect('sp',16))
+if(tmp.a.drEff1.gte(1)) sna=sna.times(tmp.a.drEff1)
+if(hasUpgrade('sp',23)) sna=sna.times(upgradeEffect('sp',23))
+if(hasUpgrade('sp',26)) sna=sna.times(2)
 return sna
     },
     snsCal() {
@@ -965,43 +980,100 @@ return sna
     snEff1() {
   sn=player.a.sn.max(1)
 eff=sn.log(10).pow(2).add(1)
+if(tmp.a.drEff2.gte(1)) eff=eff.pow(tmp.a.drEff2)
+if(eff>25) eff = eff.sub(24).pow(0.5).add(24)//sc
 return eff
     },
     snEff2() {
     sn=player.a.sn.max(1)
 eff=new Decimal(1e4).pow(sn.pow(0.5))
+if(tmp.a.drEff2.gte(1)) eff=eff.pow(tmp.a.drEff2)
 if(eff.log10()>1000) eff = new Decimal(10).pow(eff.log10().sub(1000).pow(0.8).add(1000))//sc
+if(eff.log10()>5000) eff = new Decimal(10).pow(eff.log10().sub(5000).pow(0.5).add(5000))//sc2
 if(!hasAchievement('A',74)) return new Decimal(1)
 return eff},
     snEff3() {
   sn=player.a.sn.max(1)
 eff=sn.log(100).pow(2.5).add(1)
+if(tmp.a.drEff2.gte(1)) eff=eff.pow(tmp.a.drEff2)
+if(eff>10) eff = eff.sub(9).pow(0.5).add(9)//sc
 if(!hasUpgrade('sp',13)) return new Decimal(1)
 return eff
     },
     snEff4() {
     sn=player.a.sn.max(1)
 eff=new Decimal('1e1000').pow(sn.pow(0.4).div(10))
+if(tmp.a.drEff2.gte(1)) eff=eff.pow(tmp.a.drEff2)
 if(eff.log10()>10000) eff = new Decimal(10).pow(eff.log10().sub(10000).pow(0.8).add(10000))//sc
+
 if(!hasUpgrade('ch',54)) return new Decimal(1)
 return eff},
+    snEff5() {
+  sn=player.a.sn.max(1)
+eff=sn.log(100).div(3).pow(0.5).sub(0.75).max(0)
+if(tmp.a.drEff2.gte(1)) eff=eff.mul(tmp.a.drEff2)
+if(eff>1) eff = eff.pow(0.5)//sc
+if(!hasUpgrade('sp',22)) return new Decimal(1)
+return eff
+    },
+    draCal() {
+      sn=player.a.sn
+      dr=sn.div(1e5).pow(0.2)
+      if(hasUpgrade('sp',24)) dr=dr.times(upgradeEffect('sp',24))
+      if(hasUpgrade('sp',26)) dr=dr.times(2)
+      return dr
+    },
+    drEff1() {
+  dr=player.a.dr.max(1)
+eff=dr.add(1).log(10).add(1).pow(2)
+if(eff>10) eff = eff.sub(9).pow(0.5).add(9)//sc
+if(!hasUpgrade('ch',57)) return new Decimal(1)
+return eff
+    },
+    drEff2() {
+  dr=player.a.dr.max(1)
+eff=dr.add(1).log(10).add(1).pow(0.5).sub(1).div(10).add(1)
+if(!hasUpgrade('sp',21)) return new Decimal(1)
+return eff
+    },
+    drEff3() {
+  dr=player.a.dr.max(1)
+eff=dr.add(1).log(10).add(1).pow(0.4).sub(1).div(10).add(1)
+if(!hasUpgrade('sp',22)) return new Decimal(1)
+return eff
+    },
+    drEff4() {
+  dr=player.a.dr.max(1)
+eff=dr.add(1).log(15).add(1).pow(0.4).sub(1).div(10).add(1)
+if(!hasUpgrade('sp',25)) return new Decimal(1)
+return eff
+    },
+    drEff5() {
+  dr=player.a.dr.max(1)
+eff=dr.add(1).log(18).add(1).pow(0.4).sub(1).div(10).add(1)
+if(!hasUpgrade('sp',27)) return new Decimal(1)
+return eff
+    },
     update(diff) {
 			if (hasMilestone('c',8)) layers.a.clickables[11].onClick()
 			if (hasMilestone('c',8)) layers.a.clickables[12].onClick()
 			if (hasMilestone('c',8)) layers.a.clickables[13].onClick()
 			if(hasUpgrade('sp',11)) player.a.ptt=player.a.pttMax
+			if(hasUpgrade('sp',17)&&player.a.sn.lte(50000000)) player.a.sn=player.a.sn.add(player.a.sna.mul(diff))
+			if(hasUpgrade('sp',25)&&player.a.dr.lte(2023)) player.a.dr=player.a.dr.add(player.a.dra.mul(diff).mul(0.1))
+			if(hasUpgrade('sp',27)&&player.a.dr.lte(2023)) player.a.dr=player.a.dr.add(player.a.dra.mul(diff).mul(0.9))
+			player.a.dr=player.a.dr.min(2023)
+			player.a.sn=player.a.sn.min(50000000)
 			player.a.pttMax=player.a.pttMax.min(13)
 			player.a.ptt=player.a.ptt.min(13)
 			player.a.sna=tmp.a.snaCal
 			player.a.sc=tmp.a.scCal
 			player.a.sce=tmp.a.sceCal
 			player.a.sns=tmp.a.snsCal
+			player.a.dra=tmp.a.draCal
 		},
-    layerShown(){shown= false
-    if(hasUpgrade('s',15)){shown=true}
-    if(hasUpgrade('a',11)){shown=true}
-    if(hasMilestone('p',0)){shown=true}
-    return shown},
+    layerShown(){
+    return player.a.points.gt(0)||player.a.unlocked},
  passiveGeneration(){
    mult = new Decimal(0)
   if(hasUpgrade('s',17))
@@ -1040,7 +1112,7 @@ return eff},
             if (resettingLayer == "ch") {
             if (hasMilestone("ch", 0)) {kept.push("challenges","upgrades","ptt","pttMax","pttMax2")}}
                 if (hasMilestone("sp", 0)) {kept.push("upgrades","challenges")}
-           if(hasUpgrade('ch',55)) kept.push("sn")
+           if(hasUpgrade('ch',55)) kept.push("sn","dr")
             layerDataReset(this.layer, kept)
         }
     },
@@ -1325,6 +1397,15 @@ player.a.snRandom=new Decimal(Math.random()).times(player.a.sns).floor().add(1)}
 player.a.snRandom=new Decimal(Math.random()).times(player.a.sns).floor().add(1)},
       unlocked() {return true}
     },
+    51: {
+      title() {return "龙重置"},
+      display() {return "重置蛇使龙的长度增加"+format(player.a.dra)},
+      canClick() {return player.a.dra.gte(1)&&player.a.sn.gte(1e5)},
+      onClick() {player.a.dr=player.a.dr.add(player.a.dra)
+        player.a.sn=new Decimal(0)
+      },
+      unlocked() {return hasUpgrade('ch',57)}
+    },
 },
 tabFormat: {
    "升级": {
@@ -1372,13 +1453,16 @@ tabFormat: {
         content: [ ["infobox","snakeBox"],
           "main-display",
     "prestige-button",
+     ["display-text",
+      function() {if(player.a.dr.gte(2023)) return '你也太龙了！接下来的内容，2024年再来吧！'},
+     {"color": "#ffffff", "font-size": "36px", "font-family": "Comic Sans MS"}],
     ["display-text",
       function() {return '当前蛇的长度：' + format(player.a.sn) + ' 物量!'},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
-      ["display-text",
+    ["display-text",
       function() {return '每次点击增加蛇的长度：' + format(player.a.sna) + ' 物量!'},
      {"color": "#ffffff", "font-size": "15px", "font-family": "Comic Sans MS"}],
-    ["display-text",
+     ["display-text",
       function() {return '1.使课题力量获取量×' + format(tmp.a.snEff1)},
      {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
      ["display-text",
@@ -1390,10 +1474,35 @@ tabFormat: {
      ["display-text",
       function() {if(hasUpgrade('ch',54)) return '4.Notes获取量×' + format(tmp.a.snEff4)},
      {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
+     ["display-text",
+      function() {if(hasUpgrade('sp',22)) return '5.源点获取指数+' + format(tmp.a.snEff5)},
+     {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
      "blank",
     ['row',[['clickable',21],['clickable',22],['clickable',23],['clickable',24]]],
     ['row',[['clickable',31],['clickable',32],['clickable',33],['clickable',34]]],
-        ['row',[['clickable',41],['clickable',42],['clickable',43],['clickable',44]]],
+    ['row',[['clickable',41]]],
+    ["display-text",
+      function() {if(hasUpgrade('ch',57)) return '当前龙的长度：' + format(player.a.dr) + ' 物量!'},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
+    ["display-text",
+      function() {if(hasUpgrade('ch',57)) return '现在重置增加蛇的长度：' + format(player.a.dra) + ' 物量!'},
+     {"color": "#ffffff", "font-size": "15px", "font-family": "Comic Sans MS"}],
+     ["display-text",
+      function() {if(hasUpgrade('ch',57)) return '1.蛇每次点击获取量×' + format(tmp.a.drEff1)},
+     {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
+     ["display-text",
+      function() {if(hasUpgrade('sp',21)) return '2.软上限前蛇的所有效果^' + format(tmp.a.drEff2)},
+     {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
+     ["display-text",
+      function() {if(hasUpgrade('sp',22)) return '3.课题力量^' + format(tmp.a.drEff3)},
+     {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
+     ["display-text",
+      function() {if(hasUpgrade('sp',25)) return '4.Notes获取量^' + format(tmp.a.drEff4)},
+     {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
+     ["display-text",
+      function() {if(hasUpgrade('sp',27)) return '5.课题模式总分×' + format(tmp.a.drEff5)},
+     {"color": "#ffffff", "font-size": "18px", "font-family": "Comic Sans MS"}],
+    ['row',[['clickable',51],['clickable',52],['clickable',53],['clickable',54]]],
 ],
   unlocked(){return hasUpgrade('sp',11)}
 },
@@ -2258,6 +2367,7 @@ addLayer("c", {
 		challengeTime: new Decimal(0),
     }},
     color: "#a3a3a3",
+    branches(){return ['r']},
     requires: new Decimal(1e20), 
     resource: "Cyten",
     baseResource: "Phidata", 
@@ -2281,6 +2391,7 @@ addLayer("c", {
     gainExp() { 
       exp= new Decimal(0.05)
       if(hasUpgrade('ch',11)) exp= exp.add(0.05)
+      if(hasUpgrade('sp',27)) exp= exp.add(0.015)
       if(hasUpgrade('s',33))exp= exp.times(1.2)
       if(hasUpgrade('ch',32))exp= exp.div(upgradeEffect('ch',32))
       if(hasChallenge('c',14))exp= exp.times(1.1)
@@ -2445,7 +2556,10 @@ addLayer("c", {
      let cost = Decimal.pow(2, x.mul(2).pow(1.5))
     return cost
                 },
-				effect(x=player[this.layer].buyables[this.id]) {return new Decimal(1e80).pow(x.pow(2))},
+				effect(x=player[this.layer].buyables[this.id]) {eff=new Decimal(1e80).pow(x.pow(2))
+				if(eff.log10()>135000) eff = new Decimal(10).pow(eff.log10().sub(135000).pow(0.8).add(135000))//sc
+				  return eff
+				},
 				display() { // Everything else displayed in the buyable button after the title
        let data = tmp[this.layer].buyables[this.id]
        return (("价格: " + format(data.cost) + " Cytus力量")+"<br>数量: " + format(player[this.layer].buyables[this.id])
@@ -3042,6 +3156,7 @@ addLayer("ch", {
     baseResource: " Notes", 
     baseAmount() {return player.points}, 
     type: "static", 
+    branches(){return ['r']},
     exponent: 1, 
     gainMult() { 
         mult = new Decimal(1)
@@ -3110,9 +3225,9 @@ addLayer("ch", {
      a2=new Decimal(Math.random()).pow(0.05).add(0.2).pow(0.2)
      a3=new Decimal(Math.random()).pow(0.05).add(0.2).pow(0.2)
     }
-    sco1=rks.div(dif1).sub(0.3).pow(0.3).mul(1000000).mul(a1)
-    sco2=rks.div(dif2).sub(0.3).pow(0.3).mul(1000000).mul(a2)
-    sco3=rks.div(dif3).sub(0.3).pow(0.3).mul(1000000).mul(a3)
+    sco1=rks.div(dif1).sub(0.3).pow(0.3).mul(1000000).mul(a1).mul(tmp.a.drEff5)
+    sco2=rks.div(dif2).sub(0.3).pow(0.3).mul(1000000).mul(a2).mul(tmp.a.drEff5)
+    sco3=rks.div(dif3).sub(0.3).pow(0.3).mul(1000000).mul(a3).mul(tmp.a.drEff5)
     if(sco1.gte(960000)) sco1=sco1.sub(960000).pow(0.75).add(960000).min(1000000)
     if(sco2.gte(960000)) sco2=sco2.sub(960000).pow(0.75).add(960000).min(1000000)
     if(sco3.gte(960000)) sco3=sco3.sub(960000).pow(0.75).add(960000).min(1000000)
@@ -3124,6 +3239,8 @@ addLayer("ch", {
      if(hasUpgrade('ch',47)) enp=enp.times(upgradeEffect('ch',47))
      if(tmp.a.snEff1.gte(1)) enp=enp.times(tmp.a.snEff1)
      if(hasUpgrade('ch',56)) enp=enp.times(upgradeEffect('ch',56))
+     
+     if(tmp.a.drEff3.gte(1)) enp=enp.pow(tmp.a.drEff3)
       return enp
     },
     enpEff() {//课题力量效果
@@ -3155,13 +3272,14 @@ addLayer("ch", {
 			if (hasUpgrade('ch',41)&&layers.ch.buyables[12].canAfford()) layers.ch.buyables[12].buy()
 			if (hasUpgrade('ch',41)&&layers.ch.buyables[21].canAfford()) layers.ch.buyables[21].buy()
 			if (hasUpgrade('ch',41)&&layers.ch.buyables[22].canAfford()) layers.ch.buyables[22].buy()
+		if (hasUpgrade('sp',26)) layers.ch.clickables[31].onClick()
 		},
 		canBuyMax(){return hasUpgrade('ch',16)},
 		doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
             if (resettingLayer == "t") {
-               kept.push("milestones","upgrades")
+               kept.push("milestones","upgrades","en","enp")
             }
 
             layerDataReset(this.layer, kept)
@@ -3537,16 +3655,10 @@ onPurchase() {player.ch.enp=player.ch.enp.sub(1.5e8)},
     },
   },
   57:{ 
-    fullDisplay() {return "Future Mind IN 14.6<br>在“蛇”页面解锁“龙”，基于龙的数量增益？？？（请等待下一次更新！）<br>当前效果：×"+format(this.effect())+"<br>需要：INFINITY"//1e9 课题力量 && 220谱面"
-    },
+    fullDisplay() {return "Future Mind IN 14.6<br>在“蛇”页面解锁“龙”，解锁第一个龙的效果<br>需要：1e9 课题力量 && 220谱面" },
     unlocked(){return hasUpgrade('ch',56)},
-  canAfford() {return false//player.ch.enp.gte(1e9)
-  },
+  canAfford() {return player.ch.enp.gte(1e9) },
     cost() {return new Decimal(220)},
-    effect() {
-      //eff=
-      return new Decimal(1)//eff
-    },
   },
 },
    buyables:{
@@ -3764,6 +3876,7 @@ points: new Decimal(0),
        return exp
     },
     row: 3,
+    branches(){return ['r']},
     hotkeys: [
         {key: "O", description: "O： Reset for Song Pack", },
     ],
@@ -3787,11 +3900,18 @@ points: new Decimal(0),
       ["display-text",
       function() {if(hasMilestone('sp',4)) return '你有 ' + format(player.a.points)+ ' 源点'},
      {"color": "ffffff", "font-size": "15px", "font-family": "Comic Sans MS"}],
+      ["display-text",
+      function() {if(hasUpgrade('sp',17)) return '你有 ' + format(player.l.points)+ ' 诗篇'},
+     {"color": "ffffff", "font-size": "15px", "font-family": "Comic Sans MS"}],
      "blank",
       ["display-text",
       function() {if(hasMilestone('sp',4)) return 'Arcaea曲包：'},
      {"color": "ffffff", "font-size": "15px", "font-family": "Comic Sans MS"}],
      ['row',[['upgrade',11],['upgrade',12],['upgrade',13],['upgrade',14],['upgrade',15],['upgrade',16],['upgrade',17]]],
+     ["display-text",
+      function() {if(hasUpgrade('sp',17)) return 'Lanota曲包：'},
+     {"color": "ffffff", "font-size": "15px", "font-family": "Comic Sans MS"}],
+     ['row',[['upgrade',21],['upgrade',22],['upgrade',23],['upgrade',24],['upgrade',25],['upgrade',26],['upgrade',27]]],
 ],
 unlocked(){return hasMilestone('sp',4)}
     },
@@ -3800,7 +3920,7 @@ doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
             if (resettingLayer == "t") {
-               kept.push("milestones","upgrades")
+               kept.push("milestones","upgrades","points","buyables")
             }
 
             layerDataReset(this.layer, kept)
@@ -3850,6 +3970,32 @@ buyables:{
       unlocked() { return hasMilestone('sp',4)}, 
       canAfford() {
       return player.a.points.gte(tmp[this.layer].buyables[this.id].cost)},
+       buy() { 
+    player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+                },
+     buyMax() {
+					if (!this.canAfford()) return;
+					if (tempBuy.gte(25) && tmp[this.layer].buyables[this.id].costScalingEnabled) tempBuy = tempBuy.times(25).sqrt();
+					let target = tempBuy.plus(1).floor();
+					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
+				},
+     style: {'height':'150px'},
+			},
+	12: {
+				title: "获得一个Lanota曲包",
+				cost(x=player[this.layer].buyables[this.id]) { // cost for buying xth buyable, can be an object if there are multiple currencies
+     if (x.gte(25)) x = x.pow(2).div(25)
+     let cost = x.pow(1.5).mul(0.001).add(5).pow(6)
+    return cost.floor()
+                },
+				effect(x=player[this.layer].buyables[this.id]) {return x},
+				display() { // Everything else displayed in the buyable button after the title
+       let data = tmp[this.layer].buyables[this.id]
+       return (("需要 " + format(data.cost) + " 诗篇")+"<br>数量: " + format(player[this.layer].buyables[this.id]))
+                },
+      unlocked() { return hasUpgrade('sp',17)}, 
+      canAfford() {
+      return player.l.points.gte(tmp[this.layer].buyables[this.id].cost)},
        buy() { 
     player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
                 },
@@ -3911,12 +4057,134 @@ onPurchase() {setBuyableAmount('sp',11,getBuyableAmount('sp',11).sub(15))
       },
   },
 17:{ 
-    fullDisplay() {return "Black Fate<br>解锁？？？，解锁Lanota曲包（请等待下一次更新！）<br>需要：INFINITY"//19 Arcaea曲包，100000 蛇物量"
-    },
-    unlocked(){return hasUpgrade('sp',17)||getBuyableAmount('sp',11).gte(18)},
-onPurchase() {setBuyableAmount('sp',11,getBuyableAmount('sp',11).sub(19))
-  player.a.sn=player.a.sn.sub(100000)},
-  canAfford() {return getBuyableAmount('sp',11).gte(20)&&player.a.sn.gte("1e100000")},
+    fullDisplay() {return "Black Fate<br>每秒获得100%的蛇增加量，解锁Lanota曲包<br>需要：24 Arcaea曲包，5 龙"},
+    unlocked(){return hasUpgrade('sp',17)||getBuyableAmount('sp',11).gte(22)},
+onPurchase() {setBuyableAmount('sp',11,getBuyableAmount('sp',11).sub(24))
+  player.a.dr=player.a.dr.sub(5)},
+  canAfford() {return getBuyableAmount('sp',11).gte(24)&&player.a.dr.gte(5)},
+  },
+21:{ 
+    fullDisplay() {return "<br>解锁龙的第二个效果，基于诗篇增益Note获取量<br>当前效果：×"+format(this.effect())+"<br>需要：4 Lanota曲包，3 龙"},
+    unlocked(){return hasUpgrade('sp',21)||getBuyableAmount('sp',12).gte(3)},
+onPurchase() {setBuyableAmount('sp',12,getBuyableAmount('sp',12).sub(4))
+  player.a.dr=player.a.dr.sub(3)},
+  canAfford() {return getBuyableAmount('sp',12).gte(4)&&player.a.dr.gte(3)},
+  effect() { eff= new Decimal(10).pow(player.l.points)
+  if(eff.log10()>10000) eff = new Decimal(10).pow(eff.log10().sub(10000).pow(0.8).add(10000))//sc
+        return eff.max(1)
+      },
+  },
+22:{ 
+    fullDisplay() {return "<br>解锁第五个蛇的效果，解锁第三个龙的效果<br>需要：9 Lanota曲包，4 龙"},
+    unlocked(){return hasUpgrade('sp',22)||getBuyableAmount('sp',12).gte(8)},
+onPurchase() {setBuyableAmount('sp',12,getBuyableAmount('sp',12).sub(9))
+  player.a.dr=player.a.dr.sub(4)},
+  canAfford() {return getBuyableAmount('sp',12).gte(9)&&player.a.dr.gte(4)},
+  },
+23:{ 
+    fullDisplay() {return "<br>基于Arcaea曲包增益蛇的增加量<br>当前效果：×"+format(this.effect())+"<br>需要：10 Lanota曲包，5 龙"},
+    unlocked(){return hasUpgrade('sp',23)||getBuyableAmount('sp',12).gte(9)},
+onPurchase() {setBuyableAmount('sp',12,getBuyableAmount('sp',12).sub(10))
+  player.a.dr=player.a.dr.sub(5)},
+  canAfford() {return getBuyableAmount('sp',12).gte(10)&&player.a.dr.gte(5)},
+  effect() { eff= getBuyableAmount('sp',11).pow(0.4).max(1)
+  if(eff>5) eff = eff.sub(5).pow(0.5).add(5)//sc
+        return eff.max(1)
+      },
+  },
+24:{ 
+    fullDisplay() {return "<br>基于Lanota曲包增益龙的增加量<br>当前效果：×"+format(this.effect())+"<br>需要：11 Lanota曲包，6 龙"},
+    unlocked(){return hasUpgrade('sp',24)||getBuyableAmount('sp',12).gte(10)},
+onPurchase() {setBuyableAmount('sp',12,getBuyableAmount('sp',12).sub(11))
+  player.a.dr=player.a.dr.sub(6)},
+  canAfford() {return getBuyableAmount('sp',12).gte(10)&&player.a.dr.gte(6)},
+  effect() { eff= getBuyableAmount('sp',12).pow(0.2).max(1)
+  if(eff>5) eff = eff.sub(5).pow(0.5).add(5)//sc
+        return eff.max(1)
+      },
+  },
+25:{ 
+    fullDisplay() {return "<br>解锁第四个龙的效果，每秒获得10%的龙增加量<br>需要：13 Lanota曲包，10 龙"},
+    unlocked(){return hasUpgrade('sp',25)||getBuyableAmount('sp',12).gte(12)},
+onPurchase() {setBuyableAmount('sp',12,getBuyableAmount('sp',12).sub(13))
+  player.a.dr=player.a.dr.sub(10)},
+  canAfford() {return getBuyableAmount('sp',12).gte(13)&&player.a.dr.gte(10)},
+  },
+26:{ 
+    fullDisplay() {return "<br>自动进行课题模式，Cyten基本获取指数+0.015，蛇和龙获取量×2<br>需要：20 Lanota曲包，25 龙"},
+    unlocked(){return hasUpgrade('sp',26)||getBuyableAmount('sp',12).gte(18)},
+onPurchase() {setBuyableAmount('sp',12,getBuyableAmount('sp',12).sub(20))
+  player.a.dr=player.a.dr.sub(25)},
+  canAfford() {return getBuyableAmount('sp',12).gte(20)&&player.a.dr.gte(25)},
+  },
+27:{ 
+    fullDisplay() {return "<br>解锁第五个龙的效果，每秒获得100%的龙增加量，解锁下一个层级，Rotaeno<br>需要：25 Lanota曲包，100 龙"},
+    unlocked(){return hasUpgrade('sp',27)||getBuyableAmount('sp',12).gte(22)},
+onPurchase() {setBuyableAmount('sp',12,getBuyableAmount('sp',12).sub(25))
+  player.a.dr=player.a.dr.sub(10)},
+  canAfford() {return getBuyableAmount('sp',12).gte(25)&&player.a.dr.gte(100)},
   },
 },
 })//Song Pack
+
+//Row 4
+addLayer("r", {
+  infoboxes: {
+ introBox: {
+  title: "层级9--Rotaeno",
+  body(){return "欢迎来到第九层！恭喜你，已经来到了第五行！本层级会重置前四层的所有内容，但是将解锁更多增益！<br>资源名称由来：Rotaeno中文名：旋转音律<br>你好，2024"},
+        },
+},
+    name: "Rotaeno",
+    symbol: "Ro",
+    position: 0,
+    startData() { return {
+		points: new Decimal(0),
+    }},
+    color: "#00ddff",
+    requires: new Decimal(1e999), 
+    resource: "旋律",
+    baseResource: "Cyten", 
+    baseAmount() {return player.c.points}, 
+    type: "normal", 
+    exponent: 1, 
+    gainMult() { 
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { 
+      exp= new Decimal(0.5)
+       return exp
+    },
+    row: 4, 
+    hotkeys: [
+        {key: "r", description: "R： Reset for Rotaeno", },
+    ],
+    layerShown(){ return hasUpgrade('sp',27)},
+    tabFormat: {
+   "剧情": {
+        content: [ ["infobox","introBox"],
+    ["display-text",
+      function() {//if(player.r..gte(1)) 
+      return '6'},
+     {"color": "#530aac", "font-size": "20px", "font-family": "Comic Sans MS","background-color":"lightblue"}],
+     "blank",
+],
+  unlocked(){return true},
+},
+},
+    upgrades: {
+    11:{ title: "test",
+      description: "Note获取量×1",
+       cost: new Decimal(1.8e308),
+      effect() { return new Decimal(1)},
+     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },},
+    milestones: {
+    0: {
+        requirementDescription: "测试里程碑",
+        effectDescription: "需要Infinity测试",
+        done() { return player.r.points.gte(1.80e308) }
+    },
+      
+    },
+})//Rotaeno

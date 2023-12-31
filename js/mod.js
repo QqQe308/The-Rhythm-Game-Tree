@@ -11,36 +11,36 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.23",
+	num: "0.25",
 	name: "Song Packed",
 }
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e654321 Notes，下一个更新:龙，Lanota曲包！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e955000 Notes，下一个更新:新层级！`
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e654321"))
+	return player.points.gte(new Decimal("e955000"))
 }
 
 // Display extra things at the top of the page
 var displayThings = [
-  "v0.23 游戏结局: 1e654321 Notes！",
+  "v0.25 游戏结局: 1e955000 Notes！",
 ]
 
 let changelog = `<h1>更新日志</h1><br>
-<h2>v0.23 Song Packed 2023/11/25~2023/12/09<br>
+<h2>v0.25 Song Packed 2023/11/27~2023/12/31<br>
 <h3>- 添加1个层级：曲包<br>
-- 添加4=5+1个可购买，6个可点击，5个里程碑<br>
-- 添加课题力量，添加Arcaea中的蛇<br>
-- 添加14+7=21个升级<br>
-- 游戏结局：1e654321 Notes<br><br>
+- 添加4+2=6个可购买，6个可点击，5个里程碑，10个蛇和龙的效果<br>
+- 添加课题力量，添加Arcaea中的蛇和龙<br>
+- 添加14+14=28个升级<br>
+- 游戏结局：1e955000 Notes<br>
+- 新年快乐<br><br>
 <h2>v0.2 Chart Design 2023/11/11~2023/11/27<br>
 <h3>- 添加1个层级：Chart<br>
 - 添加物量和定数，添加Phigros-Notes和特殊Notes，添加课题模式，添加课题能量<br>
 - 添加2个里程碑，4个挑战，8个可购买<br>
 - 添加2+21=23个升级<br>
 - 修复了一堆bug<br>
-- Phigros 3.3.0 Rotaeno精选集更新！ 祝贺Phigros常驻曲目达到200首！<br>
 - 游戏结局：1e376000 Notes<br><br>
 <h2>v0.15 Cytusser 2023/10/28~2023/11/5<br>
 <h3>- 添加1个层级：Cytus<br>
@@ -74,8 +74,8 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-return !player.points.gte('1e654321')
-//return true
+//return !player.points.gte('1e955000')
+return true
 }
 
 // Calculate points/sec!
@@ -117,6 +117,7 @@ if (hasMilestone('ch', 1)) gain = gain.times('1e1145')
 	if (hasUpgrade('ch', 37)) gain = gain.times(upgradeEffect('ch', 37))
 	if (hasUpgrade('ch', 43)) gain = gain.times(upgradeEffect('ch', 43))
 	if(tmp.a.snEff4.gte(1)) gain=gain.times(tmp.a.snEff4)
+if (hasUpgrade('sp', 21)) gain = gain.times(upgradeEffect('sp', 21))
 
 
 	if (hasUpgrade('l', 12)) gain = gain.pow(upgradeEffect('l', 12))
@@ -126,6 +127,7 @@ if (hasMilestone('ch', 1)) gain = gain.times('1e1145')
  if (hasUpgrade('ch', 26)) gain = gain.pow(1.02)
 if (hasUpgrade('ch', 27)) gain = gain.pow(1.05)
 if (hasAchievement('A', 65)) gain = gain.pow(1.0101)
+if(tmp.a.drEff4.gte(1)) gain=gain.pow(tmp.a.drEff4)
 
 if(inChallenge('p',12)){gain= gain.pow(0.1)}
 	if(hasChallenge('p',13)){gain = gain.pow(challengeEffect('p',13))}
@@ -135,11 +137,12 @@ if(inChallenge('p',12)){gain= gain.pow(0.1)}
 	if(inChallenge('c',12))gain= gain.div(5e7)
 	if(inChallenge('c',13))gain= gain.pow(new Decimal(0.9).pow(player.c.challengeTime))
 	
+	
 	if(inChallenge('c',14))gain= gain.max(10).log(1.0001)
 if(inChallenge('c',14))gain= gain.pow(0.05)
 //gain=gain.pow(2)
 	
- gain=gain.min('1e654321')
+// gain=gain.min('1e955000')
 
 	return gain
 }
