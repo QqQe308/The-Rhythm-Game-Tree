@@ -11,33 +11,35 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.28",
+	num: "0.3",
 	name: "Rotative Rotating Rotation",
 }
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e1400000 Notes，16 Rot点数，下一个更新:更多升级树内容！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e2175000 Notes，39 Rot点数，下一个更新:更多升级，挑战，曲包！`
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte('1e1400000')&&player.r.rota.gte(16)
+	return player.points.gte('1e2175000')&&player.r.rota.gte(39)
 }
 
 // Display extra things at the top of the page
 var displayThings = [
-  "v0.28 游戏结局: 1e1400000 Notes，16 Rot点数！",
+  "v0.3 游戏结局: 1e2175000 Notes，39 Rot点数！",
 ]
 
 let changelog = `<h1>更新日志</h1><br>
-<h2>v0.28 Rotative Rotating Rotation 2024/1/17-2024/1/22<br>
-<h3>- 添加1个层级：Rotaeno，添加Rot升级树<br>
-- 添加7个里程碑，2个可购买，9个“升级”，4个升级<br>
-- 修复了一堆bug以及修改了一些内容<br>
-- 游戏结局：1e1400000 Notes，16 Rot点数<br>
-- 是的我鸽了18天<br><br>
+<h2>v0.3 Rotative Rotating Rotation 2024/1/17-2024/1/30<br>
+<h3>- 添加1个层级：Rotaeno<br>
+- 添加Rot升级树，包括16个“升级”<br>
+- 添加7个里程碑，1+2=3个可购买，7+14=21个升级，1个挑战<br>
+- 修复了一堆bug以及修改了游戏一些内容<br>
+- 降低了谱面、曲包、Rotaeno层级的一些时间墙的时间<br>
+- 添加了6个隐藏成就和一些彩蛋<br>
+- 游戏结局：1e2175000 Notes，39 Rot点数<br><br>
 <h2>v0.25 Song Packed 2023/11/27~2023/12/31<br>
 <h3>- 添加1个层级：曲包<br>
-- 添加4+2=6个可购买，6个可点击，5个里程碑，10个蛇和龙的效果<br>
-- 添加课题力量，添加Arcaea中的蛇和龙<br>
+- 添加4+2=6个可购买，6个可点击，5个里程碑，添加课题力量<br>
+- 添加Arcaea中的蛇和龙，添加了10个蛇和龙的效果<br>
 - 添加14+14=28个升级<br>
 - 游戏结局：1e955000 Notes<br><br>
 <h2>v0.2 Chart Design 2023/11/11~2023/11/27<br>
@@ -62,7 +64,7 @@ let changelog = `<h1>更新日志</h1><br>
 - 添加了“炸档测试”层级<br>
 - 添加了剧情<br>
 - 游戏结局：1e33000 Notes（1e20 Phidata，1e240源点）<br><br>
-<h2>v0.06 Early Game 2023/10/06-2023/10/16<br>
+<h2>v0.05 Early Game 2023/10/06-2023/10/16<br>
 <h3>- 添加3个层级：歌曲，Arcaea，Phigros<br>
 - 添加14+14+16=44个升级<br>
 - 添加8个挑战，3个可购买，7个里程碑<br>
@@ -78,8 +80,8 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-return !player.points.gte('1e1400000')
-//return true
+//return !player.points.gte('1e2175000')
+return true
 }
 
 // Calculate points/sec!
@@ -97,7 +99,7 @@ function getPointGen() {
 	if (hasUpgrade('a', 16)) gain = gain.times(1e30)
 	if (inChallenge('a', 12)) gain = gain.times('1e-500')
 	if (inChallenge('a', 13)) gain = gain.times('1e-500')
-	if(buyableEffect('s',12)>1) gain = gain.times(buyableEffect('s',12))
+	if(buyableEffect('s',12).gte(1)) gain = gain.times(buyableEffect('s',12))
 	if (inChallenge('a', 14)) gain = gain.times('1e-800')
 	if (hasUpgrade('p', 14)) gain = gain.times(upgradeEffect('p', 14))
 	if (inChallenge('p', 13)) gain = gain.times(1e-55)
@@ -144,18 +146,29 @@ if(inChallenge('p',12)){gain= gain.pow(0.1)}
 	
 	
 	if(inChallenge('c',14))gain= gain.max(10).log(1.0001)
-if(inChallenge('c',14))gain= gain.pow(0.05)
+if(inChallenge('c',14)&&!hasMilestone('r',0))gain= gain.pow(0.05)
+if(inChallenge('r',11))gain= gain.pow(0.1)
 //gain=gain.pow(2)
 	
- gain=gain.min('1e1400000')
+// gain=gain.min('1e2175000')
 
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
-  
+  QqQ:"QqQe308",
+  banana:"3.8642180e38642180",
+  Liu:"6.666666666666666666666666e308",
+  fufu:['cutefu~','c','u','t','e','f','u','~'],
+  Loader:"也可以试试Loader的音乐游戏树mod哦！链接：https://qq1010903229.github.io/The-Rhythm-Game-Tree/",
+  yszqzls:"催更PEIT，元素周期增量树，@Bana3864[]，@Liu e308",
+  yyyxs:"音乐游戏树，鱼鱼永相随，游泳一小时，原原原x神",
+  Genshin:"启动！",
+  Phigros:"2月2号，音乐游戏树和Phigros一起更新",
+  long2024:"龙年马上要到了！祝大家新年龙腾虎跃，龙飞凤舞，龙批一个，事业有成，学业顺利，身体健康，财源滚滚，音游全AP，考试全满分，工作全加薪，玩树全通关，再次献上音乐游戏树全体作者（共1人）的真挚祝福！！！！！！！！！！",
+  QqQe308:"我是QqQe308，v我50更新音乐游戏树"
 }}
-
+//彩蛋区
 
 
 
