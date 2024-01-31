@@ -4789,7 +4789,7 @@ return mult
          if(!hasUpgrade('r',16)) eff=eff.min("1e100000")
          if(eff.log10()>100000) eff = new Decimal(10).pow(eff.log10().sub(100000).pow(0.8).add(99999))//sc2
          if(eff.log10()>250000) eff = new Decimal(10).pow(eff.log10().sub(250000).pow(0.5).add(250000))//sc3
-         if (getClickableState("r",53)==1&&hasUpgrade('r',24) eff = eff.pow(clickableEffect("r", 53).pow(0.25))
+         if (getClickableState("r",53)==1&&hasUpgrade('r',24)) eff = eff.pow(clickableEffect("r", 53).pow(0.25))
             return eff.max(1)
            },
            tooltip() {
