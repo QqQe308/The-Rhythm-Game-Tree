@@ -337,19 +337,18 @@ player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="}
             textStyle: {'color': '#4cc4cc'},
         },
        85: {
-            name: "支线三呢<br>🏆",
+            name: "支线三呢",
             done() {return hasUpgrade('sp',36)&&hasUpgrade('sp',37)},
             onComplete(){player.A.ach=player.A.ach.add(1).max(40)},
-            tooltip: "获得Phigros曲包升级“支线一-忘忧宫”和“支线二-弭刻日”<br>奖励：恭喜通关，龙年快乐<br>Phigros支线三-盗乐行将于2024.02.23更新！",
+            tooltip: "获得Phigros曲包升级“支线一-忘忧宫”和“支线二-弭刻日”",
             textStyle: {'color': '#ffaa1d'},
        },
        91: {
             name: "？？？？",
-            done() {return false},// player.mi.points.gte(1)},
+            done() {return false},
             onComplete(){player.A.ach=player.A.ach.add(1)},
-            tooltip:"获得？？？（等待下一个更新）", //"获得一个Milthm（第10层Milthm重置资源）",
+            tooltip:"获得？？？（等待下一个更新）",
             textStyle: {'color': '#bcf2ff'},
-            //唉唉。看源码的没办法了。
         },
        1001: {
             name: "隐藏成就1",
@@ -5633,7 +5632,7 @@ if(getClickableState('r',111)==1&&getClickableState('r',112)==1&&hasUpgrade('r',
         challengeDescription(){
           return "Cytus力量基于累计消耗的Rot点数的减益，Rot点数数量÷2<br>你需要在进入挑战前选定Rot升级树，并且在挑战中不能修改！<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/5"},
         goalDescription(){
-         let a="850"
+         let a="1e850"
          let b="1"
          if(challengeCompletions('r',12)==1) {a="1e400"
          b="0.4"}
