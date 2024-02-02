@@ -579,6 +579,25 @@ player.QqQe308="k"
            canClick() {return true},
            unlocked() {return true},
         },
+    31: {
+           title(){return "修复导出存档"},
+           display: "如果不能导出存档点这里",
+           onClick() {
+            player.QqQ="QqQe308"
+player.banana="3.8642180e38642180"
+player.Liu="6.666666666666666666666666e308"
+player.fufu=['cutefu~','c','u','t','e','f','u','~']
+player.Loader="5Lmf5Y+v5Lul6K+V6K+VTG9hZGVy55qE6Z+z5LmQ5ri45oiP5qCRbW9k5ZOm77yB6ZO+5o6l77yaaHR0cHM6Ly9xcTEwMTA5MDMyMjkuZ2l0aHViLmlvL1RoZS1SaHl0aG0tR2FtZS1UcmVlLw=="
+player.yszqzls="5YKs5pu0UEVJVO+8jOWFg+e0oOWRqOacn+WinumHj+agke+8jEBCYW5hMzg2NFtd77yMQExpdSBlMzA4"
+player.yyyxs="6Z+z5LmQ5ri45oiP5qCR77yM6bG86bG85rC455u46ZqP77yM5ri45rOz5LiA5bCP5pe277yM5Y6f5Y6f5Y6feOelng=="
+player.Genshin="5ZCv5Yqo77yB"
+player.Phigros="UGhpZ3Jvc+S7gOS5iOaXtuWAmeabtOaWsOaApeaApeaApQ=="
+player.long2024="6b6Z5bm06ams5LiK6KaB5Yiw5LqG77yB56Wd5aSn5a625paw5bm06b6Z6IW+6JmO6LeD77yM6b6Z6aOe5Yek6Iie77yM6b6Z5om55LiA5Liq77yM5LqL5Lia5pyJ5oiQ77yM5a2m5Lia6aG65Yip77yM6Lqr5L2T5YGl5bq377yM6LSi5rqQ5rua5rua77yM6Z+z5ri45YWoQVDvvIzogIPor5Xlhajmu6HliIbvvIzlt6XkvZzlhajliqDolqrvvIznjqnmoJHlhajpgJrlhbPvvIzlho3mrKHnjK7kuIrpn7PkuZDmuLjmiI/moJHlhajkvZPkvZzogIXvvIjlhbEx5Lq677yJ55qE55yf5oya56Wd56aP77yB77yB77yB77yB77yB77yB77yB77yB77yB77yB"
+player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="
+           },
+           canClick() {return true},
+           unlocked() {return true},
+        },
    },
 })//test
 addLayer("S", {
@@ -5672,4 +5691,3 @@ if(getClickableState('r',111)==1&&getClickableState('r',112)==1&&hasUpgrade('r',
        },
       },
 })//Rotaeno
-
