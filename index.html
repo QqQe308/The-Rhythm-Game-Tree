@@ -43,25 +43,24 @@
 		<canvas id="treeCanvas" class="canvas" v-if="!(tmp.gameEnded && !player.keepGoing)"></canvas>
 
 		<div v-if="false" id="loadingSection" class="fullWidth">
-			<h1>Loading... (If this takes too long it means there was a serious error!)←</h1>
+			<h1>正在加载哦！如果太久还没有变化的话，试试刷新一下，或者向作者反馈bug哦～</h1>
 		</div>
 		<div class="vl" v-if="player.navTab !== 'none' && tmp.other.splitScreen && player.tab!='none' && !(tmp.gameEnded && !player.keepGoing)"></div>
 		<div v-if="(tmp.gameEnded && !player.keepGoing)" class="fullWidth">
 			<br>
 			<h2>{{modInfo.name}} {{VERSION.withoutName}}</h2><br><br>
 			<h3 v-html="modInfo.winText"></h3><br>
-			<h3>Please check the Discord to see if there are new content updates!</h3><br><br>
-			<div v-if="!player.timePlayedReset">It took you {{formatTime(player.timePlayed)}} to beat the game.</div>
+			<h3>去gityx.com，https://b23.tv/RsqjjpD等地方看看有没有更新吧！</h3><br><br>
+			<div v-if="!player.timePlayedReset">你用了 {{formatTime(player.timePlayed)}} (游戏时间)通关！</div>
 			<br>
-			<button class="longUpg can" onclick="hardReset(true)">Play Again</button>&nbsp;&nbsp;&nbsp;&nbsp;<button
-				class="longUpg can" onclick="keepGoing()">Keep Going</button>
+			<button class="longUpg can" onclick="hardReset(true)">重新开始(不建议!)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button
+				class="longUpg can" onclick="keepGoing()">等待更新</button>
 			<br><br><br>
 			<span v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink"
 					target="_blank">{{modInfo.discordName}}</a><br></span>
 			<a class="link" href="https://discord.gg/F3xveHV" target="_blank"
-				v-bind:style="modInfo.discordLink ? {'font-size': '16px'} : {}">The Modding Tree Discord</a><br>
-			<a class="link" href="http://discord.gg/wwQfgPa" target="_blank" v-bind:style="{'font-size': '16px'}">Main
-				Prestige Tree server</a><br>
+				v-bind:style="modInfo.discordLink ? {'font-size': '16px'} : {}">模组树Discord</a><br>
+			<a class="link" href="http://discord.gg/wwQfgPa" target="_blank" v-bind:style="{'font-size': '16px'}">声望树Discord</a><br>
 			<br><br>
 		</div>
 
