@@ -223,6 +223,7 @@ function doReset(layer, force=false) {
 	}
 
 	player[layer].resetTime = 0
+	player[layer].resettime = n(0)
 
 	updateTemp()
 	updateTemp()
