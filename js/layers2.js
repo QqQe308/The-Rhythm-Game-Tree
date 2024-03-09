@@ -1036,7 +1036,7 @@ eff=player.mi.points.max(10).log(10).pow(0.7)
    style() { return { 'background-color': gcs(this.layer,this.id)==1?"#77BF5F":layers.r.clickables[this.id].canClick()?"#00ddff":"#BF8F8F"}},
           canClick() {
            if(inChallenge('r',12)&&gcs('r',12)==1) return false
-           return gcs(this.layer,133)==1&&player.r.rot.gte(9)&&gcs(this.layer,this.id)!==1
+           return gcs(this.layer,133)==1&&player.r.rot.gte(8)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
        player.r.upgCost=player.r.upgCost.add(8)
