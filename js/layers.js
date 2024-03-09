@@ -4602,7 +4602,7 @@ onPurchase() {setBuyableAmount('sp',11,gba('sp',11).sub(9))
     unlocked(){return hasUpgrade('sp',16)||gba('sp',11).gte(14)},
 onPurchase() {setBuyableAmount('sp',11,gba('sp',11).sub(15))
   player.a.sn=player.a.sn.sub(8000)},
-  canAfford() {return gba('sp',11).gte(15)&&player.a.sn.gte(10000)},
+  canAfford() {return gba('sp',11).gte(15)&&player.a.sn.gte(8000)},
   effect() { eff= player.p.rks.max(4.5).div(9).add(0.5).pow(5)
         return eff.max(1)
       },
