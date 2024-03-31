@@ -1,5 +1,5 @@
 // ************ Themes ************
-var themes = ["default", "aqua"]
+var themes = ["default", "水蓝","pdqj"]
 
 var colors = {
 	default: {
@@ -12,7 +12,7 @@ var colors = {
 		background: "#0f0f0f",
 		background_tooltip: "rgba(0, 0, 0, 0.75)",
 	},
-	aqua: {
+	水蓝: {
 		1: "#bfdfff",
 		2: "#8fa7bf",
 		3: "#5f6f7f",
@@ -21,6 +21,16 @@ var colors = {
 		locked: "#c4a7b3",
 		background: "#001f3f",
 		background_tooltip: "rgba(0, 15, 31, 0.75)",
+	},
+	pdqj: {
+		1: "#ffffff",//Branch color 1
+		2: "#bfbfbf",//Branch color 2
+		3: "#7f7f7f",//Branch color 3
+		color: "#dfdfdf",
+		points: "#fcd5d5",
+		locked: "#bf8f8f",
+		background: "#361010",
+		background_tooltip: "rgba(0, 0, 0, 0.75)",
 	},
 }
 function changeTheme() {
@@ -37,15 +47,17 @@ function getThemeName() {
 }
 
 function switchTheme() {
+ if(gcs('j',11)==0){
 	let index = themes.indexOf(options.theme)
 	if (options.theme === null || index >= themes.length-1 || index < 0) {
 		options.theme = themes[0];
 	}
 	else {
 		index ++;
-		options.theme = themes[index];
-		options.theme = themes[1];
+		if(index>=2&&gcs('j',11)==0) options.theme = themes[0];
+		else options.theme = themes[index];
 	}
 	changeTheme();
 	resizeCanvas();
+ }
 }
