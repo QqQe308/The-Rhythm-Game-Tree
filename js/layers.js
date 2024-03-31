@@ -12,7 +12,8 @@ addLayer("A", {
         unlocked: true,
         ach: n(0),
     }},
-    color: "#ffe125",
+    //color: "#ffe125",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     resource: "成就", 
     row: "side",
     tooltip() { // Optional, tooltip displays when the layer is locked
@@ -437,6 +438,12 @@ style() { return { 'background-color': hasAchievement('A',1005)?"#308308":"#ff48
             },
 style() { return { 'background-color': hasAchievement('A',1011)?"#308308":"#ff4848"}},
         },
+       1012: {
+            name: "2024愚人节成就",
+            done() {return true},
+            tooltip:"嘘…这可是个秘密哦，只有玩过2024愚人节版本（⓪.⑶❺版本）才能获得这个成就哦！",
+            style() { return { 'background-color': hasAchievement('A',1012)?"#308308":"#ff4848"}},
+        },
     },
     tabFormat: {
    "Achievements": {
@@ -466,7 +473,8 @@ addLayer("t", {
         unlocked() { return true},
 		points: n(0),
     }},
-    color: "#ffffff",
+    //color: "#ffffff",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     requires: n(0), 
     resource: "测试",
     baseResource: "Notes", 
@@ -640,7 +648,8 @@ addLayer("S", {
 },
     name: "Statistics",
     symbol: "St",
-    color: "#ffffff",
+    //color: "#ffffff",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     resource: "-", 
     row: "side",
     tooltip() { // Optional, tooltip displays when the layer is locked
@@ -804,7 +813,8 @@ addLayer("s", {
 		sc: n(15000),
 		sce:n(0.5),
     }},
-    color: "#abcdef",
+    //color: "#abcdef",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     requires: n(10), // Can be a function that takes requirement increases into account
     resource: "歌曲", // Name of prestige currency
     baseResource: "Notes", // Name of resource prestige is based on
@@ -1220,7 +1230,8 @@ addLayer("a", {
 		dr:n(0),//龙
 		dra:n(0)//龙增加
     }},
-    color: "#DDBBDD",
+    //color: "#DDBBDD",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     requires: n(2000), 
     resource: "源点",
     baseResource: "歌曲", 
@@ -1888,7 +1899,8 @@ addLayer("l", {
         unlocked() { return (hasChallenge('a', 14))},
 		points: n(0),
     }},
-    color: "#44DDDD",
+    //color: "#44DDDD",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     requires() {req=n(1e90)
     if(hasUpgrade('a',43))req=req.pow(upgradeEffect('a',43))
     return req},
@@ -2108,7 +2120,8 @@ addLayer("p", {
 		rksMax: n(1),
 		rksMax2:n(1),
     }},
-    color: "#CC11AA",
+    //color: "#CC11AA",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     requires() {req=n(1e17)
     if(hasUpgrade('s',32)) req=n(1e10)
     return req},
@@ -2123,11 +2136,7 @@ addLayer("p", {
       if(hasUpgrade('p',31)){return player['p'].points.add(1).pow(8).pow(player.m.points.add(1).pow(0.5))}
     },
     effectDescription() { 
-      if(!hasUpgrade('p',11)){
-            return "歌曲和源点增益乘以"+format(player['p'].points.add(1).pow(player.m.points.add(1).pow(0.5)))}
-      if(hasUpgrade('p',11)&&!hasUpgrade('p',31)){return "歌曲和源点增益乘以"+format(player['p'].points.add(1).pow(5).pow(player.m.points.add(1).pow(0.5)))}
-      if(hasUpgrade('p',31)){return "歌曲和源点增益乘以"+format(player['p'].points.add(1).pow(8).pow(player.m.points.add(1).pow(0.5)))}
-    },
+   return "歌曲和源点增益乘以"+format(tmp.p.effect)},
     gainMult() { //pgainmult
         mult = n(1)
         if(hasChallenge('p',12)){mult = mult.times(challengeEffect('p',12))}
@@ -2151,6 +2160,7 @@ addLayer("p", {
         if(hasUpgrade('p',36)){mult = mult.pow(upgradeEffect('p',36))}
         if(inChallenge('c',11))mult=mult.pow(0.5)
         if(inChallenge('c',13))mult = mult.pow(n(0.9).pow(player.c.challengeTime))
+        if(gcs('j',11)==1) mult=mult.pow(tmp.j.pdqj3)
         
        if(!hasUpgrade('ch',15)) mult=mult.min(1e100)
         return mult
@@ -2583,7 +2593,8 @@ addLayer("m", {
         unlocked() { return (hasUpgrade('p', 27))||hasMilestone('m',0)},
 		points: n(0),
     }},
-    color: "#55BB11",
+    //color: "#55BB11",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     requires() {req=n(1e40)
     if(hasUpgrade('a',44))req=req.pow(upgradeEffect('a',44))
     return req}, 
@@ -2751,7 +2762,8 @@ addLayer("c", {
 		power: n(0),
 		challengeTime: n(0),
     }},
-    color: "#a3a3a3",
+    //color: "#a3a3a3",
+    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     branches(){return ['p','m']},
     requires: n(1e20), 
     resource: "Cyten",
@@ -3596,7 +3608,8 @@ addLayer("ch", {
 		ennow: n(0),//当前课题能量
 		enp: n(0),//课题力量
     }},
-    color: "#ffe000",
+   // color: "#ffe000",
+   color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     requires: n('1e100000'), 
     resource: "谱面",
     baseResource: " Notes", 
@@ -3616,6 +3629,7 @@ addLayer("ch", {
     },
     directMult() { //chdirectmult
         mult = n(1)
+        if(hasUpgrade('r',47)) mult=mult.mul(1.0025)
         return mult
     },
     note() {
@@ -3694,6 +3708,7 @@ addLayer("ch", {
      if(hasMilestone('r',0)) enp=enp.times(10)
      
      if(tmp.a.drEff3.gte(1)) enp=enp.pow(tmp.a.drEff3)
+     if(gcs('j',11)==1) enp=enp.pow(tmp.j.pdqj2)
       return enp
     },
     enpEff() {//课题力量效果
@@ -4313,7 +4328,8 @@ buyBox: {
         unlocked() { return hasUpgrade('ch',37)},
 points: n(0),
     }},
-    color: "#6090ff",
+   // color: "#6090ff",
+   color() {return getUndulatingColor(period = Math.sqrt(20.24))},
     requires: n('1e26500'), 
     resource: "曲包",
     baseResource: "songs", 

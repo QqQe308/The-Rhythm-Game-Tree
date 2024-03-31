@@ -11,7 +11,7 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.35",
+	num: "⓪.⑶❺",
 	name: "Rhythm Milthm",
 }
 
@@ -24,13 +24,15 @@ function isEndgame() {
 
 // Display extra things at the top of the page
 var displayThings = [
-  function() {if(inChallenge('r',12)&&player.devSpeed.eq(0)) return "v0.35 游戏结局: 1e3075000 Notes，120 Rot点数！<br>你需要在Rot升级树里选择升级，并且点击升级12确定以开始挑战！"
-   else return "v0.35 游戏结局: 1e3075000 Notes，120 Rot点数！"
+  function() {if(inChallenge('r',12)&&player.devSpeed.eq(0)) return "v⓪.⑶❺ 游戏结局: 1e3075000 Notes，120 Rot点数！<br>你需要在Rot升级树里选择升级，并且点击升级12确定以开始挑战！"
+   else return "v⓪.⑶❺ 游戏结局: 1e3075000 Notes，120 Rot点数！"
   }
 ]
 
 let changelog = `<h1>更新日志</h1><br>
-<h2>v0.36 Milthm Rhythm 2024/2/3-2024/3/9<br>
+<h2>v⓪.⑶❺ 2024愚人节版本 2024/4/1<br>
+<h3>-<br>
+<h2>v0.35 Milthm Rhythm 2024/2/3-2024/3/9<br>
 <h3>- 添加1个层级：Milthm<br>
 - 添加Rot升级树中的11个“升级”<br>
 - 添加9个Milthm维度，添加计数频率<br>
@@ -89,8 +91,8 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
- return !player.points.gte('1e3075000')
-//return true
+// return !player.points.gte('1e3075000')
+return true
 }
 
 // Calculate points/sec!
@@ -151,13 +153,15 @@ if(inChallenge('p',12)){gain= gain.pow(0.1)}
 	if(inChallenge('c',12))gain= gain.pow(0.01)
 	if(inChallenge('c',12))gain= gain.div(5e7)
 	if(inChallenge('c',13))gain= gain.pow(new Decimal(0.9).pow(player.c.challengeTime))
+
 	
 	
 	if(inChallenge('c',14))gain= gain.max(10).log(1.0001)
 if(inChallenge('c',14)&&!hasMilestone('r',0))gain= gain.pow(0.05)
 if(inChallenge('r',11))gain= gain.pow(0.1)
-//gain=gain.pow(2)
-	if(player.devSpeed.neq(0)) gain=gain.min(n('1e3075000').div(player.devSpeed))
+if(gcs('j',11)==1) gain=gain.pow(tmp.j.pdqj1)
+
+//	if(player.devSpeed.neq(0)) gain=gain.min(n('1e3075000').div(player.devSpeed))
 if(inChallenge('r',13))gain= gain.min(player.mi.points)
 
 	return gain
@@ -310,4 +314,4 @@ function convertToB16(n){
 }
         function colorText(elem, color, text) {
 	return "<" + elem + " style='color:" + color + ";text-shadow:0px 0px 10px;'>" + text + "</" + elem + ">"
-}//你不认为这是愚人节彩蛋吗？
+}//你不认为这是愚人节彩蛋吗？感谢@010000000000000000a7 大神提供代码！ 
