@@ -25,7 +25,7 @@ function isEndgame() {
 // Display extra things at the top of the page
 var displayThings = [
   function() {if(inChallenge('r',12)&&player.devSpeed.eq(0)) return "v0.35游戏结局: 1e3115000 Notes！<br>你需要在Rot升级树里选择升级，并且点击升级12确定以开始挑战！"
-   else return "v0.36游戏结局: 1e3115000 Notes！"
+   else return "v0.36游戏结局: 1e3115000 Notes！*需要新层级内容，目前暂未更新*"
   }
 ]
 
