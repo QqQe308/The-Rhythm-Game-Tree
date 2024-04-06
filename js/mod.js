@@ -11,28 +11,32 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "⓪.⑶❺",
+	num: "0.36",
 	name: "Rhythm Milthm",
 }
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e3075000 Notes，120 Rot点数，下一个更新:新层级！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：1e3115000 Notes，下一个更新:新层级！`
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte('1e3075000')&&player.r.rota.gte(120)
+	return player.points.gte('1e3115000')
 }
 
 // Display extra things at the top of the page
 var displayThings = [
-  function() {if(inChallenge('r',12)&&player.devSpeed.eq(0)) return "v⓪.⑶❺ 游戏结局: 1e3075000 Notes，120 Rot点数！<br>你需要在Rot升级树里选择升级，并且点击升级12确定以开始挑战！"
-   else return "v⓪.⑶❺ 游戏结局: 1e3075000 Notes，120 Rot点数！"
+  function() {if(inChallenge('r',12)&&player.devSpeed.eq(0)) return "v0.35游戏结局: 1e3115000 Notes！<br>你需要在Rot升级树里选择升级，并且点击升级12确定以开始挑战！"
+   else return "v0.36游戏结局: 1e3115000 Notes！"
   }
 ]
 
 let changelog = `<h1>更新日志</h1><br>
-<h2>v⓪.⑶❺ 2024愚人节版本 2024/4/1<br>
+<h2>v0.36 Untitled 2024/4/1-2024/4/6<br>
+<h3>- 添加1个层级：判定，添加判定区间<br>
+- 添加2个里程碑，2个升级<br>
+- 游戏结局：1e3115000 Notes<br><br>
+<h2>v⓪.⑶❺ Milk Rhythm 2024愚人节版本 2024/4/1<br>
 <h3>-<br>
-<h2>v0.35 Milthm Rhythm 2024/2/3-2024/3/9<br>
+<h2>v0.35 Rhythm Milthm 2024/2/3-2024/3/9<br>
 <h3>- 添加1个层级：Milthm<br>
 - 添加Rot升级树中的11个“升级”<br>
 - 添加9个Milthm维度，添加计数频率<br>

@@ -12,8 +12,7 @@ addLayer("A", {
         unlocked: true,
         ach: n(0),
     }},
-    //color: "#ffe125",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#ffe125",
     resource: "成就", 
     row: "side",
     tooltip() { // Optional, tooltip displays when the layer is locked
@@ -381,6 +380,13 @@ player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="}
         tooltip:"同时获得Rot升级101、102、103",
         textStyle: {'color': '#a9c3e7c4'},
        },
+       101: {
+            name: "宽判与严判",
+            done() {return player.j.unlocked()},
+            onComplete(){player.A.ach=player.A.ach.add(1)},
+            tooltip:"解锁第11层，判定",
+            textStyle: {'color': '#e786f0'},
+        },
        
        1001: {
             name: "隐藏成就1",
@@ -440,7 +446,7 @@ style() { return { 'background-color': hasAchievement('A',1011)?"#308308":"#ff48
         },
        1012: {
             name: "2024愚人节成就",
-            done() {return true},
+            done() {return false},
             tooltip:"嘘…这可是个秘密哦，只有玩过2024愚人节版本（⓪.⑶❺版本）才能获得这个成就哦！",
             style() { return { 'background-color': hasAchievement('A',1012)?"#308308":"#ff4848"}},
         },
@@ -473,8 +479,7 @@ addLayer("t", {
         unlocked() { return true},
 		points: n(0),
     }},
-    //color: "#ffffff",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#ffffff",
     requires: n(0), 
     resource: "测试",
     baseResource: "Notes", 
@@ -648,8 +653,7 @@ addLayer("S", {
 },
     name: "Statistics",
     symbol: "St",
-    //color: "#ffffff",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#ffffff",
     resource: "-", 
     row: "side",
     tooltip() { // Optional, tooltip displays when the layer is locked
@@ -788,7 +792,14 @@ addLayer("S", {
      {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],//md8
     ["display-text",
       function() {if(hasMilestone('mi',6)) return 'Milthm维度9: ' +format(player.mi.dim9)},
-     {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],//md9
+     {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],"blank","blank",//md9
+       ["display-text",
+      function() {if(layers.j.layerShown())
+        {return '你有 ' + format(player.j.points) + ' 判定线' }},
+     {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//j
+    ["display-text",
+      function() {if(hasMilestone('j',0)) return '你的最佳判定区间是' +format(player.j.pdqja) +'ms！'},
+     {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],//pdqj
 
      "blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank",//绷不住了吧
       ["display-text","恭喜发现彩蛋！你可以在控制台输入“player.QqQ”，“player.banana”，“player.Liu”，“player.fufu”，“player.Loader”，“player.yszqzls”，“player.yyyxs”，“player.Genshin”，“player.Phigros”获取隐藏彩蛋哦！同时，也可以输入“player.long2024”获取音乐游戏树全体作者（共1人）的真挚祝福！！！！！！！！！！（由于存档问题，此处的所有彩蛋变量使用base64编码"],//???
@@ -813,8 +824,7 @@ addLayer("s", {
 		sc: n(15000),
 		sce:n(0.5),
     }},
-    //color: "#abcdef",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#abcdef",
     requires: n(10), // Can be a function that takes requirement increases into account
     resource: "歌曲", // Name of prestige currency
     baseResource: "Notes", // Name of resource prestige is based on
@@ -1032,7 +1042,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
         },
  effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     15:{ title: "这游戏就这点内容吗？",
-                description:"解锁下一个层级，韵律。歌曲*100（软上限前）（在获得一个韵律升级后生效）",
+                description:"解锁下一个层级，Arcaea。歌曲*100（软上限前）（在获得一个Arcaea升级后生效）",
                 cost: n(1500),
                 unlocked() { return (hasUpgrade('s', 14))},
               },
@@ -1230,8 +1240,7 @@ addLayer("a", {
 		dr:n(0),//龙
 		dra:n(0)//龙增加
     }},
-    //color: "#DDBBDD",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#DDBBDD",
     requires: n(2000), 
     resource: "源点",
     baseResource: "歌曲", 
@@ -1899,8 +1908,7 @@ addLayer("l", {
         unlocked() { return (hasChallenge('a', 14))},
 		points: n(0),
     }},
-    //color: "#44DDDD",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#44DDDD",
     requires() {req=n(1e90)
     if(hasUpgrade('a',43))req=req.pow(upgradeEffect('a',43))
     return req},
@@ -2120,8 +2128,7 @@ addLayer("p", {
 		rksMax: n(1),
 		rksMax2:n(1),
     }},
-    //color: "#CC11AA",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#CC11AA",
     requires() {req=n(1e17)
     if(hasUpgrade('s',32)) req=n(1e10)
     return req},
@@ -2593,8 +2600,7 @@ addLayer("m", {
         unlocked() { return (hasUpgrade('p', 27))||hasMilestone('m',0)},
 		points: n(0),
     }},
-    //color: "#55BB11",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#55BB11",
     requires() {req=n(1e40)
     if(hasUpgrade('a',44))req=req.pow(upgradeEffect('a',44))
     return req}, 
@@ -2762,8 +2768,7 @@ addLayer("c", {
 		power: n(0),
 		challengeTime: n(0),
     }},
-    //color: "#a3a3a3",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#a3a3a3",
     branches(){return ['p','m']},
     requires: n(1e20), 
     resource: "Cyten",
@@ -3602,14 +3607,14 @@ addLayer("ch", {
 		dif1: n(1),//课题模式定数1
 		dif2: n(1),//课题模式定数2
 		dif3: n(1),//课题模式定数3
+		difmax:n(16),//最大谱面难度
 		sco: n(0),//课题模式总分
 		difa: n(0),//课题模式总定数
 		en: n(0),//课题能量
 		ennow: n(0),//当前课题能量
 		enp: n(0),//课题力量
     }},
-   // color: "#ffe000",
-   color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+   color: "#ffe000",
     requires: n('1e100000'), 
     resource: "谱面",
     baseResource: " Notes", 
@@ -3734,6 +3739,8 @@ addLayer("ch", {
 	player.ch.drag =gba('ch',12)
 		player.ch.flick =gba('ch',21)
 	player.ch.hold =gba('ch',22)
+	if(hasUpgrade('j',11)) player.ch.difmax=n(20)
+	else player.ch.difmax=n(16)
 	if (hasUpgrade('ch',41)) player.ch.enp = player.ch.enp.add(tmp.ch.enp.mul(diff));
 			if (hasUpgrade('ch',41)&&layers.ch.buyables[11].canAfford()) layers.ch.buyables[11].buy()
 			if (hasUpgrade('ch',41)&&layers.ch.buyables[12].canAfford()) layers.ch.buyables[12].buy()
@@ -3752,6 +3759,7 @@ addLayer("ch", {
             if(hasMilestone('r',3)) kept.push("upgrades")
             if(hasMilestone('r',4)) kept.push("buyables","tap","drag","flick","hold","dif1","dif2","dif3","sco","difa")
             if(hasMilestone('r',5)) kept.push("milestones")
+            if(hasUpgrade('j',12)) kept.push("en")
             layerDataReset(this.layer, kept)
         }
     },
@@ -4253,22 +4261,22 @@ onPurchase() {player.ch.enp=player.ch.enp.sub(1e8)},
     11: {
       title() {return "+1"},
       display() {return "将谱面1定数+1"},
-      onClick() {player.ch.dif1=player.ch.dif1.add(1).min(16)},
-      onHold() {player.ch.dif1=player.ch.dif1.add(1).min(16)},
+      onClick() {player.ch.dif1=player.ch.dif1.add(1).min(player.ch.difmax)},
+      onHold() {player.ch.dif1=player.ch.dif1.add(1).min(player.ch.difmax)},
       canClick() {return true},
     },
     12: {
       title() {return "+1"},
       display() {return "将谱面2定数+1"},
-      onClick() {player.ch.dif2=player.ch.dif2.add(1).min(16)},
-      onHold() {player.ch.dif2=player.ch.dif2.add(1).min(16)},
+      onClick() {player.ch.dif2=player.ch.dif2.add(1).min(player.ch.difmax)},
+      onHold() {player.ch.dif2=player.ch.dif2.add(1).min(player.ch.difmax)},
       canClick() {return true},
     },
     13: {
       title() {return "+1"},
       display() {return "将谱面3定数+1"},
-      onClick() {player.ch.dif3=player.ch.dif3.add(1).min(16)},
-      onHold() {player.ch.dif3=player.ch.dif3.add(1).min(16)},
+      onClick() {player.ch.dif3=player.ch.dif3.add(1).min(player.ch.difmax)},
+      onHold() {player.ch.dif3=player.ch.dif3.add(1).min(player.ch.difmax)},
       canClick() {return true},
     },
     21: {
@@ -4328,8 +4336,7 @@ buyBox: {
         unlocked() { return hasUpgrade('ch',37)},
 points: n(0),
     }},
-   // color: "#6090ff",
-   color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+   color: "#6090ff",
     requires: n('1e26500'), 
     resource: "曲包",
     baseResource: "songs", 

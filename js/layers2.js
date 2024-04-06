@@ -32,8 +32,7 @@ chalBox: {
 		resettime:n(0),
 		notes:n(0),
     }},
-    //color: "#00ddff",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#00ddff",
     requires: n(1e100), 
     resource: "旋律",
     baseResource: "Cyten", 
@@ -81,10 +80,15 @@ chalBox: {
      rot=rot.sub(player.r.upgCost)
      return rot
     },
+    rotaCal() {
+     let rot=gba('r',11).add(gba('r',12)).add(gba('r',13))
+     if(hasUpgrade('j',11)) rot=rot.mul(1.1)
+     return rot
+    },
     branches(){return ['c','ch','sp']},
     update(diff) {
      player.r.rot=layers.r.rotCal()
-			player.r.rota=gba('r',11).add(gba('r',12)).add(gba('r',13))
+			player.r.rota=layers.r.rotaCal()
 			if(player.devSpeed.neq(0)) {
 			player.r.resettime=player.r.resettime.add(diff)
 			if(player.r.points.lt(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed).mul(100))&&hasUpgrade('r',44)) player.r.points=player.r.points.add(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(diff).mul(10))
@@ -1378,8 +1382,7 @@ dim8:n(0),
 dim9:n(0),
 buyBoost:n(2),//购买维度倍率
     }},
-    //color: "#bcf2ff",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#bcf2ff",
     requires: n(1), 
     resource: "Milthm",
     type: "custom", 
@@ -1997,8 +2000,7 @@ pdqja:n(501),//最佳判定区间
 theme:"default",
 clickables: {[11]: 0},
     }},
-    //color: "#e786f0",
-    color() {return getUndulatingColor(period = Math.sqrt(20.24))},
+     color: "#e786f0",
     requires: n(1250), 
     resource: "判定线",
     baseResource: "谱面", 
@@ -2022,8 +2024,8 @@ clickables: {[11]: 0},
     hotkeys: [
         {key: "j", description: "J： Reset for Judgment",onPress(){if(canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){ return false },
-    // hasUpgrade('r',47)},
+    layerShown(){ return false},
+    //hasUpgrade('r',47)},
     tabFormat: {
     "Milestones": {
         content: [ ["infobox","introBox"],
@@ -2037,12 +2039,12 @@ clickables: {[11]: 0},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
          ["display-text",function() {if(gcs('j',11)==1) return '在挑战中修改判定区间没有作用！实际生效判定区间： '+format(player.j.pdqj0)+"ms"},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
-    ["slider",["pdqj",100,500]],
     "clickables",
          ["display-text",function() { return '判定区间挑战减益：<br>1. Notes^' + format(tmp.j.pdqj1)+ '<br>2. 课题力量^' + format(tmp.j.pdqj2) + '<br>3.Phidata^' + format(tmp.j.pdqj3) },
-     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],"blank",
         ["display-text",function() {return '你的最佳判定区间是 ' + format(player.j.pdqja) + 'ms！'},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
+     "upgrades",
      ],
      unlocked() {return hasMilestone('j',0)}
     },
@@ -2079,7 +2081,7 @@ player.j.theme=options.theme
    },
    1: {
     requirementDescription: "通过490ms判定区间挑战",
-    effectDescription: "解锁判定区间升级，解锁判定升级",
+    effectDescription: "解锁判定升级",
     done() { return player.j.pdqja.lte(490)}
    },
    },
@@ -2106,15 +2108,61 @@ player.j.theme=options.theme
       }
       else {setClickableState('j',11,0) 
        options.theme=player.j.theme
-       if(player.points.gte("1e3000000")) {player.pdqja=player.pdqj0.max(player.pdqja)}
+       if(player.points.gte("1e3000000")) {player.j.pdqja=player.j.pdqj0.min(player.j.pdqja)}
       }
        changeTheme()
       doReset('j',true)
      },
-     style() { return { 'background-color': gcs(this.layer,this.id)==0?"#e786f0":player.points.gte("1e3000000")?"#ffffff":"#8693f0"}},
+     style() { return { 'background-color': gcs(this.layer,this.id)==0?"#e786f0":player.points.gte("1e3000000")?"#ffbf00":"#8693f0"}},
+    },
+    21: {
+      title() {return "-100"},
+      display() {return "判定区间-100ms"},
+      onClick() {player.j.pdqj=player.j.pdqj.sub(100).max(100)},
+      canClick() {return true},
+    },
+    22: {
+      title() {return "-10"},
+      display() {return "判定区间-10ms"},
+      onClick() {player.j.pdqj=player.j.pdqj.sub(10).max(100)},
+      canClick() {return true},
+    },
+    23: {
+      title() {return "-1"},
+      display() {return "判定区间-1ms"},
+      onClick() {player.j.pdqj=player.j.pdqj.sub(1).max(100)},
+      canClick() {return true},
+    },
+    24: {
+      title() {return "+1"},
+      display() {return "判定区间+1ms"},
+      onClick() {player.j.pdqj=player.j.pdqj.add(1).min(500)},
+      canClick() {return true},
+    },
+    25: {
+      title() {return "+10"},
+      display() {return "判定区间+10ms"},
+      onClick() {player.j.pdqj=player.j.pdqj.add(10).min(500)},
+      canClick() {return true},
+    },
+    26: {
+      title() {return "+100"},
+      display() {return "判定区间+100ms"},
+      onClick() {player.j.pdqj=player.j.pdqj.add(100).min(500)},
+      canClick() {return true},
     },
    },
    upgrades: {
-    
+    11:{ 
+    fullDisplay() {return "沉默-_-微笑<br>课题模式中的谱面上限可以超过16级（最高20级），可用的Rot点数数量×1.1<br>需求：通过490ms判定区间挑战"},
+    unlocked() {return hasMilestone('j',1)},
+    tooltip:"升级名字不分先后",
+    canAfford() {return player.j.pdqja.lte(490)},
+  },
+    12:{ 
+    fullDisplay() {return "Rinfall<br>课题能量不再重置，最佳判定区间增益旋律<br>需求：通过485ms判定区间挑战"},//摆了
+    unlocked() {return hasUpgrade('j',11)},
+    canAfford() {return player.j.pdqja.lte(485)},
+  },
    }
 })//judgment
