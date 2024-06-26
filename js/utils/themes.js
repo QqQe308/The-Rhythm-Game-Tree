@@ -1,5 +1,5 @@
 // ************ Themes ************
-var themes = ["default", "水蓝","pdqj"]
+var themes = ["default", "aqua","judgment"]
 
 var colors = {
 	default: {
@@ -12,7 +12,7 @@ var colors = {
 		background: "#0f0f0f",
 		background_tooltip: "rgba(0, 0, 0, 0.75)",
 	},
-	水蓝: {
+	aqua: {
 		1: "#bfdfff",
 		2: "#8fa7bf",
 		3: "#5f6f7f",
@@ -22,7 +22,7 @@ var colors = {
 		background: "#001f3f",
 		background_tooltip: "rgba(0, 15, 31, 0.75)",
 	},
-	pdqj: {
+	judgment: {
 		1: "#ffffff",//Branch color 1
 		2: "#bfbfbf",//Branch color 2
 		3: "#7f7f7f",//Branch color 3
