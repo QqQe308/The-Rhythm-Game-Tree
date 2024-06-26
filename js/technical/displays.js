@@ -8,8 +8,6 @@ function prestigeButtonText(layer) {
 		`
 	if (tmp[layer].type == "none")
 		return ""
-    
-        return "QwQ…唉不对，QqQ…"
 }
 
 function constructNodeStyle(layer){
