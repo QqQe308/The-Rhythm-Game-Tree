@@ -18,7 +18,7 @@ var systemComponents = {
 		<button v-if="nodeShown(layer)"
 			v-bind:id="layer"
 			v-on:click="function() {
-				if (shiftDown && options.forceTooltips) player[layer].forceTooltip = !player[layer].forceTooltip
+				if ((shiftDown||player.shitDown) && options.forceTooltips && layer!=='t') player[layer].forceTooltip = !player[layer].forceTooltip
 				else if(tmp[layer].isLayer) {
 					if (tmp[layer].leftTab) {
 						showNavTab(layer, prev)
