@@ -32,6 +32,7 @@
 	<script src="js/technical/particleSystem.js"></script>
 	<script src="js/utils/NumberFormating.js"></script>
 	<script src="js/utils/options.js"></script>
+	<script src="js/pako.js"></script>
 	<script src="js/utils/save.js"></script>
 	<script src="js/utils/themes.js"></script>
 
@@ -41,7 +42,6 @@
 <body onload="load()" onmousemove="updateMouse(event)">
 	<div id="app">
 		<canvas id="treeCanvas" class="canvas" v-if="!(tmp.gameEnded && !player.keepGoing)"></canvas>
-
 		<div v-if="false" id="loadingSection" class="fullWidth">
 			<h1>正在加载哦！如果太久还没有变化的话，试试刷新一下，或者向作者反馈bug哦～</h1>
 		</div>
