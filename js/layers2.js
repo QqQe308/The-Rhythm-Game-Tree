@@ -2460,11 +2460,13 @@ doReset(resettingLayer) {
      display() {
       if(gcs('j',11)==0) return "开始判定区间挑战！"
       if(gcs('j',11)==1) {
-       if(player.points.gte("1e3000000")) {return "完成判定区间挑战！"} 
-      else {return "退出判定区间挑战！"}
+      if(player.points.gte("1e3000000")) {return "完成判定区间挑战！"} 
+      else {
+       if(inChallenge('ri',11)) return "RiC1中不能退出判定区间挑战！"
+       else return "退出判定区间挑战！"}
       }
      },
-     canClick() {return true},
+     canClick() {return !inChallenge('ri',11)},
      onClick() {
       player.j.time=n(0)
       if(gcs('j',11)==0) {setClickableState('j',11,1)
@@ -2690,6 +2692,7 @@ colBox: {
 	  	points: n(0),
 	  	total: n(0),
 	  	songs: n(0),//曲库，每个升级+1，联动效果影响
+	  	theme:"default",
     }},
     color: "#eeffd1",
     requires: n(1e42), 
@@ -2788,6 +2791,9 @@ colBox: {
      if(a==3) return n(40)
      else return n(0)
     },
+    hotkeys: [
+        {key: "i", description: "I ： Reset for Rizline", onPress(){if(canReset(this.layer)) doReset(this.layer)}},
+    ],
     doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
@@ -3225,11 +3231,12 @@ unlocked(){return hasUpgrade('ri',17)}
           return eff
         },
         onEnter() {
+         player.ri.theme=options.theme
          player.j.pdqj0=tmp.ri.ric1
          layers.j.clickables[11].onClick()
         },
         onExit() {
-         options.theme=themes[0]
+         options.theme=player.ri.theme
          changeTheme()
         },
         unlocked(){return hasUpgrade('ri',27)},
