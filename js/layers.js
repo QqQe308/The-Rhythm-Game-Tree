@@ -438,6 +438,13 @@ QqQ="QqQe308";banana="3.8642180e38642180";Liu="6.666666666666666666666666e308";f
    tooltip:"进入40ms或更严的判定区间挑战<br>好好想一想，怎么做到呢",
    textStyle: {'color': '#c9364b'},
    },
+  115: {
+   name: "频繁的联动",
+   done() {return gba('ri',11).add(gba('ri',12).add(gba('ri',13))).gte(15)},
+   onComplete(){player.A.ach=player.A.ach.add(1)},
+   tooltip:"与其他音游联动15次及以上！",
+   textStyle: {'color': '#3b4f7c'},
+   },
        
        1001: {
             name: "隐藏成就1",
