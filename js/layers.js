@@ -1111,7 +1111,7 @@ addLayer("s", {
   infoboxes: {
  introBox: {
   title: "层级1--歌曲",
-  body(){return "欢迎您来到本游戏！本游戏的玩法是模组树，主题是音乐游戏！<br>作者：QqQe308（B站一只新手Up）<br>无特殊说明情况下，增益乘数在增益指数前生效（而我乘数除外）<br>为了能够成功导出存档，标签页中不能出现中文字符，故采用英文代替（2024.7.9记：其实现在可以了，但是懒得改了）"},
+  body(){return "欢迎您来到本游戏！本游戏的玩法是模组树，主题是音乐游戏！<br>作者：QqQe308（B站一只新手Up）<br>无特殊说明情况下，增益乘数在增益指数前生效（额外乘数除外）<br>为了能够成功导出存档，标签页中不能出现中文字符，故采用英文代替（2024.7.9记：其实现在可以了，但是懒得改了）"},
         },
 },
     name: "songs", // This is optional, only used in a few places, If absent it just uses the layer main-display
