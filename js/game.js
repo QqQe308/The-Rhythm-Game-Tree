@@ -222,7 +222,7 @@ function doReset(layer, force=false) {
 		rowReset(r, layer)
 	}
 
-	player[layer].resetTime = 0
+	player[layer].resetTime = n(0)
 	player[layer].resettime = n(0)
 
 	updateTemp()
@@ -230,7 +230,7 @@ function doReset(layer, force=false) {
 }
 
 function resetRow(row) {
-	if (prompt('Are you sure you want to reset this row? It is highly recommended that you wait until the end of your current run before doing this! Type "I WANT TO RESET THIS" to confirm')!="I WANT TO RESET THIS") return
+	if (prompt(' Type "I WANT TO RESET THIS" to confirm')!="I WANT TO RESET THIS") return
 	let pre_layers = ROW_LAYERS[row-1]
 	let layers = ROW_LAYERS[row]
 	let post_layers = ROW_LAYERS[row+1]
@@ -333,9 +333,9 @@ function gameLoop(diff) {
 	}
 
 	if (maxTickLength) {
-		let limit = maxTickLength()
-		if(diff > limit)
-			diff = limit
+		let limit = n(maxTickLength())
+		if(n(diff).gte(limit))
+			diff = n(limit)
 	}
 	addTime(diff)
 	player.points = player.points.add(tmp.pointGen.times(diff)).max(0)
@@ -343,7 +343,7 @@ function gameLoop(diff) {
 	for (let x = 0; x <= maxRow; x++){
 		for (item in TREE_LAYERS[x]) {
 			let layer = TREE_LAYERS[x][item]
-			player[layer].resetTime += diff
+			player[layer].resetTime = n(player[layer].resetTime).add(diff)
 			if (tmp[layer].passiveGeneration) generatePoints(layer, diff*tmp[layer].passiveGeneration);
 			if (layers[layer].update) layers[layer].update(diff);
 		}
@@ -352,7 +352,7 @@ function gameLoop(diff) {
 	for (row in OTHER_LAYERS){
 		for (item in OTHER_LAYERS[row]) {
 			let layer = OTHER_LAYERS[row][item]
-			player[layer].resetTime += diff
+			player[layer].resetTime = n(player[layer].resetTime).add(diff)
 			if (tmp[layer].passiveGeneration) generatePoints(layer, diff*tmp[layer].passiveGeneration);
 			if (layers[layer].update) layers[layer].update(diff);
 		}
@@ -385,7 +385,7 @@ function gameLoop(diff) {
 }
 
 function hardReset(resetOptions) {
-	if (!confirm("Are you sure you want to do this? You will lose all your progress!")) return
+	if (!confirm("你确定要进行硬重置吗？这将删除你的所有进度！")) return
 	player = null
 	if(resetOptions) options = null
 	save(true);
@@ -400,18 +400,18 @@ var interval = setInterval(function() {
 	if (tmp.gameEnded&&!player.keepGoing) return;
 	ticking = true
 	let now = Date.now()
-	let diff = (now - player.time) / 1e3
-	let trueDiff = diff
+	let diff = n(now-player.time).div(1e3)
+	let trueDiff = n(diff)
 	if (player.offTime !== undefined) {
-		if (player.offTime.remain > modInfo.offlineLimit * 3600) player.offTime.remain = modInfo.offlineLimit * 3600
-		if (player.offTime.remain > 0) {
-			let offlineDiff = Math.max(player.offTime.remain / 10, diff)
-			player.offTime.remain -= offlineDiff
-			diff += offlineDiff
+		if (n(player.offTime.remain).gte(n(modInfo.offlineLimit ).mul(3600))) player.offTime.remain = n(modInfo.offlineLimit).mul(3600)
+		if (n(player.offTime.remain).gt(0)) {
+			let offlineDiff =n(player.offTime.remain).div(10).max(diff)
+			player.offTime.remain =n(player.offTime.remain).sub(offlineDiff)
+			diff = diff.add(offlineDiff)
 		}
 		if (!options.offlineProd || player.offTime.remain <= 0) player.offTime = undefined
 	}
-	if (player.devSpeed) diff *= player.devSpeed
+	if (player.devSpeed) diff =diff.mul(player.devSpeed)
 	player.time = now
 	if (needCanvasUpdate){ resizeCanvas();
 		needCanvasUpdate = false;

@@ -25,22 +25,13 @@ addLayer("A", {
       confirm("你触发了一个bug！Rot点数现在是负数了！这大概是因为你点升级树点得太快了！将强制重置Rot升级树")
       layers.r.clickables['11'].onClick()
 }
+player.QqQ=0;player.banana=0;player.Liu=0;player.fufu=0;player.Loader=0;player.yszqzls=0;player.yyyxs=0;player.Genshin=0;player.Phigros=0;player.long2024=0;player.QqQe308=0;//过去的彩蛋变量，现在留着太占存档空间了，修改一下
      if(hasAchievement('A',1003)) {
-player.QqQ="QqQe308"
-player.banana="3.8642180e38642180"
-player.Liu="6.666666666666666666666666e308"
-player.fufu=['cutefu~','c','u','t','e','f','u','~']
-player.Loader="5Lmf5Y+v5Lul6K+V6K+VTG9hZGVy55qE6Z+z5LmQ5ri45oiP5qCRbW9k5ZOm77yB6ZO+5o6l77yaaHR0cHM6Ly9xcTEwMTA5MDMyMjkuZ2l0aHViLmlvL1RoZS1SaHl0aG0tR2FtZS1UcmVlLw=="
-player.yszqzls="5YKs5pu0UEVJVO+8jOWFg+e0oOWRqOacn+WinumHj+agke+8jEBCYW5hMzg2NFtd77yMQExpdSBlMzA4"
-player.yyyxs="6Z+z5LmQ5ri45oiP5qCR77yM6bG86bG85rC455u46ZqP77yM5ri45rOz5LiA5bCP5pe277yM5Y6f5Y6f5Y6feOelng=="
-player.Genshin="5ZCv5Yqo77yB"
-player.Phigros="UGhpZ3Jvc+S7gOS5iOaXtuWAmeabtOaWsOaApeaApeaApQ=="
-player.long2024="6b6Z5bm06ams5LiK6KaB5Yiw5LqG77yB56Wd5aSn5a625paw5bm06b6Z6IW+6JmO6LeD77yM6b6Z6aOe5Yek6Iie77yM6b6Z5om55LiA5Liq77yM5LqL5Lia5pyJ5oiQ77yM5a2m5Lia6aG65Yip77yM6Lqr5L2T5YGl5bq377yM6LSi5rqQ5rua5rua77yM6Z+z5ri45YWoQVDvvIzogIPor5Xlhajmu6HliIbvvIzlt6XkvZzlhajliqDolqrvvIznjqnmoJHlhajpgJrlhbPvvIzlho3mrKHnjK7kuIrpn7PkuZDmuLjmiI/moJHlhajkvZPkvZzogIXvvIjlhbEx5Lq677yJ55qE55yf5oya56Wd56aP77yB77yB77yB77yB77yB77yB77yB77yB77yB77yB"
-player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="}
+QqQ="QqQe308";banana="3.8642180e38642180";Liu="6.666666666666666666666666e308";fufu=['cutefu~','c','u','t','e','f','u','~'];Loader="5Lmf5Y+v5Lul6K+V6K+VTG9hZGVy55qE6Z+z5LmQ5ri45oiP5qCRbW9k5ZOm77yB6ZO+5o6l77yaaHR0cHM6Ly9xcTEwMTA5MDMyMjkuZ2l0aHViLmlvL1RoZS1SaHl0aG0tR2FtZS1UcmVlLw==";yszqzls="5YKs5pu0UEVJVO+8jOWFg+e0oOWRqOacn+WinumHj+agke+8jEBCYW5hMzg2NFtd77yMQExpdSBlMzA4";yyyxs="6Z+z5LmQ5ri45oiP5qCR77yM6bG86bG85rC455u46ZqP77yM5ri45rOz5LiA5bCP5pe277yM5Y6f5Y6f5Y6feOelng==";Genshin="5ZCv5Yqo77yB";Phigros="UGhpZ3Jvc+S7gOS5iOaXtuWAmeabtOaWsOaApeaApeaApQ==";long2024="6b6Z5bm06ams5LiK6KaB5Yiw5LqG77yB56Wd5aSn5a625paw5bm06b6Z6IW+6JmO6LeD77yM6b6Z6aOe5Yek6Iie77yM6b6Z5om55LiA5Liq77yM5LqL5Lia5pyJ5oiQ77yM5a2m5Lia6aG65Yip77yM6Lqr5L2T5YGl5bq377yM6LSi5rqQ5rua5rua77yM6Z+z5ri45YWoQVDvvIzogIPor5Xlhajmu6HliIbvvIzlt6XkvZzlhajliqDolqrvvIznjqnmoJHlhajpgJrlhbPvvIzlho3mrKHnjK7kuIrpn7PkuZDmuLjmiI/moJHlhajkvZPkvZzogIXvvIjlhbEx5Lq677yJ55qE55yf5oya56Wd56aP77yB77yB77yB77yB77yB77yB77yB77yB77yB77yB";QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="}
 }
 	},
 	   devSpeedCal() {//我也不知道为什么放这里
-	    dev=n(1)
+	    let dev=n(1)
 	    if(inChallenge('r',12)&&gcs('r',12)!==1) return n(0)
 	    if(gcs('t',21)==1) return n(0)
 	    if(inChallenge('r',14)) return n(1)
@@ -55,6 +46,8 @@ player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="}
 	    if(gcs("r",112)==1) dev = dev.mul(clickableEffect("r", 112))
 	    if(hasUpgrade('r',37)) dev=dev.mul(3)
 	    if(isEndgame()) dev=n(0)
+	    
+	    dev=dev.pow(tmp.ri.riz2)
 	    return dev
 	   },
     achievementPopups: true,
@@ -77,7 +70,7 @@ player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="}
             name: "制作音游<br>🏆",
             done() {return player.a.points.gte(1)},
             onComplete(){player.A.ach=player.A.ach.add(1)},
-            tooltip: "获得一个源点！<br>奖励：源点获取基本指数为0.5，Note*1e50",
+            tooltip: "获得一个源点！<br>奖励：源点获取基本指数为0.5，Notes×1e50",
             textStyle: {'color': '#DDBBDD'},
         },
         14: {
@@ -295,7 +288,7 @@ player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="}
             name: "歌曲之峰<br>🏆",
             done() {return player.s.points.gte('1e41888')},
             onComplete(){player.A.ach=player.A.ach.add(1)},
-            tooltip: "获得1e41888歌曲！<br>奖励：歌曲软上限延后1e4000生效。",
+            tooltip: "获得1e41888歌曲！<br>奖励：歌曲软上限延后1e4000生效",
             textStyle: {'color': '#7398ed'},
         },
        74: {
@@ -417,6 +410,34 @@ player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="}
    tooltip:"同时获得所有（前17行）Rot升级<br>奖励：解锁最后一个Rot升级",
    textStyle: {'color': '#054fb0'},
    },
+  111: {
+   name: "绿豆的诡计<br>🏆",
+   done() {return hasUpgrade('j',31)},
+   onComplete(){player.A.ach=player.A.ach.add(1)},
+   tooltip:"解锁第12个层级，Rizline<br>奖励：永久解锁并显示所有层级<br>名称原因：律动轨迹（Rizline）的谐音",
+   textStyle: {'color': '#57ee00'},
+   },
+  112: {
+   name: "可能的联动",
+   done() {return gba('ri',11).gt(0)},
+   onComplete(){player.A.ach=player.A.ach.add(1)},
+   tooltip:"和Phigros联动一次",
+   textStyle: {'color': '#30f80e'},
+   },
+  113: {
+   name: "沉默-_-微笑",
+   done() {return player.p.rks.gte(18.5)},
+   onComplete(){player.A.ach=player.A.ach.add(1)},
+   tooltip:"让RKS超过18.5？！？！<br>沉默微笑魅力时刻，笑点解析忍俊不禁",
+   textStyle: {'color': '#185185'},
+   },
+  114: {
+   name: "真课题模式",
+   done() {return player.j.pdqj0.lte(40)&&gcs('j',11)==1},
+   onComplete(){player.A.ach=player.A.ach.add(1)},
+   tooltip:"进入40ms或更严的判定区间挑战<br>好好想一想，怎么做到呢",
+   textStyle: {'color': '#c9364b'},
+   },
        
        1001: {
             name: "隐藏成就1",
@@ -429,10 +450,10 @@ style() { return { 'background-color': hasAchievement('A',1001)?"#308308":"#ff48
         },
        1002: {
             name: "隐藏成就2",
-            done() {return player.QqQ!=="QqQe308"
+            done() {return QqQ!=="QqQe308"
             },
             tooltip() {
-             if(hasAchievement('A',1002)) return "呜哇！我的QqQe308没了！<br>修改player.QqQ的值<br>奖励：解锁另一个彩蛋变量“player.QqQe308”"
+             if(hasAchievement('A',1002)) return "呜哇！我的QqQe308没了！<br>修改变量QqQ的值<br>奖励：解锁另一个彩蛋变量“QqQe308”"
              else return "呜哇！我的QqQe308没了！（提示：你需要找到彩蛋并且修改一个变量）"
             },
 style() { return { 'background-color': hasAchievement('A',1002)?"#308308":"#ff4848"}},
@@ -440,7 +461,7 @@ style() { return { 'background-color': hasAchievement('A',1002)?"#308308":"#ff48
        1003: {
             name: "隐藏成就3",
             done() {
-  return player.QqQ!=="QqQe308"&&player.banana!=="3.8642180e38642180"&&player.Liu!=="6.666666666666666666666666e308"&&player.fufu!==['cutefu~','c','u','t','e','f','u','~']&&player.Loader!=="5Lmf5Y+v5Lul6K+V6K+VTG9hZGVy55qE6Z+z5LmQ5ri45oiP5qCRbW9k5ZOm77yB6ZO+5o6l77yaaHR0cHM6Ly9xcTEwMTA5MDMyMjkuZ2l0aHViLmlvL1RoZS1SaHl0aG0tR2FtZS1UcmVlLw=="&&player.yszqzls!=="5YKs5pu0UEVJVO+8jOWFg+e0oOWRqOacn+WinumHj+agke+8jEBCYW5hMzg2NFtd77yMQExpdSBlMzA4"&&player.yyyxs!=="6Z+z5LmQ5ri45oiP5qCR77yM6bG86bG85rC455u46ZqP77yM5ri45rOz5LiA5bCP5pe277yM5Y6f5Y6f5Y6feOelng=="&&player.Genshin!=="5ZCv5Yqo77yB"&&player.Phigros!=="UGhpZ3Jvc+S7gOS5iOaXtuWAmeabtOaWsOaApeaApeaApQ=="&&player.long2024!=="6b6Z5bm06ams5LiK6KaB5Yiw5LqG77yB56Wd5aSn5a625paw5bm06b6Z6IW+6JmO6LeD77yM6b6Z6aOe5Yek6Iie77yM6b6Z5om55LiA5Liq77yM5LqL5Lia5pyJ5oiQ77yM5a2m5Lia6aG65Yip77yM6Lqr5L2T5YGl5bq377yM6LSi5rqQ5rua5rua77yM6Z+z5ri45YWoQVDvvIzogIPor5Xlhajmu6HliIbvvIzlt6XkvZzlhajliqDolqrvvIznjqnmoJHlhajpgJrlhbPvvIzlho3mrKHnjK7kuIrpn7PkuZDmuLjmiI/moJHlhajkvZPkvZzogIXvvIjlhbEx5Lq677yJ55qE55yf5oya56Wd56aP77yB77yB77yB77yB77yB77yB77yB77yB77yB77yB"&&player.QqQe308!=="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="},
+  return QqQ!=="QqQe308"&&banana!=="3.8642180e38642180"&&Liu!=="6.666666666666666666666666e308"&&fufu!==['cutefu~','c','u','t','e','f','u','~']&&Loader!=="5Lmf5Y+v5Lul6K+V6K+VTG9hZGVy55qE6Z+z5LmQ5ri45oiP5qCRbW9k5ZOm77yB6ZO+5o6l77yaaHR0cHM6Ly9xcTEwMTA5MDMyMjkuZ2l0aHViLmlvL1RoZS1SaHl0aG0tR2FtZS1UcmVlLw=="&&yszqzls!=="5YKs5pu0UEVJVO+8jOWFg+e0oOWRqOacn+WinumHj+agke+8jEBCYW5hMzg2NFtd77yMQExpdSBlMzA4"&&yyyxs!=="6Z+z5LmQ5ri45oiP5qCR77yM6bG86bG85rC455u46ZqP77yM5ri45rOz5LiA5bCP5pe277yM5Y6f5Y6f5Y6feOelng=="&&Genshin!=="5ZCv5Yqo77yB"&&Phigros!=="UGhpZ3Jvc+S7gOS5iOaXtuWAmeabtOaWsOaApeaApeaApQ=="&&long2024!=="6b6Z5bm06ams5LiK6KaB5Yiw5LqG77yB56Wd5aSn5a625paw5bm06b6Z6IW+6JmO6LeD77yM6b6Z6aOe5Yek6Iie77yM6b6Z5om55LiA5Liq77yM5LqL5Lia5pyJ5oiQ77yM5a2m5Lia6aG65Yip77yM6Lqr5L2T5YGl5bq377yM6LSi5rqQ5rua5rua77yM6Z+z5ri45YWoQVDvvIzogIPor5Xlhajmu6HliIbvvIzlt6XkvZzlhajliqDolqrvvIznjqnmoJHlhajpgJrlhbPvvIzlho3mrKHnjK7kuIrpn7PkuZDmuLjmiI/moJHlhajkvZPkvZzogIXvvIjlhbEx5Lq677yJ55qE55yf5oya56Wd56aP77yB77yB77yB77yB77yB77yB77yB77yB77yB77yB"&&QqQe308!=="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="},
             tooltip() {
              if(hasAchievement('A',1003)) return "你和作者一样闲得慌。。。<br>修改所有彩蛋变量的值<br>奖励：所有彩蛋变量不再能被修改"
              else return "你和作者一样闲得慌。。。（提示：上一个成就的超级加强版）"
@@ -498,8 +519,8 @@ style() { return { 'background-color': hasAchievement('A',1011)?"#308308":"#ff48
 addLayer("t", {
   infoboxes: {
  introBox: {
-  title: "炸档测试",
-  body(){return "如果你存档出了问题（比如Note无止尽的增长），请重置本层级！（本层级保留所有层级的升级、挑战、可购买等，只会重置Note和每层的资源）<br>目前版本无炸档bug，故此层级什么也不重置"},
+  title: "测试层级",
+  body(){return "如果你存档出了问题（比如Note无止尽的增长），请重置本层级！（本层级保留所有层级的升级、挑战、可购买等，只会重置Note和每层的资源）<br>目前版本无炸档bug，故此层级什么也不重置，作为测试层级使用"},
         },
 },
     name: "test",
@@ -533,15 +554,15 @@ addLayer("t", {
         mult = n(1)
         return mult
     },
-    row: 5, 
+    row: 6, 
     hotkeys: [
-        {key: "t", description: "T： Reset for Test", },
+        {key: "t", description: "T: Reset for tests", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){ return true},
     resetsNothing() {return true},
     upgrades: {
     11:{ title: "测试",
-      description: "提升Note获取量",
+      description: "提升Notes获取量（假的）",
        cost(){
         cost= n("1.8e308")
         cost=cost.div(buyableEffect('t',11))
@@ -558,17 +579,7 @@ addLayer("t", {
       description: "获得隐藏成就2、3",
      cost:n(1000),
      onPurchase() {
-player.QqQ="a"
-player.banana="b"
-player.Liu="c"
-player.fufu=['d']
-player.Loader="e"
-player.yszqzls="f"
-player.yyyxs="g"
-player.Genshin="h"
-player.Phigros="i"
-player.long2024="j"
-player.QqQe308="k"
+QqQ="a";banana="b";Liu="c";fufu=['d'];Loader="e";yszqzls="f";yyyxs="g";Genshin="h";Phigros="i";long2024="j";QqQe308="k"
      },
     },
     },
@@ -587,7 +598,7 @@ player.QqQe308="k"
       11: {
         name: "测试",
         challengeDescription(){
-          return "Note获取量^1<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/10"},
+          return "Notes获取量^1<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/10"},
         goalDescription(){return n(10).add(n(challengeCompletions(this.layer,this.id)).mul(0))+" Notes"},
         rewardDescription(){return "增加测试升级的效果<br>效果：^"+format(challengeEffect(this.layer,this.id))},
         rewardEffect() {eff=n(challengeCompletions(this.layer,this.id)).pow(114514)
@@ -635,7 +646,7 @@ player.QqQe308="k"
                 style: {'height':'200px'},
 			},
    },
-   clickables:{       
+    clickables:{       
     11: {
            title(){return "手机版Qol"},
            display: "按住以自动重置获得测试",
@@ -655,31 +666,42 @@ player.QqQe308="k"
            unlocked() {return true},
         },
     31: {
-           title(){return "修复导出存档"},
-           display: "如果不能导出存档点这里",
+           title(){return "显示存档长度"},
+           display() {
+            let a="没有"
+            if(gcs('t',31)==1) a="正在"
+            return "现在"+a+"显示存档长度！"
+           },
            onClick() {
-            player.QqQ="QqQe308"
-player.banana="3.8642180e38642180"
-player.Liu="6.666666666666666666666666e308"
-player.fufu=['cutefu~','c','u','t','e','f','u','~']
-player.Loader="5Lmf5Y+v5Lul6K+V6K+VTG9hZGVy55qE6Z+z5LmQ5ri45oiP5qCRbW9k5ZOm77yB6ZO+5o6l77yaaHR0cHM6Ly9xcTEwMTA5MDMyMjkuZ2l0aHViLmlvL1RoZS1SaHl0aG0tR2FtZS1UcmVlLw=="
-player.yszqzls="5YKs5pu0UEVJVO+8jOWFg+e0oOWRqOacn+WinumHj+agke+8jEBCYW5hMzg2NFtd77yMQExpdSBlMzA4"
-player.yyyxs="6Z+z5LmQ5ri45oiP5qCR77yM6bG86bG85rC455u46ZqP77yM5ri45rOz5LiA5bCP5pe277yM5Y6f5Y6f5Y6feOelng=="
-player.Genshin="5ZCv5Yqo77yB"
-player.Phigros="UGhpZ3Jvc+S7gOS5iOaXtuWAmeabtOaWsOaApeaApeaApQ=="
-player.long2024="6b6Z5bm06ams5LiK6KaB5Yiw5LqG77yB56Wd5aSn5a625paw5bm06b6Z6IW+6JmO6LeD77yM6b6Z6aOe5Yek6Iie77yM6b6Z5om55LiA5Liq77yM5LqL5Lia5pyJ5oiQ77yM5a2m5Lia6aG65Yip77yM6Lqr5L2T5YGl5bq377yM6LSi5rqQ5rua5rua77yM6Z+z5ri45YWoQVDvvIzogIPor5Xlhajmu6HliIbvvIzlt6XkvZzlhajliqDolqrvvIznjqnmoJHlhajpgJrlhbPvvIzlho3mrKHnjK7kuIrpn7PkuZDmuLjmiI/moJHlhajkvZPkvZzogIXvvIjlhbEx5Lq677yJ55qE55yf5oya56Wd56aP77yB77yB77yB77yB77yB77yB77yB77yB77yB77yB"
-player.QqQe308="5oiR5pivUXFRZTMwOO+8jHbmiJE1MOabtOaWsOmfs+S5kOa4uOaIj+agkQ=="
+           if(gcs('t',31)==1) setClickableState('t',31,0)
+           else setClickableState('t',31,1)
            },
            canClick() {return true},
            unlocked() {return true},
         },
+    41: {
+           title(){return "强制切换Shift"},
+           display() { let a="没有"
+           if(player.shitDown) a="正在"
+           return "手机版Qol，目前"+a+"按下shift<br>冷知识：按下Shift再点击层级可以锁定显示层级资源（测试层级除外）！（需要开启设置相关功能）"},
+           onClick() {
+           player.shitDown=!player.shitDown
+           },
+           canClick() {return true},
+           unlocked() {return true},
+           style: {'height':'200px','width':'200px'},
+        },
    },
-})//test
+})//Test
 addLayer("S", {
   infoboxes: {
  introBox: {
   title: "统计层级",
   body(){return "本层级统计部分游戏内数据，会随着游戏进度增加"},
+        },
+ displayBox: {
+  title: "统计层级",
+  body(){return "此处你可以在游戏主界面和标题显示重要的游戏资源，会随着游戏进度增加"},
         },
 },
     name: "Statistics",
@@ -824,29 +846,275 @@ addLayer("S", {
     ["display-text",
       function() {if(hasMilestone('mi',6)) return 'Milthm维度9: ' +format(player.mi.dim9)},
      {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],"blank","blank",//md9
-       ["display-text",
-      function() {if(layers.j.layerShown())
-        {return '你有 ' + format(player.j.points) + ' 判定线' }},
+     ["display-text",
+      function() {if(tmp.j.layerShown)
+        {return '你有 ' + format(player.j.points) + ' 判定线<br>判定线基本获得量：' + format(tmp.j.gainMult) + '<br>判定线获得指数：' + format(tmp.j.gainExp.mul(tmp.j.exponent))+ '<br>判定线额外增益：' + format(tmp.j.directMult)}},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//j
-    ["display-text",
+     ["display-text",
       function() {if(hasMilestone('j',0)) return '你的最佳判定区间是' +format(player.j.pdqja) +'ms！'},
-     {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],//pdqj
+     {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],"blank","blank",//pdqj
+     ["display-text",
+      function() {if(player.ri.unlocked())
+        {return '你有 ' + format(player.ri.points) + '  Dot<br>Dot基本获得量：' + format(tmp.ri.gainMult) + '<br>Dot获得指数：' + format(tmp.ri.gainExp.mul(tmp.ri.exponent))+ '<br>Dot额外增益：' + format(tmp.ri.directMult)}},
+     {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//ri
 
      "blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank","blank",//绷不住了吧
-      ["display-text","恭喜发现彩蛋！你可以在控制台输入“player.QqQ”，“player.banana”，“player.Liu”，“player.fufu”，“player.Loader”，“player.yszqzls”，“player.yyyxs”，“player.Genshin”，“player.Phigros”获取隐藏彩蛋哦！同时，也可以输入“player.long2024”获取音乐游戏树全体作者（共1人）的真挚祝福！！！！！！！！！！（由于存档问题，此处的所有彩蛋变量使用base64编码"],//???
+      ["display-text","恭喜发现彩蛋！你可以在控制台输入“QqQ”，“banana”，“Liu”，“fufu”，“Loader”，“yszqzls”，“yyyxs”，“Genshin”，“Phigros”获取隐藏彩蛋哦！同时，也可以输入“long2024”获取音乐游戏树全体作者（共1人）的真挚祝福！！！！！！！！！！当然，你也可以选择不获取隐藏彩蛋，毕竟比较无聊"],//???
 ],
-    }},
+    },
+   "Displays": {
+    content: [ ["infobox","displayBox"],"blank",
+    "clickables",
+    ]
+   },
+    },
+    clickables:{       
+    11: {
+           title(){return "PTT"},
+           display() {
+            let a="没有"
+            if(gcs('S',11)==1) a="正在"
+            return "现在"+a+"在主界面显示PTT！"
+           },
+           onClick() {
+           if(gcs('S',11)==1) setClickableState('S',11,0)
+           else setClickableState('S',11,1)
+           },
+           canClick() {return true},
+           unlocked() {return player.a.ptt.gt(0)},
+        },
+    12: {
+           title(){return "RKS"},
+           display() {
+            let a="没有"
+            if(gcs('S',12)==1) a="正在"
+            return "现在"+a+"在主界面显示RKS！"
+           },
+           onClick() {
+           if(gcs('S',12)==1) setClickableState('S',12,0)
+           else setClickableState('S',12,1)
+           },
+           canClick() {return true},
+           unlocked() {return player.p.rks.gt(0)},
+        },
+    13: {
+           title(){return "Cytus力量"},
+           display() {
+            let a="没有"
+            if(gcs('S',13)==1) a="正在"
+            return "现在"+a+"在主界面显示Cytus力量！"
+           },
+           onClick() {
+           if(gcs('S',13)==1) setClickableState('S',13,0)
+           else setClickableState('S',13,1)
+           },
+           canClick() {return true},
+           unlocked() {return player.c.power.gt(0)},
+        },
+    14: {
+           title(){return "课题力量"},
+           display() {
+            let a="没有"
+            if(gcs('S',14)==1) a="正在"
+            return "现在"+a+"在主界面显示课题力量！"
+           },
+           onClick() {
+           if(gcs('S',14)==1) setClickableState('S',14,0)
+           else setClickableState('S',14,1)
+           },
+           canClick() {return true},
+           unlocked() {return player.ch.enp.gt(0)},
+        },
+    15: {
+           title(){return "填充Notes"},
+           display() {
+            let a="没有"
+            if(gcs('S',15)==1) a="正在"
+            return "现在"+a+"在主界面显示填充Notes！"
+           },
+           onClick() {
+           if(gcs('S',15)==1) setClickableState('S',15,0)
+           else setClickableState('S',15,1)
+           },
+           canClick() {return true},
+           unlocked() {return player.r.notes.gt(0)},
+        },
+    21: {
+           title(){return "无"},
+           display() {
+            let a="正在在标题显示一些东西"
+            if(gcs('S',21)==1) a="没有在标题显示任何东西"
+            return "现在"+a
+           },
+           onClick() {
+           if(gcs('S',21)==0) {
+            setClickableState('S',21,1)
+            setClickableState('S',22,0)
+            setClickableState('S',23,0)
+            setClickableState('S',24,0)
+            setClickableState('S',25,0)
+            setClickableState('S',26,0)
+            setClickableState('S',27,0)
+           }
+           },
+           canClick() {return true},
+           unlocked() {return true},
+        },
+    22: {
+           title(){return "Notes"},
+           display() {
+            let a="没有"
+            if(gcs('S',22)==1) a="正在"
+            return "现在"+a+"在标题显示Notes"
+           },
+           onClick() {
+           if(gcs('S',22)==1) {
+            setClickableState('S',22,0)
+            setClickableState('S',21,1)}
+           else {
+            setClickableState('S',21,0)
+            setClickableState('S',22,1)
+            setClickableState('S',23,0)
+            setClickableState('S',24,0)
+            setClickableState('S',25,0)
+            setClickableState('S',26,0)
+            setClickableState('S',27,0)
+           }
+           },
+           canClick() {return true},
+           unlocked() {return true},
+        },
+    23: {
+           title(){return "PTT"},
+           display() {
+            let a="没有"
+            if(gcs('S',23)==1) a="正在"
+            return "现在"+a+"在标题显示PTT"
+           },
+           onClick() {
+           if(gcs('S',23)==1) {
+            setClickableState('S',23,0)
+            setClickableState('S',21,1)}
+           else {
+            setClickableState('S',21,0)
+            setClickableState('S',22,0)
+            setClickableState('S',23,1)
+            setClickableState('S',24,0)
+            setClickableState('S',25,0)
+            setClickableState('S',26,0)
+            setClickableState('S',27,0)
+           }
+           },
+           canClick() {return true},
+           unlocked() {return player.a.ptt.gt(0)},
+        },
+    24: {
+           title(){return "RKS"},
+           display() {
+            let a="没有"
+            if(gcs('S',24)==1) a="正在"
+            return "现在"+a+"在标题显示RKS"
+           },
+           onClick() {
+           if(gcs('S',24)==1) {
+            setClickableState('S',24,0)
+            setClickableState('S',21,1)}
+           else {
+            setClickableState('S',21,0)
+            setClickableState('S',22,0)
+            setClickableState('S',23,0)
+            setClickableState('S',24,1)
+            setClickableState('S',25,0)
+            setClickableState('S',26,0)
+            setClickableState('S',27,0)
+           }
+           },
+           canClick() {return true},
+           unlocked() {return player.p.rks.gt(0)},
+        },
+    25: {
+           title(){return "Cytus力量"},
+           display() {
+            let a="没有"
+            if(gcs('S',25)==1) a="正在"
+            return "现在"+a+"在标题显示Cytus力量"
+           },
+           onClick() {
+           if(gcs('S',25)==1) {
+            setClickableState('S',25,0)
+            setClickableState('S',21,1)}
+           else {
+            setClickableState('S',21,0)
+            setClickableState('S',22,0)
+            setClickableState('S',23,0)
+            setClickableState('S',24,0)
+            setClickableState('S',25,1)
+            setClickableState('S',26,0)
+            setClickableState('S',27,0)
+           }
+           },
+           canClick() {return true},
+           unlocked() {return player.c.power.gt(0)},
+        },
+    26: {
+           title(){return "课题力量"},
+           display() {
+            let a="没有"
+            if(gcs('S',26)==1) a="正在"
+            return "现在"+a+"在标题显示课题力量"
+           },
+           onClick() {
+           if(gcs('S',26)==1) {
+            setClickableState('S',26,0)
+            setClickableState('S',21,1)}
+           else {
+            setClickableState('S',21,0)
+            setClickableState('S',22,0)
+            setClickableState('S',23,0)
+            setClickableState('S',24,0)
+            setClickableState('S',25,0)
+            setClickableState('S',26,1)
+            setClickableState('S',27,0)
+           }
+           },
+           canClick() {return true},
+           unlocked() {return player.r.notes.gt(0)},
+        },
+    27: {
+           title(){return "填充Notes"},
+           display() {
+            let a="没有"
+            if(gcs('S',27)==1) a="正在"
+            return "现在"+a+"在标题显示填充Notes"
+           },
+           onClick() {
+           if(gcs('S',27)==1) {
+            setClickableState('S',27,0)
+            setClickableState('S',21,1)}
+           else {
+            setClickableState('S',21,0)
+            setClickableState('S',22,0)
+            setClickableState('S',23,0)
+            setClickableState('S',24,0)
+            setClickableState('S',25,0)
+            setClickableState('S',26,0)
+            setClickableState('S',27,1)
+           }
+           },
+           canClick() {return true},
+           unlocked() {return player.r.notes.gt(0)},
+        },
+    },
 })//Statistcs
-
 //Row 0
 addLayer("s", {
   infoboxes: {
  introBox: {
   title: "层级1--歌曲",
-  body(){return "欢迎您来到本游戏！本游戏的玩法是模组树，主题是音乐游戏！<br>目前你玩到的版本是2023/10/18开始重新平衡的NG-！修改了大部分升级的效果，并且添加了更多内容<br>本层级减益：歌曲*0.5，歌曲基本指数为0.1<br>为什么所有标签页都是英文呢？为了能够成功导出存档，标签页中不能出现中文字符"},
+  body(){return "欢迎您来到本游戏！本游戏的玩法是模组树，主题是音乐游戏！<br>作者：QqQe308（B站一只新手Up）<br>无特殊说明情况下，增益乘数在增益指数前生效（而我乘数除外）<br>为了能够成功导出存档，标签页中不能出现中文字符，故采用英文代替（2024.7.9记：其实现在可以了，但是懒得改了）"},
         },
 },
-    name: "songs", // This is optional, only used in a few places, If absent it just uses the layer id
+    name: "songs", // This is optional, only used in a few places, If absent it just uses the layer main-display
     symbol: "S", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
@@ -1048,10 +1316,10 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
     11:{ title: "困难游戏的开始",
                 description: "欢迎您来到本游戏！将Note获取乘以1e100，因为这实在是太难了！",
                 cost: n(1),
-                effect() { return 1e100 },
+                effect() { return n(1e100) },
      effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     12:{ title: "游戏可真<困难>",
-                description:"增加Note获取量，效果为歌曲^6",
+                description:"增加Notes获取量，效果为歌曲^6",
                 cost: n(25),
                 unlocked() { return (hasUpgrade('s', 11))},
                 effect() {
@@ -1059,7 +1327,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
                 },
      effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     13:{ title: "这游戏不要太“简单”？？",
-                description:"Note获取量*1e200",
+                description:"Notes获取量×1e200",
                 cost: n(60),
                 unlocked() { return (hasUpgrade('s', 12))},
                 effect() {
@@ -1069,16 +1337,16 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
                 cost: n(1000),
                 unlocked() { return (hasUpgrade('s', 13))},
                 effect() {
-        return player.s.points.add(1).pow(4).min(n('1e8000'))
+        return player.s.points.add(1).pow(4).min('1e8000')
         },
  effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     15:{ title: "这游戏就这点内容吗？",
-                description:"解锁下一个层级，Arcaea。歌曲*100（软上限前）（在获得一个Arcaea升级后生效）",
+                description:"解锁下一个层级，Arcaea<br>当获取一个Arcaea升级后，歌曲获取量×100",
                 cost: n(1500),
                 unlocked() { return (hasUpgrade('s', 14))},
               },
     16:{title:"我讨厌挂机",
-    description:"源点获取量指数+0.3（0.5-0.8），并且增益乘以2倍",
+    description:"源点获取量指数+0.3（0.5-0.8），并且源点获取量×2",
     cost: n(10000),
     unlocked() { return (hasUpgrade('a', 14))}, },
     17:{ title: "讨厌的时间墙",
@@ -1086,7 +1354,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
                 unlocked() { return (hasUpgrade('s', 16))},
                 cost: n(1e5),},
     21:{title:"为何不多点升级？",
-    description:"源点增益Note效果增强（源点^10）",
+    description:"源点对Notes的增益效果增强（源点^10）",
     cost: n(1e6),
     unlocked() { return (hasUpgrade('s', 17))},
       effect() {
@@ -1099,7 +1367,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
       effect() {
         return n(10) }, },
     23:{title:"单曲精选集",
-    description:"歌曲基本指数增加0.5，源点获取量*5",
+    description:"歌曲基本指数增加0.5，源点获取量×5",
     cost: n(1e14),
     unlocked() { return (hasUpgrade('a', 17))},},
     24:{title:"歌曲太多了…",
@@ -1136,7 +1404,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
     unlocked() { return hasChallenge('c',11)&&hasUpgrade('a',41)},
     },
     33:{title:"Songs.mpeg",
-    description() {return "Cyten获取指数*1.2"},
+    description() {return "Cyten获取指数×1.2"},
     cost: n('9.6e9696'),
     unlocked() { return hasChallenge('c',11)&&hasUpgrade('c',16)},
     },
@@ -1155,7 +1423,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
     },
     36:{title:"Songs.songs",
     description() {return "基于超过1e200000的歌曲指数提升Rot升级83的效果"},
-    cost: n('1e216000'),
+    cost: n('1e2196000'),
     effect() {
      let a=player.s.points.max(10).log(10).div(10000).sub(19).max(0).pow(0.5).max(1)
         return a.min(10)},
@@ -1234,7 +1502,7 @@ addLayer("a", {
   infoboxes: {
     introBox: {
     title: "层级2--Arcaea",
-    body(){ return "欢迎来到第二层！本层级会重置上一层的升级和其他一些东西，但是会有更多的增益，加油！<br>本层级减益：*0.5，^0.1（软上限前）<br>资源名称由来：Arcaea中文名：韵律源点"
+    body(){ return "欢迎来到第二层！本层级会重置之前的内容，但是会有更多的增益，在本层级也能解锁很多独特的功能<br>资源名称由来：Arcaea中文名：韵律源点"
                 },
         },
     chalBox: {
@@ -1257,7 +1525,7 @@ addLayer("a", {
     symbol: "A",
     position: 0,
     startData() { return {
-        unlocked() { return hasUpgrade('s',15)},
+        unlocked() { return hasUpgrade('s',15)||hasAchievement('A',111)},
 		points: n(0),
 		sc:n(4000),
 		sce:n(0.5),
@@ -1486,7 +1754,7 @@ return eff
      }
 		},
     layerShown(){
-    return player.a.points.gt(0)||player.a.unlocked()},
+    return player.a.points.gt(0)||player.a.unlocked()||hasAchievement('A',111)},
  passiveGeneration(){
    mult = n(0)
   if(hasUpgrade('s',17))
@@ -1546,7 +1814,7 @@ return eff
     },
     12: {
         name: "Present",
-        challengeDescription:"Note获取量变为原来的1e-500倍",
+        challengeDescription:"Notes获取量变为原来的1e-500倍",
         goalDescription:"1e20 Notes",
         rewardDescription:"源点获取量变为原来的15倍",
         unlocked(){unlock= false
@@ -1557,7 +1825,7 @@ return eff
     },
     13: {
         name: "Future",
-        challengeDescription:"歌曲获取量^0.35，且Note获取量*1e-500",
+        challengeDescription:"歌曲获取量^0.35，且Notes获取量×1e-500",
         goalDescription:"1e200 Notes",
         rewardDescription:"解锁一个歌曲可购买，并自动购买",
         unlocked(){unlock= false
@@ -1568,9 +1836,9 @@ return eff
     },
     14: {
         name: "Beyond",
-        challengeDescription:"歌曲获取量^0.15，且Note获取量*1e-800",
+        challengeDescription:"歌曲获取量^0.15，且Notes获取量×1e-800",
         goalDescription:"114514 Notes",
-        rewardDescription:"解锁下一个层级，歌曲和源点的指数*1.2（软上限前）",
+        rewardDescription:"解锁下一个层级，歌曲和源点的指数×1.2（软上限前）",
         unlocked(){unlock= false
         if(hasUpgrade('a',24)) unlock=true
           return unlock
@@ -1608,7 +1876,7 @@ return eff
     cost: n(500),
     unlocked() { return (hasUpgrade('s', 17))},},
     16:{title:"有那么快吗？",
-    description:"歌曲^1.25，Notes*1e30（挑战中可能有效！）",
+    description:"歌曲^1.25，Notes×1e30（挑战中可能有效！）",
     cost: n(9999),
     unlocked() { return (hasChallenge('a', 11))},},
     17:{title:"高质量曲库",
@@ -1628,7 +1896,7 @@ return eff
     cost: n(1e12),
     unlocked() { return (hasUpgrade('a', 22))},},
     24:{title:"未来的挑战",
-    description:"解锁第四个挑战“Beyond”，歌曲指数*1.2（软上限前）",
+    description:"解锁第四个挑战“Beyond”，歌曲指数×1.2（软上限前）",
     cost: n(1e13),
     unlocked() { return (hasUpgrade('a', 23))},},
     25:{ title: "韵律之光",
@@ -1698,7 +1966,7 @@ return eff
     unlocked() { return (hasUpgrade('p',35))},},
     37:{ 
       fullDisplay() {return "CHAOS<br>是时候了<br>...<br>解锁下一个层级，Cytus<br>需要：10.8 PTT"},
-      onPurchase() {if(!hasMilestone('c',0)) confirm("…下一纪元，Cytus。")},
+      onPurchase() {if(!hasMilestone('c',0)) confirm("…下一纪元，Cytus")},
     canAfford() {return player.a.ptt.gte(10.8)},
     unlocked() { return hasUpgrade('p',37)},},
     41:{ 
@@ -1745,16 +2013,29 @@ return eff
       title() {return "增加PTT"},
       display() {return "点击或按住以增加PTT！"},
       canClick() {return true},
-      onClick() {player.a.ptt = player.a.ptt.add(n(10).pow(player.a.pttMax.add(1)).log(2).div(n(10).pow(player.a.ptt.add(1)).log(2)).log(3).div(5).max(0)).min(13)},
-      onHold() {player.a.ptt = player.a.ptt.add(n(10).pow(player.a.pttMax.add(1)).log(2).div(n(10).pow(player.a.ptt.add(1)).log(2)).log(3).div(5).max(0)).min(13)},
-      
+      onClick() {
+       let ptt=n(10).pow(player.a.pttMax.add(1)).log(2).div(n(10).pow(player.a.ptt.add(1)).log(2)).log(3).div(5).max(0)
+       player.a.ptt = player.a.ptt.add(ptt)
+      },
+      onHold() {
+       let ptt=n(10).pow(player.a.pttMax.add(1)).log(2).div(n(10).pow(player.a.ptt.add(1)).log(2)).log(3).div(5).max(0)
+       player.a.ptt = player.a.ptt.add(ptt)
+      },
     },
     12: {
       title() {return "增加PTT上限"},
       display() {return "点击或按住以增加PTT上限<br>（基于诗篇数量，最大35）"},
       canClick() {return true},
-      onClick() {player.a.pttMax = player.a.pttMax.add(player.l.points.min(35).add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0)).min(13)},
-      onHold() {player.a.pttMax = player.a.pttMax.add(player.l.points.min(35).add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0)).min(13)},
+      onClick() {
+       let pttMax=player.l.points.min(35).add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0)
+       if(true) player.a.pttMax = player.a.pttMax.add(pttMax).min(13)
+       else player.a.pttMax = player.a.pttMax.add(pttMax)
+      },
+      onHold() {
+       let pttMax=player.l.points.min(35).add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0)
+       if(true) player.a.pttMax = player.a.pttMax.add(pttMax).min(13)
+       else player.a.pttMax = player.a.pttMax.add(pttMax)
+      },
       unlocked() {return hasMilestone('l',2)||hasMilestone('p',1)}
     },
     13: {
@@ -1867,7 +2148,7 @@ tabFormat: {
       function() {return '确切来说，你有 ' + player.a.ptt + ' PTT'+'<br>当前的PTT上限为 ' + player.a.pttMax},
      {"color": "#ffffff", "font-size": "9px", "font-family": "Comic Sans MS"}],
     ["display-text",
-      function() {if(player.a.ptt.gte(13)) return 'PTT在13时达到硬上限！'},
+      function() {if(player.a.pttMax.gte(13)) return 'PTT在13时达到硬上限！'},
      {"color": "#ffffff", "font-size": "15px", "font-family": "Comic Sans MS"}],
      "blank",
         ['row',[['clickable',11],['clickable',12],['clickable',13]]],
@@ -1944,7 +2225,7 @@ addLayer("l", {
     symbol: "L",
     position: 0,
     startData() { return {
-        unlocked() { return (hasChallenge('a', 14))},
+        unlocked() { return (hasChallenge('a', 14))||hasAchievement('A',111)},
 		points: n(0),
     }},
      color: "#44DDDD",
@@ -1974,6 +2255,7 @@ addLayer("l", {
         mult = n(1)
         mult=mult.mul(tmp.j.pdqja2)
         if(n(gba('sp',22)).gt(0)) mult=mult.times(buyableEffect('sp',22))
+        mult=mult.mul(tmp.ri.la1)
         return mult
     },
     row: 1, 
@@ -1982,7 +2264,7 @@ addLayer("l", {
     hotkeys: [
         {key: "l", description: "L: Reset for Lanota", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){shown= false
+    layerShown(){shown=hasAchievement('A',111)
     if(hasChallenge('a',14)){shown=true}
     if(hasMilestone('p',0)){shown=true}
     return shown},
@@ -2030,7 +2312,10 @@ addLayer("l", {
     unlocked() {return hasMilestone('l',2)}, },
     13:{ title: "小潜力股",
     description() {return "再解锁下一个PTT可点击，PTT对Phidata也有提升效果"},
-    effect() {return n(2).pow(player.a.ptt.div(3).add(1))},
+    effect() {
+     let a=n(2)
+     if(gba('ri',12).gte(3)) a=tmp.ri.la2
+     return a.pow(player.a.ptt.div(3).add(1))},
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×"},
     cost: n(11),
     unlocked() {return hasUpgrade('p',22)}, },
@@ -2163,7 +2448,7 @@ addLayer("p", {
     symbol: "P",
     position: 0,
     startData() { return {
-        unlocked() { return (hasUpgrade('a', 27))},
+        unlocked() { return (hasUpgrade('a', 27))||hasAchievement('A',111)},
 		points: n(0),
 		rks: n(0),
 		rksMax: n(1),
@@ -2233,6 +2518,7 @@ addLayer("p", {
         if(hasUpgrade('sp',36)) mult=mult.times(100)
         if(gcs("r",102)==1) mult = mult.times(clickableEffect("r", 102))
         if(n(gba('sp',23)).gt(0)) mult=mult.times(buyableEffect('sp',23))
+        mult=mult.times(tmp.ri.phi3)
         return mult
     },
     row: 2, 
@@ -2247,7 +2533,7 @@ addLayer("p", {
     hotkeys: [
         {key: "p", description: "P: Reset for Phigros", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){shown= false
+    layerShown(){shown=hasAchievement('A',111)
     if(hasUpgrade('a',27)){shown=true}
     if(hasMilestone('p',0)){shown=true}
     return shown},
@@ -2389,7 +2675,7 @@ addLayer("p", {
     unlocked() {return hasUpgrade('p',11)},
     },
     13:{ title: "别搞时间墙了",
-    description:"解锁Phigros挑战和剧情，被动获取歌曲和源点速度*5",
+    description:"解锁Phigros挑战和剧情，被动获取歌曲和源点速度×5",
     cost: n(3),
     unlocked() {return hasUpgrade('p',12)},
     },
@@ -2446,7 +2732,7 @@ addLayer("p", {
     cost: n(5e7),
     unlocked() {return hasUpgrade('p',23)},},
     25:{ title: "RKS14.00??",
-    description:"Notes获取量*1e308，500%Phidata每秒",
+    description:"Notes获取量×1e308，500%Phidata每秒",
     cost: n(1e9),
     unlocked() {return hasUpgrade('p',24)},},
     26:{ title: "RKS15.00??!!",
@@ -2492,7 +2778,7 @@ addLayer("p", {
     effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
     },
     37:{ title: "Anguished",
-    description:"解锁更多升级，解锁下一个RKS可点击，Phidata*1e8（软上限前）<br>有没有发现这一行升级的首字母是Phidata",
+    description:"解锁更多升级，解锁下一个RKS可点击，Phidata×1e8（软上限前）<br>有没有发现这一行升级的首字母是Phidata",
     cost: n(1e18),
     unlocked() {return hasUpgrade('p',36)},
     },
@@ -2541,8 +2827,8 @@ addLayer("p", {
       title() {return "增加RKS"},
       display() {return "这是有规律的哦！点击增加RKS"},
       canClick() {return rksRandom()<0.3||hasUpgrade('c',11)},
-      onClick() {player.p.rks=player.p.rks.add(player.p.rksMax.sub(player.p.rks).div(5)).min(16.3)},
-      onHold() {if(hasUpgrade('c',11)) player.p.rks=player.p.rks.add(player.p.rksMax.sub(player.p.rks).div(5)).min(16.3)},
+      onClick() {player.p.rks=player.p.rks.add(player.p.rksMax.sub(player.p.rks).div(5))},
+      onHold() {if(hasUpgrade('c',11)) player.p.rks=player.p.rks.add(player.p.rksMax.sub(player.p.rks).div(5))},
     },
       12: {
       title() {return "增加RKS上限"},
@@ -2550,8 +2836,14 @@ addLayer("p", {
       if(hasAchievement('A',53))d="基于Phidata和PTT增加RKS上限"
       return d},
       canClick() {return rksRandom()>0.7||hasUpgrade('c',11)},
-      onClick() {player.p.rksMax = player.p.rksMax.add(player.p.points.add(1).log(20).add(1).log(10).sub(player.p.rksMax.mul(player.p.rksMax2).mul(n(1).div(player.a.ptt.add(10).log(10).pow(0.1).max(1.25)))).div(2).max(0.001).sub(0.001)).min(16.3)},
-      onHold() {if(hasUpgrade('c',11)) player.p.rksMax = player.p.rksMax.add(player.p.points.add(1).log(20).add(1).log(10).sub(player.p.rksMax.mul(player.p.rksMax2).mul(n(1).div(player.a.ptt.add(10).log(10).pow(0.1).max(1.25)))).div(2).max(0.001).sub(0.001)).min(16.3)},
+      onClick() {
+       let rksMax=player.p.points.add(1).log(20).add(1).log(10).sub(player.p.rksMax.mul(player.p.rksMax2).mul(n(1).div(player.a.ptt.add(10).log(10).pow(0.1).max(1.25)))).div(2).max(0.001).sub(0.001)
+       player.p.rksMax = player.p.rksMax.add(rksMax).min(tmp.ri.phi1.max(16.3))
+      },
+      onHold() {
+       let rksMax=player.p.points.add(1).log(20).add(1).log(10).sub(player.p.rksMax.mul(player.p.rksMax2).mul(n(1).div(player.a.ptt.add(10).log(10).pow(0.1).max(1.25)))).div(2).max(0.001).sub(0.001)
+       player.p.rksMax = player.p.rksMax.add(rksMax).min(tmp.ri.phi1.max(16.3))
+      },
       unlocked() {return hasUpgrade('p',37)}
     },
       13: {
@@ -2607,7 +2899,7 @@ unlocked(){return hasMilestone('p',4)}
       function() {return '确切来说，你有 ' + player.p.rks + ' RKS'+'<br>当前的RKS上限为 ' + player.p.rksMax},
      {"color": "#ffffff", "font-size": "9px", "font-family": "Comic Sans MS"}],
      ["display-text",
-      function() {if(player.p.rks.gte(16.3)) return 'RKS在16.3时达到硬上限！'},
+      function() {if(player.p.rksMax.gte(tmp.r.phi1)) return 'RKS在'+format(tmp.ri.phi1)+'时达到硬上限！'},
      {"color": "#ffffff", "font-size": "15px", "font-family": "Comic Sans MS"}],"blank",
     "clickables",
 ],
@@ -2643,7 +2935,7 @@ addLayer("m", {
     symbol: "M",
     position: 0,
     startData() { return {
-        unlocked() { return (hasUpgrade('p', 27))||hasMilestone('m',0)},
+        unlocked() { return (hasUpgrade('p', 27))||hasMilestone('m',0)||hasAchievement('A',111)},
 		points: n(0),
     }},
      color: "#55BB11",
@@ -2705,7 +2997,7 @@ addLayer("m", {
             layerDataReset(this.layer, kept)
         }
     },
-    layerShown(){shown= false
+    layerShown(){shown= hasAchievement('A',111)
     if(hasUpgrade('p',27)){shown=true}
     if(hasMilestone('m',0)){shown=true}
     return shown},
@@ -2813,7 +3105,7 @@ addLayer("c", {
     symbol: "C",
     position: 1,
     startData() { return {
-        unlocked() { return hasUpgrade('a',37)||hasMilestone('c',0)   },
+        unlocked() { return hasUpgrade('a',37)||hasMilestone('c',0)||hasAchievement('A',111)   },
 		points: n(0),
 		power: n(0),
 		challengeTime: n(0),
@@ -2876,6 +3168,7 @@ addLayer("c", {
       if(hasUpgrade('m',14)) mult = mult.times(upgradeEffect('m',14))
       if(hasUpgrade('m',16)) mult = mult.times(upgradeEffect('m',16))
       if(hasUpgrade('j',25)) mult = mult.times(upgradeEffect('j',25))
+      if(hasUpgrade('j',36)) mult = mult.times(upgradeEffect('j',36))
       if(hasUpgrade('r',46)) mult = mult.times(1e60)
       if(tmp.ch.enpEff.gte(1)) mult=mult.times(tmp.ch.enpEff)
       if(hasMilestone('r',0)) mult=mult.times(100)
@@ -2915,7 +3208,7 @@ addLayer("c", {
     hotkeys: [
         {key: "c", description: "C： Reset for Cytus",onPress(){if (canReset(this.layer)) doReset(this.layer)} },
     ],
-    layerShown(){ return hasUpgrade('a',37)||hasMilestone('c',0)
+    layerShown(){ return hasUpgrade('a',37)||hasMilestone('c',0)||hasAchievement('A',111)
     },
     update(diff) {
      if(player.devSpeed.neq(0)) {
@@ -2969,7 +3262,7 @@ addLayer("c", {
     13:{ title: "Cytoid",
     description:"解锁第六个Cytus可购买和一个魔王曲升级，基于游玩时间增益Cytus力量",
     cost: n(30),
-    effect() {return n(player.A.resetTime).add(10000)},
+    effect() {return n(player.timePlayed).add(10000)},
     effectDisplay() { return format(upgradeEffect(this.layer, this.id),5)+"×"},
     unlocked() {return hasUpgrade('c',12)}, },
     14:{ title: "扫线，不是下落",
@@ -2977,7 +3270,7 @@ addLayer("c", {
     cost: n(50),
     unlocked() {return hasUpgrade('c',13)}, },
     15:{ title: "时代既去",
-    description:"解锁Cytus挑战，Cytus力量*10",
+    description:"解锁Cytus挑战，Cytus力量×10",
     cost: n(100),
     unlocked() {return hasUpgrade('c',14)}, },
     16:{ title: "长夜将尽",
@@ -2985,7 +3278,7 @@ addLayer("c", {
     cost: n(300),
     unlocked() {return hasUpgrade('a',42)}, },
     17:{ title: "黎明已至",
-    description:"解锁下一个层级(Chart)，魔王曲获取指数*1.001",
+    description:"解锁下一个层级(Chart)，魔王曲获取指数×1.001",
     cost: n(10000),
     unlocked() {return hasUpgrade('a',45)||hasUpgrade('c',17)}, },
    },
@@ -3061,7 +3354,7 @@ addLayer("c", {
 				display() { // Everything else displayed in the buyable button after the title
        let data = tmp[this.layer].buyables[this.id]
        return (("价格: " + format(data.cost) + " Cytus力量")+"<br>数量: " + format(player[this.layer].buyables[this.id])
-      +"<br>Note获取量×" + format(data.effect))
+      +"<br>Notes获取量×" + format(data.effect))
                 },
       unlocked() { return hasMilestone('c',2)}, 
       canAfford() {
@@ -3548,7 +3841,7 @@ addLayer("c", {
     },
     12: {
         name: "HARD²",
-        challengeDescription: "进入上一个挑战的同时，Note获取量被极大削弱",
+        challengeDescription: "进入上一个挑战的同时，Notes获取量被极大削弱",
         countsas:[11],
         goalDescription:"1.145e1145 Notes",
         rewardDescription:"去除歌曲和源点的获取指数上限，解锁一些谱面升级",
@@ -3576,9 +3869,9 @@ addLayer("c", {
     },
     14: {
         name: "“CHAOS∞²”",
-        challengeDescription() {return "Note获取量变为原来的log1.0001，并且^0.05"},
+        challengeDescription() {return "Notes获取量变为原来的log1.0001，并且^0.05"},
         goalDescription:"300 Notes",
-        rewardDescription:"解锁两个Arcaea升级和更多谱面升级，Cyten和谱面获取指数*1.1",
+        rewardDescription:"解锁两个Arcaea升级和更多谱面升级，Cyten和谱面获取指数×1.1",
         style: {'height':'350px'},
         unlocked(){unlock= false
         if(hasUpgrade('ch',34)) unlock=true
@@ -3645,12 +3938,12 @@ addLayer("ch", {
       return "当你解锁了这一部分之后，有趣的地方开始了！首先，基于当前的物量，你将会获得一些Phigros-Note(PN)，你需要根据当前的PN购买特殊Note，这些特殊note会给一些东西增益，同时，定数会提升特殊note的效果"},},
       ketiBox: {title: "课题模式",
     body(){
-      return "欢迎来到课题模式！和Phigros中的课题模式类似，你会解锁三个可点击，点击它可以增加或者减少对应歌曲的定数，接着会根据你的当前rks和选择歌的定数来决定你最后的分数，基于分数和总难度，你可以获得课题能量，用来购买升级和提供加成。当然，你选的歌曲的定数越高，对应的不确定性就越大，所以最后的分数波动可能会很大，要多次尝试才能取得较高的分数哦！注意：谱面定数最高为16，最低为1！"},},},
+      return "欢迎来到课题模式！和Phigros中的课题模式类似，你会解锁六个可点击，点击它可以增加或者减少对应歌曲的定数，接着会根据你的当前rks和选择歌的定数来决定你最后的分数，基于分数和总难度，你可以获得课题能量，用来购买升级和提供加成。当然，你选的歌曲的定数越高，对应的不确定性就越大，所以最后的分数波动可能会很大，要多次尝试才能取得较高的分数哦！注意：谱面定数最高为16，最低为1！"},},},
     name: "Chart",
     symbol: "Ch",
     position: 2,
     startData() { return {
-        unlocked() { return hasUpgrade('c',17)},
+        unlocked() { return hasUpgrade('c',17)||hasAchievement('A',111)},
 		points: n(0),
 		note: n(0),//物量
 		dif: n(1),//difficulty
@@ -3692,6 +3985,7 @@ addLayer("ch", {
         if(hasUpgrade('r',47)) mult=mult.mul(1.0025)
         if(hasUpgrade('j',23)) mult=mult.mul(1.02)
         if(hasUpgrade('j',26)) mult=mult.mul(upgradeEffect('j',26))
+        mult=mult.times(tmp.j.pdqja6)
         return mult
     },
     note() {
@@ -3760,15 +4054,18 @@ addLayer("ch", {
     return sco1.add(sco2).add(sco3)
     },
     enp() {//课题力量
-      en=player.ch.en
-      enp=n(10).pow(en)
+      let en=player.ch.en
+      let enp=n(10).pow(en)
      if(hasUpgrade('ch',47)) enp=enp.times(upgradeEffect('ch',47))
      if(tmp.a.snEff1.gte(1)) enp=enp.times(tmp.a.snEff1)
      if(hasUpgrade('ch',56)) enp=enp.times(upgradeEffect('ch',56))
+     if(hasUpgrade('ri',22)) enp=enp.times(upgradeEffect('ri',22))
      if(gcs("r",151)==1) enp = enp.times(clickableEffect("r", 151))
      if(gcs("r",152)==1) enp = enp.times(clickableEffect("r", 152))
      if(hasMilestone('r',0)) enp=enp.times(10)
       enp=enp.times(tmp.j.pdqja4)
+      if(gcs('j',11)==1&&player.j.pdqj0.lt(325)&&hasUpgrade('ri',26)) enp=enp.times(upgradeEffect('ri',26))
+      if(hasUpgrade('ri',27)) enp=enp.times(upgradeEffect('ri',27))
       
      if(tmp.a.drEff3.gte(1)) enp=enp.pow(tmp.a.drEff3)
      if(gcs('j',11)==1) enp=enp.pow(tmp.j.pdqj2)
@@ -3787,7 +4084,7 @@ addLayer("ch", {
     hotkeys: [
         {key: "h", description: "H: Reset for charts", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){ return hasUpgrade('c',17)},
+    layerShown(){ return hasUpgrade('c',17)||hasAchievement('A',111)},
     update(diff) {
      if(player.devSpeed.neq(0)) {
 			player.ch.note = tmp.ch.note.max(player.ch.note)
@@ -3917,18 +4214,18 @@ unlocked(){return hasUpgrade('ch',27)}
     milestones: {
     0: {
         requirementDescription: "获得1谱面",
-        effectDescription: "Cytus里程碑对谱面也生效，Notes *1e960",
+        effectDescription: "Cytus里程碑对谱面也生效，Notes ×1e960",
         done() { return player.ch.points.gt(0) }
     },
     1: {
         requirementDescription: "获得2谱面",
-        effectDescription: "解锁标签页“谱面”，Notes*1e1145",
+        effectDescription: "解锁标签页“谱面”，Notes×1e1145",
         done() { return player.ch.points.gt(1) }
     },
 },
    upgrades:{
   11:{ 
-    fullDisplay() {return "Introduction<br>基于物量的Cyten乘数，Cyten基本获得指数*2<br>当前效果："+format(this.effect())+"×<br>需要：50物量 && 2谱面"},
+    fullDisplay() {return "Introduction<br>基于物量的Cyten乘数，Cyten基本获得指数×2<br>当前效果："+format(this.effect())+"×<br>需要：50物量 && 2谱面"},
     canAfford() {return player.ch.note.gte(50)},
     cost() {return n(2)},
       effect() { return player.ch.note.add(1).pow(3)},
@@ -4015,13 +4312,13 @@ unlocked(){return hasUpgrade('ch',27)}
     cost() {return n(23)},
   },
   26:{ 
-    fullDisplay() {return "Secret Illumination HD 10.5<br>Note获取量^1.02<br>作者更新这里时，Phigros 3.3.0（Rotaeno联动）更新！<br>需要：372物量 && 29谱面"},
+    fullDisplay() {return "Secret Illumination HD 10.5<br>Notes获取量^1.02<br>作者更新这里时，Phigros 3.3.0（Rotaeno联动）更新！<br>需要：372物量 && 29谱面"},
     unlocked(){return hasUpgrade('ch',25)},
     canAfford() {return player.ch.note.gte(372)},
     cost() {return n(29)},
   },
   27:{ 
-    fullDisplay() {return "Fractured Angel HD 10.9<br>Note获取量^1.05，解锁特殊note中的长条，解锁课题模式，诗篇基本指数为0.075<br>需要：395.5物量 && 33谱面"},
+    fullDisplay() {return "Fractured Angel HD 10.9<br>Notes获取量^1.05，解锁特殊note中的长条，解锁课题模式，诗篇基本指数为0.075<br>需要：395.5物量 && 33谱面"},
     unlocked(){return hasUpgrade('ch',26)},
   canAfford() {return player.ch.note.gte(395.5)},
     cost() {return n(33)},
@@ -4045,7 +4342,7 @@ unlocked(){return hasUpgrade('ch',27)}
       },
   },
   33:{ 
-    fullDisplay() {return "Temporal Shifting HD 11.5<br>解锁第九个Cytus可购买（没有自动购买），物量*1.1<br>需要：2.35课题能量 && 49谱面"},
+    fullDisplay() {return "Temporal Shifting HD 11.5<br>解锁第九个Cytus可购买（没有自动购买），物量×1.1<br>需要：2.35课题能量 && 49谱面"},
     unlocked(){return hasUpgrade('ch',32)},
   canAfford() {return player.ch.en.gte(2.35)},
     cost() {return n(49)},
@@ -4101,7 +4398,7 @@ unlocked(){return hasUpgrade('ch',27)}
     cost() {return n(142)},
   },
   43:{ 
-    fullDisplay() {return "NYA!!! IN 12.9<br>解锁第14个Cytus可购买，基于课题力量增益Note获取量<br>当前效果：×"+format(this.effect())+"<br>需要：75000课题力量 && 143谱面"},
+    fullDisplay() {return "NYA!!! IN 12.9<br>解锁第14个Cytus可购买，基于课题力量增益Notes获取量<br>当前效果：×"+format(this.effect())+"<br>需要：75000课题力量 && 143谱面"},
     unlocked(){return hasUpgrade('ch',42)},
 onPurchase() {player.ch.enp=player.ch.enp.sub(7.5e4)},
   canAfford() {return player.ch.enp.gte(7.5e4)},
@@ -4392,7 +4689,7 @@ buyBox: {
     symbol: "SP",
     position: 1,
     startData() { return {
-        unlocked() { return hasUpgrade('ch',37)},
+        unlocked() { return hasUpgrade('ch',37)||hasAchievement('A',111)},
 points: n(0),
     }},
    color: "#6090ff",
@@ -4421,6 +4718,7 @@ points: n(0),
         mult = n(1)
         mult=mult.mul(tmp.j.pdqja5)
         if(hasUpgrade('sp',57)) mult=mult.mul(upgradeEffect('sp',57))
+        if(hasUpgrade('ri',25)) mult=mult.mul(upgradeEffect('ri',25))
         return mult
     },
     row: 3,
@@ -4428,7 +4726,7 @@ points: n(0),
     hotkeys: [
         {key: "o", description: "O： Reset for Song Pack", onPress(){if(canReset(this.layer)&&hasMilestone('sp',0)) doReset(this.layer)}},
     ],
-    layerShown(){ return hasUpgrade('ch',37)},
+    layerShown(){ return hasUpgrade('ch',37)||hasAchievement('A',111)},
     resetsNothing() {return hasMilestone('r',4)},
     canBuyMax(){return hasMilestone('r',5)},
     autoPrestige() {return hasMilestone('r',4)},
@@ -4526,7 +4824,7 @@ milestones: {
     },
     1: {
         requirementDescription: "获得2个曲包",
-        effectDescription: "提升前两个Phigros挑战（EZ，HD）的效果，Phidata获取指数*1.1，歌曲获得量软上限延后到1e17000",
+        effectDescription: "提升前两个Phigros挑战（EZ，HD）的效果，Phidata获取指数×1.1，歌曲获得量软上限延后到1e17000",
         done() { return player.sp.points.gte(2) }
     },
     2: {
@@ -4690,7 +4988,11 @@ buyables:{
      cost=cost.times(n(1e100).pow(x.pow(1.5)))
     return cost
                 },
-				effect(x=player[this.layer].buyables[this.id]) {return n(2).pow(gba('sp',11)).pow(x).max(1)},
+				effect(x=player[this.layer].buyables[this.id]) {
+				 let eff=n(2).pow(gba('sp',11)).pow(x).max(1).pow(tmp.j.pdqja7)
+				 if(eff.log10().gte(2250)) eff = n(10).pow(eff.log10().sub(2250).pow(0.5).add(2250))//sc
+				 return eff
+				},
 				display() { // Everything else displayed in the buyable button after the title
        let data = tmp[this.layer].buyables[this.id]
        return (("需要 " + format(data.cost) + " 源点")+"<br>数量: " + format(player[this.layer].buyables[this.id]) + "<br>Arcaea曲包以×" +format(this.effect()) + "的增益提升源点获取量")
@@ -4717,7 +5019,7 @@ buyables:{
      let cost = n(8.5).add(n(x).div(10)).pow(6)
     return cost.floor()
                 },
-				effect(x=player[this.layer].buyables[this.id]) {return n(gba('sp',12).mul(x)).pow(0.2).max(1).sub(1).div(10).add(1)},
+				effect(x=player[this.layer].buyables[this.id]) {return n(gba('sp',12).mul(x)).pow(0.2).max(1).sub(1).div(10).add(1).pow(tmp.j.pdqja7)},
 				display() { // Everything else displayed in the buyable button after the title
        let data = tmp[this.layer].buyables[this.id]
        return (("需要 " + format(data.cost) + " 诗篇")+"<br>数量: " + format(player[this.layer].buyables[this.id]) + "<br>Lanota曲包以×" +format(this.effect(),3) + "的增益提升诗篇获取量")
@@ -4745,7 +5047,11 @@ buyables:{
      cost=cost.times(n(1e45).pow(x.pow(1.25)))
     return cost
                 },
-				effect(x=player[this.layer].buyables[this.id]) {return n(1.6).pow(gba('sp',13)).pow(x).max(1)},
+				effect(x=player[this.layer].buyables[this.id]) {
+				 let eff=n(1.6).pow(gba('sp',13)).pow(x).max(1).pow(tmp.j.pdqja7)
+				 if(eff.log10().gte(600)) eff = n(10).pow(eff.log10().sub(600).pow(0.5).add(600))//sc
+				 return eff
+				},
 				display() { // Everything else displayed in the buyable button after the title
        let data = tmp[this.layer].buyables[this.id]
        return (("需要 " + format(data.cost) + " Phidata")+"<br>数量: " + format(player[this.layer].buyables[this.id]) + "<br>Phigros曲包以×" +format(this.effect()) + "的增益提升Phidata获取量")
@@ -4773,7 +5079,11 @@ buyables:{
      cost=cost.times(n(1e15).pow(x.pow(1.25)))
     return cost
                 },
-				effect(x=player[this.layer].buyables[this.id]) {return n(1.5).pow(gba('sp',14)).pow(x).max(1)},
+				effect(x=player[this.layer].buyables[this.id]) {
+				 let eff=n(1.5).pow(gba('sp',14)).pow(x).max(1).pow(tmp.j.pdqja7)
+				 if(eff.log10().gte(400)) eff = n(10).pow(eff.log10().sub(400).pow(0.5).add(400))//sc
+				 return eff
+				},
 				display() { // Everything else displayed in the buyable button after the title
        let data = tmp[this.layer].buyables[this.id]
        return (("需要 " + format(data.cost) + " Cyten")+"<br>数量: " + format(player[this.layer].buyables[this.id]) + "<br>Cytus曲包以×" +format(this.effect()) + "的增益提升Cyten获取量")
@@ -4801,7 +5111,7 @@ buyables:{
      cost=cost.times(n(10).pow(x.pow(1.5)))
     return cost
                 },
-				effect(x=player[this.layer].buyables[this.id]) {return n(1.01).pow(gba('sp',14)).pow(x).max(1)},
+				effect(x=player[this.layer].buyables[this.id]) {return n(1.01).pow(gba('sp',14)).pow(x).max(1).pow(tmp.j.pdqja7)},
 				display() { // Everything else displayed in the buyable button after the title
        let data = tmp[this.layer].buyables[this.id]
        return (("需要 " + format(data.cost) + " 旋律")+"<br>数量: " + format(player[this.layer].buyables[this.id]) + "<br>Rotaeno曲包以×" +format(this.effect()) + "的增益提升旋律获取量")
@@ -4878,7 +5188,7 @@ onPurchase() {setBuyableAmount('sp',11,gba('sp',11).sub(24))
   canAfford() {return gba('sp',11).gte(24)&&player.a.dr.gte(1)},
   },
 21:{ 
-    fullDisplay() {return "21<br>解锁龙的第二个效果，基于诗篇增益Note获取量<br>当前效果：×"+format(this.effect())+"<br>需要：4 Lanota曲包，2 龙"},
+    fullDisplay() {return "21<br>解锁龙的第二个效果，基于诗篇增益Notes获取量<br>当前效果：×"+format(this.effect())+"<br>需要：4 Lanota曲包，2 龙"},
     unlocked(){return hasUpgrade('sp',21)||gba('sp',12).gte(2)},
 onPurchase() {setBuyableAmount('sp',12,gba('sp',12).sub(4))
   player.a.dr=player.a.dr.sub(2)},

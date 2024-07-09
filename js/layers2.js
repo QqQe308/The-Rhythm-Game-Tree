@@ -54,8 +54,10 @@ chalBox: {
         if(hasUpgrade('sp',37)) mult = mult.times(upgradeEffect('sp',37))
         if(hasUpgrade('sp',56)) mult = mult.times(upgradeEffect('sp',56))
         if(hasUpgrade('m',15)) mult = mult.times(upgradeEffect('m',15))
-        if (gcs("r",111)==1) mult = mult.times(clickableEffect("r", 111))
         if(hasUpgrade('mi',15)) mult = mult.times(upgradeEffect('mi',15))
+        if(hasUpgrade('j',32)) mult = mult.times(upgradeEffect('j',32))
+        if(hasUpgrade('ri',14)) mult = mult.times(upgradeEffect('ri',14))
+        if (gcs("r",111)==1) mult = mult.times(clickableEffect("r", 111))
         if (gcs("r",131)==1) mult = mult.times(clickableEffect("r", 131))
         if (gcs("r",132)==1) mult = mult.times(clickableEffect("r", 132))
         if (gcs("r",133)==1) mult = mult.times(clickableEffect("r", 133))
@@ -65,6 +67,7 @@ chalBox: {
     },
     gainExp() { //rgainexp
       exp= n(1)
+      if(inChallenge('ri',11)) exp=exp.mul(0.5)
        return exp
     },
     directMult() { //rdirectmult
@@ -77,7 +80,7 @@ chalBox: {
     hotkeys: [
         {key: "r", description: "R： Reset for Rotaeno", onPress(){if(canReset(this.layer)&&hasMilestone('r',0)) doReset(this.layer)}},
     ],
-    layerShown(){ return hasUpgrade('sp',27)||player.r.total.gte(1)},
+    layerShown(){ return hasUpgrade('sp',27)||player.r.total.gte(1)||hasAchievement('A',111)},
     rotCal() {
      let rot=player.r.rota
      if(inChallenge('r',11)) rot=rot.div(2.4)
@@ -92,18 +95,22 @@ chalBox: {
      if(hasUpgrade('sp',55)&&rot.gte(180)) rot=rot.sub(180).mul(2).add(180)
      return rot
     },
-    branches(){return ['c','ch','sp']},
+    branches(){return ['c','sp']},
     update(diff) {
      player.r.rot=layers.r.rotCal()
 		 if(hasUpgrade('sp',55))	player.r.rota=layers.r.rotaCal().ceil()
 		 if(!hasUpgrade('sp',55)) player.r.rota=layers.r.rotaCal()
+		 if(hasMilestone('ri',5)) layers.r.clickables[13].onClick()
 		 if(hasUpgrade('j',31)&&layers.r.buyables[11].canAfford()&&layers.r.buyables[11].unlocked()) layers.r.buyables[11].buy();
 		 if(hasUpgrade('j',31)&&layers.r.buyables[12].canAfford()&&layers.r.buyables[12].unlocked()) layers.r.buyables[12].buy();
 		 if(hasUpgrade('j',31)&&layers.r.buyables[13].canAfford()&&layers.r.buyables[13].unlocked()) layers.r.buyables[13].buy();
+		 if(hasMilestone('ri',6)&&layers.r.buyables[11].canAfford()&&layers.r.buyables[11].unlocked()) layers.r.buyables[11].buyMax();
+		 if(hasMilestone('ri',6)&&layers.r.buyables[12].canAfford()&&layers.r.buyables[12].unlocked()) layers.r.buyables[12].buyMax();
+   if(hasMilestone('ri',6)&&layers.r.buyables[13].canAfford()&&layers.r.buyables[13].unlocked()) layers.r.buyables[13].buyMax();
 			if(player.devSpeed.neq(0)) {
 			player.r.resettime=player.r.resettime.add(diff)
 			if(player.r.points.lt(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed).mul(100))&&hasUpgrade('r',44)) player.r.points=player.r.points.add(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(diff).mul(10))
-			if(player.r.points.lt(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed).mul(clickableEffect('r',161)))&&gcs('r',161)==1) player.r.points=player.r.points.add(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(diff).mul(clickableEffect('r',161)).div(10))
+			if(player.r.points.lt(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed).mul(clickableEffect('r',161)))&&gcs('r',161)==1) player.r.points=player.r.points.add(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(diff).mul(clickableEffect('r',161)).div(tmp.r.clickables['161'].a))
 			}
 	},
 	passiveGeneration()
@@ -142,13 +149,32 @@ return mult
  if(gcs('r',93)==1) chal=chal.div(1.8)
    return chal
   },
+  notesSc() {//填充Notes软上限效果
+   let sc=n(0.7)
+   if(hasUpgrade('ri',33)) sc=sc.pow(n(1).div(challengeEffect('ri',11).pow(2)))
+   return sc
+  },
+  notes() {//计算填充Notes
+  let a=player.points
+  if(hasUpgrade('ri',13)) a=a.pow(1.1)
+  if(hasUpgrade('ri',15)) a=a.pow(upgradeEffect('ri',15))
+  a=a.pow(tmp.j.pdqja8)
+  
+  if(a.log10().gte(2e7)) a = n(10).pow(a.log10().sub(2e7).pow(tmp.r.notesSc).add(2e7))//sc
+  return a
+  },
   	doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
             if (resettingLayer == "t") {
                kept.push("milestones","upgrades","buyables","challenges","points","total")
             }
-
+            if (resettingLayer == "ri") {
+               if(hasMilestone('ri',0)) kept.push("milestones","challenges")
+               if(hasMilestone('ri',2)) kept.push("upgrades")
+               if(hasMilestone('ri',3)) kept.push("clickables")
+               if(hasMilestone('ri',8)) kept.push("buyables")
+            }
             layerDataReset(this.layer, kept)
         }
     },
@@ -179,13 +205,15 @@ return mult
     ["display-text", function() {if(player.devSpeed.gt(1)) return '算上全局速率，你正在获得 ' + format(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed))+' 旋律每秒'},
      {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
     ["display-text", function() {if(gcs('r',161)==1){
-     if(player.r.points.lt(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed).mul(clickableEffect('r',161)))) return '算上升级效果，你正在获得 ' + format(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed).mul(clickableEffect('r',161)).div(10))+' 旋律每秒<br>你需要'+format(player.r.points.div(clickableEffect('r',161)))+'旋律每秒以获得升级的效果'
+     if(player.r.points.lt(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed).mul(clickableEffect('r',161)))) return '算上升级效果，你正在获得 ' + format(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed).mul(clickableEffect('r',161)).div(tmp.r.clickables['161'].a))+' 旋律每秒<br>你需要'+format(player.r.points.div(clickableEffect('r',161)))+'旋律每秒以获得升级的效果'
      else return '算上升级效果，你正在获得 ' + format(n(tmp.r.resetGain).mul(tmp.r.passiveGeneration).mul(player.devSpeed))+' 旋律每秒<br>你需要'+format(player.r.points.div(clickableEffect('r',161)))+'旋律每秒以获得升级的效果'
     }},
      {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
      ["display-text",function() {if(inChallenge('r',12)) return '当前对Cytus力量的减益：^' + format(tmp.r.chal2Cal)+'<br>确切来说，^'+tmp.r.chal2Cal},
      {"color": "#ffffff", "font-size": "16px", "font-family": "Comic Sans MS"}],"blank",
     ["display-text",function() {if(hasUpgrade('r',41)) return '你最大填充了 ' + format(player.r.notes) + ' Notes'},
+     {"color": "#ffffff", "font-size": "16px", "font-family": "Comic Sans MS"}],"blank",
+     ["display-text",function() {if(player.r.notes.gte("e2e7")) return '填充Notes在1e20000000后达到软上限！<br>软上限效果：指数^'+format(tmp.r.notesSc,3)},
      {"color": "#ffffff", "font-size": "16px", "font-family": "Comic Sans MS"}],"blank",
        ['row',[['clickable',11]]],"blank",
        ['row',[['clickable',12]]],"blank",
@@ -226,57 +254,82 @@ return mult
     "prestige-button",
     "challenges",
 ],
-  unlocked(){return hasUpgrade('r',17)}
+  unlocked(){return hasUpgrade('r',17)||hasMilestone('ri',0)}
 },
 },
    buyables: {
         11: {
-            cost() { 
+            a() { 
              let a=n(2)
              if(hasUpgrade('sp',51)) a=n(1.95)
+             if(hasUpgrade('ri',36)) a=n(1.92)
+             return a},
+             cost() {
              let b=gba(this.layer, this.id)
-             cost=a.pow(b)
+             cost=this.a().pow(b)
             return cost
             },
             title(){return "Rot点数 I"},
             display() { return "你可以用旋律购买Rot点数购买“升级”<br>价格："+format(this.cost())+"旋律<br>数量："+format(gba(this.layer, this.id))},
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
-                 player[this.layer].points = player[this.layer].points.sub(this.cost())
+                if(!hasMilestone('ri',6)) player[this.layer].points = player[this.layer].points.sub(this.cost())
                 
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))
             },
+            buyMax() {
+					if (!this.canAfford()) return;
+					let tempBuy = player.r.points.log(this.a())
+					let target = tempBuy.plus(1).floor();
+					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target)
+				},
             unlocked() {return hasMilestone('r',0)},
             style: {'height':'100px'},
         },
         12: {
-            cost() { let a=n("1e1200000")
+            a() {let a=n("1e1200000")
             if(hasUpgrade('sp',52)) a=n("1e800000")
-             return a.mul(n("1e50000").pow(gba(this.layer, this.id).pow(1.25))) },
+            if(hasUpgrade('ri',34)) a=n(1)
+             return a
+            },
+            cost() {
+             return this.a().mul(n("1e50000").pow(gba(this.layer, this.id).pow(1.25))) },
             title(){return "Rot点数 II"},
             display() { return "你可以用Notes购买Rot点数购买“升级”<br>价格："+format(this.cost())+" Notes<br>数量："+format(gba(this.layer, this.id))},
             canAfford() { return player.points.gte(this.cost()) },
             buy() {
-                 player.points = player.points.sub(this.cost())
-                
+                if(!hasMilestone('ri',6)) player.points = player.points.sub(this.cost())
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))
             },
+            buyMax() {
+					if (!this.canAfford()) return;
+					let tempBuy = player.points.div(this.a()).log("e50000").root(1.25)
+					let target = tempBuy.plus(1).floor();
+					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target)
+				},
             unlocked() {return hasUpgrade('r',13)},
             style: {'height':'100px'},
         },
         13: {
-            cost() {
+            a() {
              let a=n(2)
              if(hasUpgrade('sp',53)) a=n(3)
-             return n(10).pow(gba(this.layer,this.id).div(a).add(20).pow(2)) },
+             if(hasUpgrade('ri',32)) a=n(8)
+             return a},
+            cost() { return n(10).pow(gba(this.layer,this.id).div(this.a()).add(20).pow(2)) },
             title(){return "Rot点数 III"},
             display() { return "你可以用Milthm购买Rot点数购买“升级”<br>价格："+format(this.cost())+" Milthm<br>数量："+format(gba(this.layer, this.id))},
             canAfford() { return player.mi.points.gte(this.cost()) },
             buy() {
-                 player.mi.points = player.mi.points.sub(this.cost())
-                
+                 if(!hasMilestone('ri',6)) player.mi.points = player.mi.points.sub(this.cost())
                 setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))
             },
+            buyMax() {
+					if (!this.canAfford()) return;
+					let tempBuy = player.mi.points.log(10).root(2).sub(20).mul(this.a())
+					let target = tempBuy.plus(1).floor();
+					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target)
+				},
             unlocked() {return hasUpgrade('mi',25)},
             style: {'height':'100px'},
         },
@@ -384,21 +437,20 @@ return mult
            display: "点击或长按以填充Notes（计入Rot升级141的效果）",
           canClick() {return hasUpgrade('r',41)},
            onClick() {
-            player.r.notes=player.points.max(player.r.notes)
+            player.r.notes=player.r.notes.max(tmp.r.notes)
            },
            onHold() {
-            player.r.notes=player.points.max(player.r.notes)
+            player.r.notes=player.r.notes.max(tmp.r.notes)
            },
             unlocked(){return hasUpgrade('r',41)},
     },
     21: {//Rot21
            title(){return "21" },
-           display() {return "累计旋律数量增益Note获取量<br>价格: 1 Rot点数<br>效果: ×"+format(this.effect())},
+           display() {return "累计旋律数量增益Notes获取量<br>价格: 1 Rot点数<br>效果: ×"+format(this.effect())},
            effect() {
             let a=player.r.total.max(10)
             if(a.gte(1e15)) a = n(10).pow(a.log10().sub(15).pow(0.5).add(15))//sc
            eff=n("1e1000").pow(a.pow(0.8))
-           if(a.gte(1.14e114)) return a.pow(3000)//sc5
             if(eff.log10().gte(10000)) eff = n(10).pow(eff.log10().sub(10000).pow(0.8).add(10000))//sc
          if (gcs("r",53)==1) eff = eff.pow(clickableEffect("r", 53))
          if(!hasUpgrade('r',16)) eff=eff.min("1e100000")
@@ -423,7 +475,7 @@ return mult
            return player.r.rot.gte(1)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(1)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(1)
            },
             unlocked(){return hasMilestone('r',0)},
         },
@@ -446,7 +498,7 @@ return mult
            return gcs(this.layer,21)==1&&player.r.rot.gte(1)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(1)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(1)
            },
             unlocked(){return hasMilestone('r',2)},
             branches(){return ["21"]},
@@ -470,7 +522,7 @@ return mult
            return gcs(this.layer,21)==1&&player.r.rot.gte(1)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(1)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(1)
            },
             unlocked(){return hasMilestone('r',2)},
             branches(){return ["21"]},
@@ -494,7 +546,7 @@ return mult
            return gcs(this.layer,31)==1&&player.r.rot.gte(2)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(2)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(2)
            },
             unlocked(){return hasMilestone('r',5)},
             branches(){return ["31"]},
@@ -513,7 +565,7 @@ return mult
            if(inChallenge('r',12)&&gcs('r',12)==1) return false
            return (gcs(this.layer,31)==1||gcs(this.layer,32)==1)&&player.r.rot.gte(3)&&gcs(this.layer,this.id)!==1},
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(3)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(3)
            },
             unlocked(){return hasMilestone('r',5)},
             branches(){return ["31","32"]},
@@ -539,7 +591,7 @@ return mult
            return gcs(this.layer,32)==1&&player.r.rot.gte(2)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(2)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(2)
            },
             unlocked(){return hasMilestone('r',5)},
             branches(){return ["32"]},
@@ -563,7 +615,7 @@ return mult
            return gcs(this.layer,41)==1&&player.r.rot.gte(3)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(3)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(3)
            },
             unlocked(){return hasUpgrade('r',12)},
             branches(){return ["41"]},
@@ -586,7 +638,7 @@ return mult
            return gcs(this.layer,42)==1&&player.r.rot.gte(2)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(2)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(2)
            },
             unlocked(){return hasUpgrade('r',12)},
             branches(){return ["42"]},
@@ -609,7 +661,7 @@ return mult
            return gcs(this.layer,43)==1&&player.r.rot.gte(3)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(3)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(3)
            },
             unlocked(){return hasUpgrade('r',12)},
             branches(){return ["43"]},
@@ -634,7 +686,7 @@ return mult
             return (gcs(this.layer,51)==1|| gcs(this.layer,52)==1|| gcs(this.layer,53)==1)&&player.r.rot.gte(10)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(10)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(10)
            },
             unlocked(){return hasUpgrade('r',15)},
             branches(){return ["51","52","53"]},
@@ -658,7 +710,7 @@ return mult
            return gcs(this.layer,61)==1&&gcs(this.layer,72)!==1&&gcs(this.layer,73)!==1&&player.r.rot.gte(2)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(2)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(2)
            },
             unlocked(){return hasUpgrade('r',21)},
             branches(){return ["61"]},
@@ -681,7 +733,7 @@ return mult
            return gcs(this.layer,61)==1&&gcs(this.layer,71)!==1&&gcs(this.layer,73)!==1&&player.r.rot.gte(1)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(1)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(1)
            },
             unlocked(){return hasUpgrade('r',21)},
             branches(){return ["61"]},
@@ -705,7 +757,7 @@ return mult
             return gcs(this.layer,61)==1&&gcs(this.layer,71)!==1&&gcs(this.layer,72)!==1&&player.r.rot.gte(3)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(3)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(3)
            },
             unlocked(){return hasUpgrade('r',21)},
             branches(){return ["61"]},
@@ -725,7 +777,7 @@ return mult
            return gcs(this.layer,71)==1&&player.r.rot.gte(5)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(5)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(5)
            },
             unlocked(){return hasUpgrade('r',25)},
             branches(){return ["71"]},
@@ -745,7 +797,7 @@ return mult
            return gcs(this.layer,72)==1&&player.r.rot.gte(9)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(9)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(9)
            },
             unlocked(){return hasUpgrade('r',25)},
             branches(){return ["72"]},
@@ -766,7 +818,7 @@ return mult
             return gcs(this.layer,73)==1&&player.r.rot.gte(7)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(7)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(7)
            },
             unlocked(){return hasUpgrade('r',25)},
             branches(){return ["73"]},
@@ -786,7 +838,7 @@ return mult
            return gcs(this.layer,81)==1&&player.r.rot.gte(9)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(9)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(9)
            },
             unlocked(){return hasUpgrade('r',27)},
             branches(){return ["81"]},
@@ -807,7 +859,7 @@ return mult
            return gcs(this.layer,82)==1&&player.r.rot.gte(8)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(8)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(8)
            },
             unlocked(){return hasUpgrade('r',27)},
             branches(){return ["82"]},
@@ -827,7 +879,7 @@ return mult
            return gcs(this.layer,83)==1&&player.r.rot.gte(8)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(8)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(8)
            },
             unlocked(){return hasUpgrade('r',27)},
             branches(){return ["83"]},
@@ -848,7 +900,7 @@ eff=eff.pow(player.points.max(10).slog().pow(0.025).sub(1).max(0))
            return gcs(this.layer,91)==1&&player.r.rot.gte(9)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(9)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(9)
            },
             unlocked(){return hasUpgrade('r',32)},
             branches(){return ["91"]},
@@ -868,7 +920,7 @@ eff=player.ch.enp.max(1).pow(1.5)
            return gcs(this.layer,92)==1&&player.r.rot.gte(8)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(8)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(8)
            },
             unlocked(){return hasUpgrade('r',32)},
             branches(){return ["92"]},
@@ -888,7 +940,7 @@ eff=player.c.points.max(1).log(3.6).pow(9.6)
            return gcs(this.layer,93)==1&&player.r.rot.gte(10)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(10)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(10)
            },
             unlocked(){return hasUpgrade('r',32)},
             branches(){return ["93"]},
@@ -909,7 +961,7 @@ if(gcs('r',111)==1&&gcs('r',112)==1&&hasUpgrade('r',35)) eff=eff.pow(1.25)
            return (gcs(this.layer,101)==1||gcs(this.layer,102)==1||gcs(this.layer,103)==1)&&player.r.rot.gte(6)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(6)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(6)
            },
             unlocked(){return hasUpgrade('r',34)},
             branches(){return ["101","102","103"]},
@@ -932,7 +984,7 @@ if(gcs('r',111)==1&&gcs('r',112)==1&&hasUpgrade('r',35)) eff=eff.pow(1.35)
            return (gcs(this.layer,101)==1||gcs(this.layer,102)==1||gcs(this.layer,103)==1)&&player.r.rot.gte(6)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(6)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(6)
            },
             unlocked(){return hasUpgrade('r',34)},
             branches(){return ["101","102","103"]},
@@ -948,7 +1000,7 @@ if(gcs('r',111)==1&&gcs('r',112)==1&&hasUpgrade('r',35)) eff=eff.pow(1.35)
            return (gcs(this.layer,111)==1||gcs(this.layer,112)==1)&&player.r.rot.gte(10)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(10)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(10)
            },
             unlocked(){return hasUpgrade('mi',17)},
             branches(){return ["111","112"]},
@@ -969,7 +1021,7 @@ eff=a.div(10).pow(0.4)
            return gcs(this.layer,121)==1&&player.r.rot.gte(10)&&gcs(this.layer,this.id)!==1&&((!gcs(this.layer,132)==1&&!gcs(this.layer,133)==1)||gcs(this.layer,171)==1)
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(10)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(10)
            },
             unlocked(){return hasUpgrade('mi',27)},
             branches(){return ["121"]},
@@ -988,7 +1040,7 @@ eff=a.div(10).pow(0.4)
            return gcs(this.layer,121)==1&&player.r.rot.gte(10)&&gcs(this.layer,this.id)!==1&&((!gcs(this.layer,131)==1&&!gcs(this.layer,133)==1)||gcs(this.layer,171)==1)
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(10)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(10)
            },
             unlocked(){return hasUpgrade('mi',27)},
             branches(){return ["121"]},
@@ -1012,27 +1064,27 @@ if(player.devSpeed.eq(0)) eff=n(1)
            return gcs(this.layer,121)==1&&player.r.rot.gte(10)&&gcs(this.layer,this.id)!==1&&((!gcs(this.layer,131)==1&&!gcs(this.layer,132)==1)||gcs(this.layer,171)==1)
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(10)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(10)
            },
             unlocked(){return hasUpgrade('mi',27)},
             branches(){return ["121"]},
     },
     141: {//Rot141
         title(){return "141 活跃" },
-       display() {return "基于最高Notes数量增益Milthm维度（你需要先填充Notes）<br>价格: 8 Rot点数<br>效果: ×"+format(this.effect())},
+       display() {return "基于填充Notes数量增益Milthm维度（你需要先填充Notes）<br>价格: 8 Rot点数<br>效果: ×"+format(this.effect())},
         effect() { 
       let eff=n(10).pow(player.r.notes.max(10).log(2)).pow(0.3).log(10).pow(0.3)
         return eff.max(1)
            },
            tooltip() {
-            return "购买要求:131<br>你需要用Rot升级13来填充Notes" },
+            return "购买要求:131<br>你需要用Rot升级树13来填充Notes" },
    style() { return { 'background-color': gcs(this.layer,this.id)==1?"#77BF5F":layers.r.clickables[this.id].canClick()?"#00ddff":"#BF8F8F"}},
           canClick() {
            if(inChallenge('r',12)&&gcs('r',12)==1) return false
            return gcs(this.layer,131)==1&&player.r.rot.gte(8)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-       player.r.upgCost=player.r.upgCost.add(8)
+       if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(8)
            },
             unlocked(){return hasUpgrade('r',41)},
             branches(){return ["131"]},
@@ -1051,7 +1103,7 @@ if(player.devSpeed.eq(0)) eff=n(1)
            return gcs(this.layer,132)==1&&player.r.rot.gte(8)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-       player.r.upgCost=player.r.upgCost.add(8)
+       if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(8)
            },
             unlocked(){return hasUpgrade('r',41)},
             branches(){return ["132"]},
@@ -1071,14 +1123,14 @@ eff=player.mi.points.max(10).log(10).pow(0.7)
            return gcs(this.layer,133)==1&&player.r.rot.gte(8)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-       player.r.upgCost=player.r.upgCost.add(8)
+       if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(8)
            },
             unlocked(){return hasUpgrade('r',41)},
             branches(){return ["133"]},
     },
     151: {//Rot151
         title(){return "151 活跃" },
-       display() {return "基于最高Notes数量增益课题力量<br>价格: 12 Rot点数<br>效果: ×"+format(this.effect())},
+       display() {return "基于填充Notes数量增益课题力量<br>价格: 12 Rot点数<br>效果: ×"+format(this.effect())},
         effect() { 
       let eff=player.r.notes.max(1).root(1e5)
         return eff.max(1)
@@ -1091,7 +1143,7 @@ eff=player.mi.points.max(10).log(10).pow(0.7)
            return gcs(this.layer,141)==1&&player.r.rot.gte(12)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-       player.r.upgCost=player.r.upgCost.add(12)
+       if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(12)
            },
             unlocked(){return hasUpgrade('r',45)},
             branches(){return ["141"]},
@@ -1110,7 +1162,7 @@ eff=player.mi.points.max(10).log(10).pow(0.7)
            return gcs(this.layer,142)==1&&player.r.rot.gte(12)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-       player.r.upgCost=player.r.upgCost.add(12)
+       if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(12)
            },
             unlocked(){return hasUpgrade('r',45)},
             branches(){return ["142"]},
@@ -1130,16 +1182,19 @@ eff=player.ch.enp.pow(0.1).max(1).log(2).pow(0.5).max(1)
            return gcs(this.layer,143)==1&&player.r.rot.gte(1)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-       player.r.upgCost=player.r.upgCost.add(1)
+       if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(1)
            },
             unlocked(){return hasUpgrade('r',45)},
             branches(){return ["143"]},
     },
     161: {//Rot161
         title(){return "161" },
-       display() {return "如果当前旋律数量小于每秒获取量的"+format(this.effect())+"倍，则旋律获取量×"+format(this.effect().div(10))+"<br>价格: 10 Rot点数"},
+        a() {if(hasUpgrade('ri',12)) return n(1)
+        else return n(10)},
+       display() {return "如果当前旋律数量小于每秒获取量的"+format(this.effect())+"倍，则旋律获取量×"+format(this.effect().div(this.a()))+"<br>价格: 10 Rot点数"},
         effect() {
         eff=player.r.rota.pow(0.9).mul(10)
+        if(hasUpgrade('ri',12)) eff=eff.pow(1.1)
         return eff.max(100)
            },
            tooltip() {
@@ -1150,7 +1205,7 @@ eff=player.ch.enp.pow(0.1).max(1).log(2).pow(0.5).max(1)
             return (gcs(this.layer,151)==1|| gcs(this.layer,152)==1|| gcs(this.layer,153)==1)&&player.r.rot.gte(10)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(10)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(10)
            },
             unlocked(){return hasUpgrade('r',46)},
             branches(){return ["151","152","153"]},
@@ -1166,7 +1221,7 @@ eff=player.ch.enp.pow(0.1).max(1).log(2).pow(0.5).max(1)
            return gcs(this.layer,161)==1&&player.r.rot.gte(10)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-            player.r.upgCost=player.r.upgCost.add(10)
+            if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(10)
            },
             unlocked(){return hasUpgrade('j',13)},
             branches(){return ["161"]},
@@ -1187,7 +1242,7 @@ if(eff.log10().gte(500)) eff = n(10).pow(eff.log10().sub(500).pow(0.8).add(500))
            return gcs(this.layer,171)==1&&player.r.rot.gte(0)&&gcs(this.layer,this.id)!==1
           },
            onClick() {setClickableState(this.layer, this.id,1)
-       player.r.upgCost=player.r.upgCost.add(0)
+       if(!hasMilestone('ri',3)) player.r.upgCost=player.r.upgCost.add(0)
            },
             unlocked(){return hasAchievement('A',105)},
             branches(){return ["171"]},
@@ -1271,12 +1326,12 @@ if(eff.log10().gte(500)) eff = n(10).pow(eff.log10().sub(500).pow(0.8).add(500))
     },
     32:{ title: "Rot助推 XIII",
       description: "解锁第10行升级树，你可以最大化购买曲包",
-       cost: n(1e10),
+       cost: n(5e9),
        unlocked() {return challengeCompletions('r',12)>4},
     },
     33:{ title: "曲包助推 III",
       description: "R层重置不再重置曲包数量",
-       cost: n(5e10),
+       cost: n(3e10),
        unlocked() {return hasUpgrade('r',32)},
     },
     34:{ title: "Rot助推 XIV",
@@ -1330,7 +1385,7 @@ if(eff.log10().gte(500)) eff = n(10).pow(eff.log10().sub(500).pow(0.8).add(500))
        unlocked() {return hasUpgrade('r',45)},
     },
     47:{ title: "层级助推 V",
-      description: "😧😧😧😨😨😨😂😂😂，并且谱面额外乘数×1.0025，Milthm维度×10",
+      description: "解锁下一个层级，判定，谱面额外乘数×1.0025，Milthm维度×10",
        cost: n(1e27),
        unlocked() {return challengeCompletions('r',13)>4},
     },
@@ -1339,7 +1394,7 @@ if(eff.log10().gte(500)) eff = n(10).pow(eff.log10().sub(500).pow(0.8).add(500))
       11: {
         name: "RC1 Note消逝",
         challengeDescription(){
-          return "Note获取量^0.1，Rot点数数量÷2.4<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/5"},
+          return "Notes获取量^0.1，Rot点数数量÷2.4<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/5"},
         goalDescription(){return "1e"+n(500).add(n(challengeCompletions(this.layer,this.id)).mul(50))+" Cytus力量"},
         rewardDescription(){return "降低曲包的价格<br>效果：^"+format(challengeEffect(this.layer,this.id))},
         rewardEffect() {eff=n(1).div(n(challengeCompletions(this.layer,this.id)).add(1).pow(0.15))
@@ -1363,8 +1418,8 @@ if(eff.log10().gte(500)) eff = n(10).pow(eff.log10().sub(500).pow(0.8).add(500))
          b="0.4"}
          if(challengeCompletions('r',12)==2) {a="1e235"
          b="0.25"}
-         if(challengeCompletions('r',12)==3) {a="1e165"
-         b="0.16"}
+         if(challengeCompletions('r',12)==3) {a="1e185"
+         b="0.165"}
          if(challengeCompletions('r',12)==4) {a="1e105"
          b="0.1"}
          if(challengeCompletions('r',12)==5) {a="NaNeInfinity"
@@ -1389,7 +1444,7 @@ if(eff.log10().gte(500)) eff = n(10).pow(eff.log10().sub(500).pow(0.8).add(500))
           if(challengeCompletions('r',12)==0) return player.c.power.gte("1e850")
          if(challengeCompletions('r',12)==1) return player.c.power.gte("1e400")&&tmp.r.chal2Cal.lte(0.4)
          if(challengeCompletions('r',12)==2) return player.c.power.gte("1e235")&&tmp.r.chal2Cal.lte(0.25)
-         if(challengeCompletions('r',12)==3) return player.c.power.gte("1e165")&&tmp.r.chal2Cal.lte(0.16)
+         if(challengeCompletions('r',12)==3) return player.c.power.gte("1e185")&&tmp.r.chal2Cal.lte(0.165)
          if(challengeCompletions('r',12)==4) return player.c.power.gte("1e105")&&tmp.r.chal2Cal.lte(0.1)
          if(challengeCompletions('r',12)==5) return true
         },
@@ -1423,9 +1478,9 @@ if(eff.log10().gte(500)) eff = n(10).pow(eff.log10().sub(500).pow(0.8).add(500))
        },
         rewardDescription(){return "前两次完成分别解锁3个曲包升级<br>后三次完成基于完成次数和判定线增益旋律获取量，当前效果：×"+format(challengeEffect(this.layer,this.id))},
         rewardEffect() {
-         a=1
-         if(challengeCompletions(this.layer,this.id)>2) a=n(n(challengeCompletions(this.layer,this.id)).sub(2).mul(player.j.points)).pow(0.2)
-         return a
+         let a=n(1)
+         if(challengeCompletions(this.layer,this.id)>2) a=n(n(challengeCompletions(this.layer,this.id)).sub(2).mul(player.j.points.max(1))).pow(0.2)
+         return a.max(1)
         },
         style: {'height':'350px'},
         unlocked(){return hasUpgrade('j',17)},
@@ -1456,7 +1511,7 @@ upgBox: {
     symbol: "Mi",
     position: 2,
     startData() { return {
-        unlocked() { return hasUpgrade('r',37)},
+        unlocked() { return hasUpgrade('r',37)||hasAchievement('A',111)},
 points: n(1),
 total: n(1),
 dim1:n(0),
@@ -1474,13 +1529,13 @@ buyBoost:n(2),//购买维度倍率
     requires: n(1), 
     resource: "Milthm",
     type: "custom", 
-    branches(){return ['c','ch','sp']},
+    branches(){return ['ch','c']},
     getResetGain() {
     return n(0)
     },
     getNextAt() {return n(0)},
     row: 4, 
-    layerShown(){ return hasUpgrade('r',37)},
+    layerShown(){ return hasUpgrade('r',37)||hasAchievement('A',111)},
     update(diff) {
      if(player.devSpeed.gt(0)) {
       if(tmp.mi.buyables[21].effect.gt(0)) player.mi.points=player.mi.points.add(tmp.mi.buyables[21].effect.mul(player.mi.dim1).mul(diff).div(player.devSpeed))
@@ -1524,12 +1579,14 @@ buyBoost:n(2),//购买维度倍率
     if(gcs("r",141)==1) a = a.times(clickableEffect("r", 141))
     if(gcs("r",142)==1) a = a.times(clickableEffect("r", 142))
     if(gcs("r",143)==1) a = a.times(clickableEffect("r", 143))
+    if(tmp.ri.mil1.gte(1)) a=a.times(tmp.ri.mil1)
      return a
     },//计算维度的其他倍率
     buyBoost() {
      let a=n(2)
      if(hasUpgrade('mi',13)) a=n(2.1)
      if(hasUpgrade('mi',23)) a=a.add(upgradeEffect('mi',23))
+     if(tmp.ri.mil2.gte(0)) a=a.add(tmp.ri.mil2)
      return a
     },//计算购买维度的倍率
     tabFormat: {
@@ -1542,10 +1599,13 @@ buyBoost:n(2),//购买维度倍率
         content: [ ["infobox","dimBox"],
     "main-display","blank",
       ["display-text",
-      function() {return '你正在获得 '+ format(tmp.mi.buyables[21].effect.times(player.mi.dim1)) +' Milthm每秒<br>你累计有 ' + format(player.mi.total) + " Milthm"},
+      function() {return '你正在获得 '+ format(tmp.mi.buyables[21].effect.mul(player.mi.dim1)) +' Milthm每秒<br>你累计有 ' + format(player.mi.total) + " Milthm"},
     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
       ["display-text",
       function() {if(player.mi.total.gte("1.80e308")) return '在1.80e308 Milthm以后，Milthm维度和计数频率价格提升速度加快！'},
+    {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
+      ["display-text",
+      function() { return '当前维度的倍率是'+format(tmp.mi.dimBoost)+'<br>每次购买维度的倍率是'+format(tmp.mi.buyBoost,3)},
     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
 					["row", [["buyable", 11],["buyable",12],["buyable", 13]]],
 					["row", [["buyable", 21],["buyable",31],["buyable", 41]]],
@@ -1568,7 +1628,12 @@ doReset(resettingLayer) {
             if (resettingLayer == "t") {
                kept.push("milestones","upgrades","points","total")
             }
-
+            if (resettingLayer == "ri") {
+               if(hasMilestone('ri',1)) kept.push("milestones")
+               if(hasMilestone('ri',2)) kept.push("upgrades")
+              if(hasMilestone('ri',3)) kept.push("buyables","dim1","dim2","dim3","dim4","dim5","dim6","dim7","dim8","dim9")
+               if(hasMilestone('ri',7)) kept.push("points")
+            }
             layerDataReset(this.layer, kept)
         }
     },
@@ -1584,7 +1649,7 @@ doReset(resettingLayer) {
     description:"计数频率效果^5，Milthm增益Cyten获取量",
     cost: n(1e25),
     effect() {
-     let eff=n(8).pow(player.mi.points.log(15))
+     let eff=n(8).pow(player.mi.points.max(1).log(15))
      if(eff.log10().gte(50)) eff = n(10).pow(eff.log10().sub(50).pow(0.8).add(50))//sc
      return eff
     },
@@ -1605,7 +1670,7 @@ doReset(resettingLayer) {
     15:{ title: "",
     description:"基于Milthm增益旋律获取量",
     cost: n(1e60),
-    effect() {return player.mi.points.max(1).log(10).pow(0.25)},
+    effect() {return player.mi.points.max(10).log(10).pow(0.25)},
     effectDisplay() { return "×"+format(upgradeEffect(this.layer, this.id))},
     unlocked() {return hasUpgrade('mi',14)}, 
     },
@@ -1700,9 +1765,6 @@ doReset(resettingLayer) {
     done() { return player.mi.points.gte("1e370") }
    },
     },
-    challenges: {
-     
-       },
     buyables:{ 
    11: {//ts
 				title: "计数频率",
@@ -2089,7 +2151,7 @@ addLayer("j", {
   infoboxes: {
 introBox: {
   title: "层级11--判定",
-  body(){return "欢迎来到第11层，判定！你在本层级的目标是推进判定线和判定区间，提升谱面的难度和一些其他内容，同时，在本层会有很多对静态层级的增益。<br>致玩家：此刻是2024/6/24，很抱歉由于学业原因拖更了很久，暑假将至，希望大家都能度过一个充实的暑假，请相信音乐游戏树永远会陪着大家！"},
+  body(){return "欢迎来到第11层，判定！你在本层级的目标是推进判定线和判定区间，提升谱面的难度和一些其他内容，同时，在本层会有很多对静态层级的增益。<br>解锁不了？把Rot升级树换成21-31-32-41-43-51-53-61-72-82-92-102-112-121-131-141-151-73-83-93-71-81-91再试试？(需要120Rot点数)"},
         },
 judBox: {
   title: "判定区间",
@@ -2100,11 +2162,11 @@ judBox: {
     symbol: "J",
     position: 1,
     startData() { return {
-        unlocked() { return hasUpgrade('r',47)},
+        unlocked() { return hasUpgrade('r',47)||hasAchievement('A',111)},
 points: n(0),
 pdqj:n(500),
 pdqj0:n(500),//用于在挑战中确认判定区间
-pdqja:n(501),//最佳判定区间
+pdqja:n(500),//最佳判定区间
 time:n(0),//挑战用时
 theme:"default",
 clickables: {[11]: 0},
@@ -2116,17 +2178,18 @@ clickables: {[11]: 0},
     baseResource: "谱面", 
     baseAmount() {return player.ch.points}, 
     type: "static", 
-    branches(){return ['c','ch','sp']},
+    branches(){return ['c','sp','ch']},
     exponent: 1, 
-    gainMult() { 
+    gainMult() { //jgainmult
         mult = n(1)
+        if(inChallenge('ri',11)) mult=n(0)
         return mult
     },
-    gainExp() { 
+    gainExp() { //jgainexp
       exp= n(0.99)
        return exp
     },
-    directMult() { 
+    directMult() { //jdirectmult
         mult = n(25)
         return mult
     },
@@ -2134,48 +2197,59 @@ clickables: {[11]: 0},
     hotkeys: [
         {key: "j", description: "J： Reset for Judgment",onPress(){if(canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){ return hasUpgrade('r',47)},
+    resetsNothing() {return hasMilestone('ri',4)&&!gcs('j',11)==1},
+    canBuyMax(){return hasMilestone('ri',10)},
+    autoPrestige() {return hasMilestone('ri',4)},
+    layerShown(){ return hasUpgrade('r',47)||hasAchievement('A',111)},
     tabFormat: {
     "Milestones": {
         content: [ ["infobox","introBox"],
     "main-display",
-        "prestige-button",
+        "prestige-button","blank",
     "milestones",
      ],},
     "Judgment": {
         content: [ ["infobox","judBox"],
-    "main-display",
+    "main-display","prestige-button","blank",
     ["bar","pdqj"],"blank",
     ["bar","time"],"blank",
          ["display-text",function() {return '当前的判定区间是 ' + format(player.j.pdqj) + 'ms！'},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
          ["display-text",function() {if(gcs('j',11)==1) return '在挑战中修改判定区间没有作用！实际生效判定区间： '+format(player.j.pdqj0)+"ms"},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],"blank",
-         ["display-text",function() {if(player.j.pdqja==399) return "恭喜通关！399ms以下的判定区间现版本无法完成，请等待下一次更新！"},
-     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],"blank",
     "clickables",
          ["display-text",
          function() { return '判定区间挑战减益：<br>1. Notes^' + format(tmp.j.pdqj1,3)+ '<br>2. 课题力量^' + format(tmp.j.pdqj2,3) + '<br>3.Phidata^' + format(tmp.j.pdqj3,3) },
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],"blank",
-        ["display-text",function() {return '你的最佳判定区间是 ' + format(player.j.pdqja) + 'ms！'},
+      ["display-text",function() {return '你的最佳判定区间是 ' + format(player.j.pdqja) + 'ms！'},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
+     ["display-text",function() {if(player.j.pdqja.lte(300)) return '最佳判定区间在299ms以后受软上限影响！实际生效最佳判定区间: ' + format(n(300).sub(n(300).sub(player.j.pdqja).pow(0.8))) + 'ms！'},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
+    ["display-text",function() {if(player.j.pdqja.lte(299)) return '恭喜通关！298ms及更严的判定区间挑战当前版本无法完成！'},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
          ["display-text",
-         function() {if(hasUpgrade('j',12)) return '最佳判定区间增益：<br>1. 旋律×' + format(tmp.j.pdqja1)},
+         function() {if(hasUpgrade('j',12)) return '最佳判定区间增益：<br>1. 旋律×' + format(tmp.j.pdqja1,3)},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
          ["display-text",
-         function() {if(hasMilestone('j',2)) return '2.诗篇×' + format(tmp.j.pdqja2)},
+         function() {if(hasMilestone('j',2)) return '2.诗篇×' + format(tmp.j.pdqja2,3)},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
          ["display-text",
-         function() {if(hasUpgrade('j',14)) return '3.魔王曲×' + format(tmp.j.pdqja3)},
+         function() {if(hasUpgrade('j',14)) return '3.魔王曲×' + format(tmp.j.pdqja3,3)},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
          ["display-text",
          function() {if(hasMilestone('j',3)) return '4.课题力量×' + format(tmp.j.pdqja4)},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
          ["display-text",
-         function() {if(hasUpgrade('j',15)) return '5.曲包×' + format(tmp.j.pdqja5)},
+         function() {if(hasUpgrade('j',15)) return '5.曲包×' + format(tmp.j.pdqja5,3)},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
          ["display-text",
-         function() {if(hasUpgrade('j',170)) return '6.谱面×' + format(tmp.j.pdqja6)},
+         function() {if(hasUpgrade('ri',16)) return '6.谱面×' + format(tmp.j.pdqja6,3)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
+         ["display-text",
+         function() {if(hasUpgrade('ri',16)) return '7.曲包专精效果^' + format(tmp.j.pdqja7,3)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
+         ["display-text",
+         function() {if(hasUpgrade('ri',21)) return '8.填充Notes^' + format(tmp.j.pdqja8,3)},
      {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],
      "upgrades",
      ],
@@ -2220,57 +2294,82 @@ pdqj1() {
  let a=n(player.j.pdqj0)
  let b=n(1).div(n(500).div(a.max(1)).pow(0.5))
 if(a.lt(450)) b=b.pow(n(450).div(a.max(1))).div(n(10).div(a.add(50).div(5).pow(0.5)))
-if(a.lt(399)) b=n(0)//仅限当前版本
- return b
+if(hasUpgrade('ri',11)) b=b.mul(1.01)
+if(player.j.pdqj0.lte(298)) b=n(0)//仅限0.5版本
+ return b.min(1)
 },
 pdqj2() {
  let a=n(player.j.pdqj0)
  let b=n(n(1).div((n(500).sub(a)).pow(0.5).max(1))).pow(0.5)
  if(a.lt(400)) b=b.pow(n(400).div(a.max(1))).div(n(10).div(a.add(100).div(5).pow(0.5)))
+ if(hasMilestone('ri',11)) b=b.pow(0.72)
  return b
 },
 pdqj3() {
  let a=n(player.j.pdqj0)
  let b=n(1).sub((n(500).sub(a)).mul(0.002).max(0))
 if(a.lt(400)) b=b.pow(n(400).div(a.max(1))).div(n(10).div(a.add(100).div(5).pow(0.5)))
+b=b.pow(tmp.ri.phi2)
  return b
 },
 pdqja1() {
  let a=player.j.pdqja
+ if(a.lt(300)) a=n(300).sub(n(300).sub(a).pow(0.8))//sc
  let b=n(1.5).pow((n(500).sub(a)).pow(0.3))
  if(!hasUpgrade('j',12)) b=n(1)
- return b
+ return b.max(1)
 },
 pdqja2() {
  let a=player.j.pdqja
+ if(a.lt(300)) a=n(300).sub(n(300).sub(a).pow(0.8))//sc
  let b=n(1.6).pow((n(500).sub(a)).pow(0.2))
  if(!hasMilestone('j',2)) b=n(1)
- return b
+ return b.max(1)
 },
 pdqja3() {
  let a=player.j.pdqja
+ if(a.lt(300)) a=n(300).sub(n(300).sub(a).pow(0.8))//sc
  let b=n(1.2).pow((n(500).sub(a)).pow(0.4))
  if(!hasUpgrade('j',14)) b=n(1)
- return b
+ return b.max(1)
 },
 pdqja4() {
  let a=player.j.pdqja
+ if(a.lt(300)) a=n(300).sub(n(300).sub(a).pow(0.8))//sc
  let b=n(2).pow((n(500).sub(a)))
  if(!hasMilestone('j',3)) b=n(1)
  if(gcs('j',11)==1&&!hasMilestone('j',4)) b=n(1)
- if(gcs('j',11)==1&&hasMilestone('j',4)) b=b.pow(0.2)
- return b
+ if(gcs('j',11)==1&&hasMilestone('j',4)) {b=b.pow(0.2)
+ if(hasUpgrade('ri',23)&&player.j.pdqj0.lt(350)) b=b.pow(1.5)}
+ return b.max(1)
 },
 pdqja5() {
  let a=player.j.pdqja
+ if(a.lt(300)) a=n(300).sub(n(300).sub(a).pow(0.8))//sc
  let b=n(1.2).pow((n(500).sub(a)).pow(0.5))
  if(!hasUpgrade('j',15)) b=n(1)
- return b
+ return b.max(1)
 },
 pdqja6() {
  let a=player.j.pdqja
- let b=n(1.01).pow((n(450).sub(a)).pow(0.1))
- return n(1)
+ if(a.lt(300)) a=n(300).sub(n(300).sub(a).pow(0.8))//sc
+ let b=n(1.02).pow((n(500).sub(a)).pow(0.15))
+ if(!hasUpgrade('ri',16)) b=n(1)
+ return b.max(1)
+},
+pdqja7() {
+ let a=player.j.pdqja
+ if(a.lt(300)) a=n(300).sub(n(300).sub(a).pow(0.8))//sc
+ let b=n(1.125).pow((n(500).sub(a)).pow(0.2))
+ if(!hasUpgrade('ri',16)) b=n(1)
+ return b.max(1)
+},
+pdqja8() {
+ let a=player.j.pdqja
+ if(a.lt(300)) a=n(300).sub(n(300).sub(a).pow(0.8))//sc
+ let b=n(1.2).pow((n(500).sub(a)).pow(0.15))
+ if(!hasUpgrade('ri',21)) b=n(1)
+ return b.max(1)
 },
 update(diff) {
 if(gcs('j',11)==0) {
@@ -2286,7 +2385,11 @@ doReset(resettingLayer) {
             if (resettingLayer == "t") {
                kept.push("milestones","upgrades","pdqja","points")
             }
-
+            if (resettingLayer == "ri") {
+               if(hasMilestone('ri',1)) kept.push("milestones")
+               if(hasMilestone('ri',2)) kept.push("upgrades")
+               if(hasMilestone('ri',4)) kept.push("pdqja","pdqj")
+            }
             layerDataReset(this.layer, kept)
         }
     },
@@ -2337,6 +2440,12 @@ doReset(resettingLayer) {
     effectDescription: "解锁一个额外的判定区间升级<br>提醒：在比400ms更严的判定区间挑战中，课题力量获取量和Phidata获取量减少速度变快！",
     unlocked() {return hasMilestone('j',6)},
     done() { return player.j.pdqja.lte(400)},
+   },
+   8: {
+    requirementDescription: "通过300ms判定区间挑战",
+    effectDescription: "Dot获取量×4<br>最佳判定区间在299ms以后受软上限影响！",
+    unlocked() {return hasMilestone('j',7)},
+    done() { return player.j.pdqja.lte(300)},
    },
    },
    clickables:{       
@@ -2448,7 +2557,7 @@ doReset(resettingLayer) {
     fullDisplay() {return "未影人2004<br>Milthm增益Notes获取量（判定区间挑战内削弱）<br>当前效果: ×"+format(this.effect())+"<br>需求：通过445ms判定区间挑战"},
     unlocked() {return hasMilestone('j',6)},
     canAfford() {return player.j.pdqja.lte(445)},
-    effect() {let m=player.mi.points
+    effect() {let m=player.mi.points.max(10)
      let a=m.pow(m.log(10))
      if(a.log10().gte(10000)) a = n(10).pow(a.log10().sub(10000).pow(0.8).add(9999))//sc
      if(gcs('j',11)==1&&a.log10().gte(1000)) a = n(10).pow(a.log10().sub(1000).pow(0.75).add(999))//sc
@@ -2497,10 +2606,637 @@ doReset(resettingLayer) {
     canAfford() {return player.j.pdqja.lte(406)},
   },
     31:{ 
-    fullDisplay() {return "AUTOPLAY<br>自动购买五个曲包专精可购买和三个获得Rot点数的可购买<br><br>解ͤ̀҉̷̸͍̺̟̳͔̞̙̳̳͕͖̬̮̳͂̿͆ͯ̋̒̇ͨ́͋̄̃͌̉̈ͮ̿͟͠ ̷͇͚̝̘̞̯̦̾ͬ̋̌̂͑ͤ̓ͭ̀͒̌̑̒̎͊͆ͬͬ҉̶̴̩̥͎͖̻̜̰̪̙̝̺͕͓̹̱͚̪ͦͣ͐́͆̀̀ͪ̍ͫ͂̇ͬ̑̉̓̍̋ͦ͗̌̌̊͊̚͞.̢͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̀̕̚ͅͅ锁ͤ̀҉̷̸̨͍̺̟̳͔̞̙̳̳͕͖̬̮̳̥͖͕͂̿͆ͯ̋̒̇ͨ́͋̄̃͌̉̈ͮ̿͟͠ ̷͇͚̝̘̞̯̦̾ͬ̋̌̂͑ͤ̓ͭ̀͒̌̑̒̎͊͆ͬͬ҉̶̴̩̥͎͖̻̜̰̪̙̝̺͕͓̹̱͚̪̱ͦͣ͐́͆̀̀ͪ̍ͫ͂̇ͬ̑̉̓̍̋ͦ͗̌̌̊͊̊́̚͞.̢͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̜͍͍̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̀̄̕̚ͅͅ ̷̦̖̘̤̇ͣ̿͗͆̓.̵̥͈̝͚̘̣̘͍̘͎̟̳̺̗̬̰̤̪̮̞̝̯̣̖̂̿ͫͣ̊̔ͯ́̋̍͞͠҉̴̧̲̗̭̼̩͊ͤ͋͐́̋͡ ̡̢̛̫͈̺̗̗̭̮͎̗̫̫͉͉͇͚͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̃͛̔͒̒ͥ̇͂̽̌̈̎̀͆͑͆ͨͬ̽̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̚͘̕̚ͅͅͅ下ͤ̀҉̷̸͍̺̟̳͔̞̙̳̳͕͖̬̮̳͂̿͆ͯ̋̒̇ͨ́͋̄̃͌̉̈ͮ̿͟͠ ̷͇͚̝̘̞̯̦̾ͬ̋̌̂͑ͤ̓ͭ̀͒̌̑̒̎͊͆ͬͬ҉̶̴̩̥͎͖̻̜̰̪̙̝̺͕͓̹̱͚̪ͦͣ͐́͆̀̀ͪ̍ͫ͂̇ͬ̑̉̓̍̋ͦ͗̌̌̊͊̚͞.̢͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̀̕̚ͅͅ一ͤ̀҉̷̸̨͍̺̟̳͔̞̙̳̳͕͖̬̮̳̥͖͕͂̿͆ͯ̋̒̇ͨ́͋̄̃͌̉̈ͮ̿͟͠ ̷͇͚̝̘̞̯̦̾ͬ̋̌̂͑ͤ̓ͭ̀͒̌̑̒̎͊͆ͬͬ҉̶̴̩̥͎͖̻̜̰̪̙̝̺͕͓̹̱͚̪̱ͦͣ͐́͆̀̀ͪ̍ͫ͂̇ͬ̑̉̓̍̋ͦ͗̌̌̊͊̊́̚͞.̢͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̜͍͍̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̀̄̕̚ͅͅ ̷̦̖̘̤̇ͣ̿͗͆̓.̵̥͈̝͚̘̣̘͍̘͎̟̳̺̗̬̰̤̪̮̞̝̯̣̖̂̿ͫͣ̊̔ͯ́̋̍͞͠҉̴̧̲̗̭̼̩͊ͤ͋͐́̋͡ ̡̢̛̫͈̺̗̗̭̮͎̗̫̫͉͉͇͚͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̃͛̔͒̒ͥ̇͂̽̌̈̎̀͆͑͆ͨͬ̽̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̚͘̕̚ͅͅͅ个ͤ̀҉̷̸͍̺̟̳͔̞̙̳̳͕͖̬̮̳͂̿͆ͯ̋̒̇ͨ́͋̄̃͌̉̈ͮ̿͟͠ ̷͇͚̝̘̞̯̦̾ͬ̋̌̂͑ͤ̓ͭ̀͒̌̑̒̎͊͆ͬͬ҉̶̴̩̥͎͖̻̜̰̪̙̝̺͕͓̹̱͚̪ͦͣ͐́͆̀̀ͪ̍ͫ͂̇ͬ̑̉̓̍̋ͦ͗̌̌̊͊̚͞.̢͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̀̕̚ͅͅ层ͤ̀҉̷̸̨͍̺̟̳͔̞̙̳̳͕͖̬̮̳̥͖͕͂̿͆ͯ̋̒̇ͨ́͋̄̃͌̉̈ͮ̿͟͠ ̷͇͚̝̘̞̯̦̾ͬ̋̌̂͑ͤ̓ͭ̀͒̌̑̒̎͊͆ͬͬ҉̶̴̩̥͎͖̻̜̰̪̙̝̺͕͓̹̱͚̪̱ͦͣ͐́͆̀̀ͪ̍ͫ͂̇ͬ̑̉̓̍̋ͦ͗̌̌̊͊̊́̚͞.̢͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̜͍͍̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̀̄̕̚ͅͅ ̷̦̖̘̤̇ͣ̿͗͆̓.̵̥͈̝͚̘̣̘͍̘͎̟̳̺̗̬̰̤̪̮̞̝̯̣̖̂̿ͫͣ̊̔ͯ́̋̍͞͠҉̴̧̲̗̭̼̩͊ͤ͋͐́̋͡ ̡̢̛̫͈̺̗̗̭̮͎̗̫̫͉͉͇͚͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̃͛̔͒̒ͥ̇͂̽̌̈̎̀͆͑͆ͨͬ̽̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̚͘̕̚ͅͅͅ级ͤ̀҉̷̸͍̺̟̳͔̞̙̳̳͕͖̬̮̳͂̿͆ͯ̋̒̇ͨ́͋̄̃͌̉̈ͮ̿͟͠ ̷͇͚̝̘̞̯̦̾ͬ̋̌̂͑ͤ̓ͭ̀͒̌̑̒̎͊͆ͬͬ҉̶̴̩̥͎͖̻̜̰̪̙̝̺͕͓̹̱͚̪ͦͣ͐́͆̀̀ͪ̍ͫ͂̇ͬ̑̉̓̍̋ͦ͗̌̌̊͊̚͞.̢͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̀̕̚ͅͅ，???ͤ̀҉̷̸̨͍̺̟̳͔̞̙̳̳͕͖̬̮̳̥͖͕͂̿͆ͯ̋̒̇ͨ́͋̄̃͌̉̈ͮ̿͟͠ ̷͇͚̝̘̞̯̦̾ͬ̋̌̂͑ͤ̓ͭ̀͒̌̑̒̎͊͆ͬͬ҉̶̴̩̥͎͖̻̜̰̪̙̝̺͕͓̹̱͚̪̱ͦͣ͐́͆̀̀ͪ̍ͫ͂̇ͬ̑̉̓̍̋ͦ͗̌̌̊͊̊́̚͞.̢͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̜͍͍̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̀̄̕̚ͅͅ ̷̦̖̘̤̇ͣ̿͗͆̓.̵̥͈̝͚̘̣̘͍̘͎̟̳̺̗̬̰̤̪̮̞̝̯̣̖̂̿ͫͣ̊̔ͯ́̋̍͞͠҉̴̧̲̗̭̼̩͊ͤ͋͐́̋͡ ̡̢̛̫͈̺̗̗̭̮͎̗̫̫͉͉͇͚͔̮̖̠͇̝̳̪̩̩̥͎͔̞̳̣̻͓̃͛̔͒̒ͥ̇͂̽̌̈̎̀͆͑͆ͨͬ̽̐̊̔́̀͛̎̑͌̓͑̿́̏ͭͫ̀͋͋̐̍ͦͦ̚͘̕̚ͅͅͅ<br>需求：通过399ms判定区间挑战"},
+    fullDisplay() {return "AUTOPLAY<br>自动购买曲包专精和Rot点数的可购买，解锁下一个层级<br>需求：通过400ms判定区间挑战"},
     unlocked() {return hasMilestone('j',7)},
-    canAfford() {return player.j.pdqja.lte(399)},
-    style: {'width':'500px'},
+    tooltip:"本行升级不是真正意义上的音游大神，但是我想你们懂得",
+    canAfford() {return player.j.pdqja.lte(400)},
+  },
+    32:{ 
+    fullDisplay() {return "Record<br>基于超过e4200000的Notes增益旋律<br>当前效果: ×"+format(this.effect())+"<br>需求：通过395ms判定区间挑战"},
+    unlocked() {return hasUpgrade('j',31)},
+    canAfford() {return player.j.pdqja.lte(395)},
+    effect() {
+     let m=player.points.max("e4200000").log(10).sub(4199990).log(10)
+     if(hasUpgrade('j',34)) m=m.pow(upgradeEffect('j',34))
+     return m.sqrt()
+    }
+  },
+    33:{ 
+    fullDisplay() {return "Combo<br>基于判定线增益Dot获取量<br>当前效果: ×"+format(this.effect())+"<br>需求：通过390ms判定区间挑战"},
+    unlocked() {return hasUpgrade('j',32)},
+    canAfford() {return player.j.pdqja.lte(390)},
+    effect() {
+     let m=player.j.points.max(1).pow(0.3)
+     if(hasUpgrade('j',34)) m=m.pow(upgradeEffect('j',34))
+     return m.sqrt()
+    }
+  },
+    34:{ 
+    fullDisplay() {return "Ottoplay<br>增强前两个升级的效果，Rizline升级14“Skyscape”效果对Dot也生效<br>当前效果: 前两个升级效果^"+format(this.effect())+"<br>需求：通过385ms判定区间挑战"},
+    unlocked() {return hasUpgrade('j',33)},
+    canAfford() {return player.j.pdqja.lte(385)},
+    effect() {
+     let m=player.j.points.max(2).log(2).pow(0.3)
+     return m
+    }
+  },
+    35:{ 
+    fullDisplay() {return "All Perfect<br>每秒获得0.001%的Dot获取量(受全局速率影响)<br>需求：通过380ms判定区间挑战&&1000 Dot"},
+    unlocked() {return hasUpgrade('j',34)},
+    canAfford() {return player.j.pdqja.lte(380)&&player.ri.points.gte(1000)},
+  },
+    36:{ 
+    fullDisplay() {return "Pure Memory<br>基于Dot数量和超过e4.6e6的Notes数量增益Cytus力量<br>当前效果: ×"+format(this.effect())+"<br>需求：通过375ms判定区间挑战"},
+    unlocked() {return hasUpgrade('j',35)},
+    canAfford() {return player.j.pdqja.lte(375)},
+    effect() {
+     let a=player.points.max("e4.6e6").log(10).sub(4.6e6).sqrt().div(10)
+     let eff=player.ri.points.max(1).pow(a.add(100))
+     if(eff.log10().gte(500)) eff = n(10).pow(eff.log10().sub(500).pow(0.8).add(500))//sc
+     return eff
+    }
+  },
+    37:{ 
+    fullDisplay() {return "Million Master<br>解锁一个Rizline升级，基于填充Notes增益Notes获取量<br>当前效果: ×"+format(this.effect())+"<br>需求：通过370ms判定区间挑战"},
+    unlocked() {return hasUpgrade('j',36)},
+    canAfford() {return player.j.pdqja.lte(370)},
+    effect() {
+     let a=player.r.notes.max(1)
+     eff=a.pow(0.001)
+     if(eff.log10().gte(10000)) eff = n(10).pow(eff.log10().sub(10000).pow(0.8).add(10000))//sc
+     return eff
+    }
   },
    }
-})//judgment
+})//Judgment
+
+//Row 5
+addLayer("ri", {
+   infoboxes: {
+introBox: {
+  title: "层级12--Rizline",
+  body(){return "欢迎来到第12层，Rizline！本层级属于第6行，意味着会重置之前的进度！不用担心，你会很快获得比原来更多的进展，本层内，你还会解锁一些独特的新功能！<br>点线交错，让音乐链接世界！Rizline是鸽游（Phigros制作团队）制作的第二款音乐游戏！<br>资源名称由来：Rizline游戏内货币：Dot"},
+        },
+colBox: {
+  title: "联动",
+  body(){return "解锁联动后，你可以和其他音游联动，给两个层级不同的增益，其中曲库是累计购买的Rizline升级数量，并且受联动效果影响。更多联动效果可以在“Collaboration Effects”（联动效果）标签页查看，不要忘记购买Rizline升级哦！"},
+        },
+},
+    name: "Rizline",
+    symbol: "Ri",
+    position: 0,
+    startData() { return {
+    unlocked() { return hasUpgrade('j',31)||hasAchievement('A',111)},
+	  	points: n(0),
+	  	total: n(0),
+	  	songs: n(0),//曲库，每个升级+1，联动效果影响
+    }},
+    color: "#eeffd1",
+    requires: n(1e42), 
+    resource: "Dot",
+    baseResource: "旋律", 
+    baseAmount() {return player.r.points}, 
+    type: "normal", 
+    exponent: 1, 
+    passiveGeneration() {
+     let a=n(0)
+     if(hasUpgrade('j',35)) a=n(0.00001)
+     return a
+},
+    gainMult() { //rigainmult
+        mult = n(1)
+        if(hasUpgrade('j',33)) mult=mult.mul(upgradeEffect('j',33))
+        if(hasUpgrade('j',34)&&hasUpgrade('ri',14)) mult=mult.mul(upgradeEffect('ri',14))
+        return mult
+    },
+    gainExp() { //rigainexp
+      exp= n(0.2)
+      if(challengeCompletions('ri',11)) exp=exp.mul(challengeEffect('ri',11))
+       return exp
+    },
+    directMult() { //ridirectmult
+        mult = n(1)
+        mult=mult.mul(tmp.ri.riz1)
+        if(hasUpgrade('ri',24)) mult=mult.mul(2)
+        if(hasMilestone('j',8)) mult=mult.mul(4)
+        return mult
+    },
+    branches(){return ['r','mi','j']},
+    row: 5, 
+    layerShown(){ return hasUpgrade('j',31)||hasAchievement('A',111)},
+    riz1() {
+     let a=n(1)
+     let b=player.ri.songs
+     if(gba('ri',11).gte(1)) a=a.mul(b.pow(gba('ri',11).pow(0.3).div(3)))
+     return a.max(1)
+    },
+    riz2() {
+     let a=n(1)
+     let b=player.ri.songs
+     if(gba('ri',12).gte(1)) a=a.add(b.div(400))
+     return a.max(1)
+    },
+    phi1() {
+     let a=n(16.3)
+     let b=player.ri.songs
+     if(gba('ri',11).gte(1)) a=a.add(b.mul(gba('ri',11)).div(20))
+     if(gba('ri',11).gte(5)) a=n(1.79e308)
+     return a.max(16.3)
+    },
+    phi2() {
+     let a=n(1)
+     let b=player.ri.songs
+     if(gba('ri',11).gte(2)) a=a.div(b.mul(gba('ri',11)).div(50).add(1))
+     return a.min(1)
+    },
+    phi3() {
+     let a=n(10)
+     let b=player.ri.songs
+     if(gba('ri',11).gte(4)) a=a.pow(b.mul(gba('ri',11).pow(2)).div(5))
+     return a.max(1)
+    },
+    la1() {
+     let a=n(1)
+     let b=player.ri.songs
+     if(gba('ri',12).gte(1)) a=b.pow(0.8).mul(gba('ri',12).pow(0.5)).div(200).add(1)
+     return a.max(1)
+    },
+    la2() {
+     let a=n(2)
+     let b=player.ri.songs
+     if(gba('ri',12).gte(3)) a=a.pow(b.mul(gba('ri',12)))
+     if(a.log10().gte(40)) a = n(10).pow(a.log10().sub(40).pow(0.5).add(40))//sc
+     return a.max(1)
+    },
+    mil1() {
+     let a=n(3)
+     let b=player.ri.songs
+     if(gba('ri',13).gte(1)) a=a.pow(b.mul(gba('ri',13))).max(1).log(10)
+     return a.max(1)
+    },
+    mil2() {
+     let a=n(0)
+     let b=player.ri.songs
+     if(gba('ri',13).gte(3)) a=b.pow(0.5).mul(gba('ri',13).pow(0.5)).div(200)
+     return a.max(0)
+    },
+    ric1() {
+     let a=challengeCompletions('ri',11)
+     if(a==0) return n(300)
+     if(a==1) return n(200)
+     if(a==2) return n(120)
+     if(a==3) return n(40)
+     else return n(0)
+    },
+    doReset(resettingLayer) {
+        if (layers[resettingLayer].row > layers[this.layer].row) {
+            let kept = ["unlocked", "auto"]
+            if (resettingLayer == "t") {
+               kept.push("milestones","upgrades","points")
+            }
+            layerDataReset(this.layer, kept)
+        }
+    },
+    update(diff) {
+     player.ri.songs=n(player.ri.upgrades.length).add(buyableEffect('ri',11)).add(buyableEffect('ri',12))
+     player.ri.points=player.ri.points.min(1.5e17)
+    },
+    tabFormat: {
+    "Milestones": {
+        content: [ ["infobox","introBox"],
+    "main-display",
+    "prestige-button","blank",
+    "resource-display","blank",
+    ["display-text", function() {if(player.devSpeed.gt(1)&&tmp.ri.passiveGeneration.gt(0)) return '算上全局速率，你正在获得 ' + format(n(tmp.ri.resetGain).mul(tmp.ri.passiveGeneration).mul(player.devSpeed))+' Dot每秒'},
+     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
+    "milestones",
+     ],},
+    "Upgrades": {
+        content: [// ["infobox","upgBox"],
+        "main-display",
+        "prestige-button","blank",
+        "resource-display","blank",
+        ["display-text", function() {if(player.devSpeed.gt(1)&&tmp.ri.passiveGeneration.gt(0)) return '算上全局速率，你正在获得 ' + format(n(tmp.ri.resetGain).mul(tmp.ri.passiveGeneration).mul(player.devSpeed))+' Dot每秒'},
+     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
+    "upgrades",
+],
+unlocked(){return true}
+    },
+    "Collaborate": {
+     content: [ ["infobox","colBox"],
+     "main-display",
+     "prestige-button","blank",
+     "resource-display","blank",
+     ["display-text", function() {if(player.devSpeed.gt(1)&&tmp.ri.passiveGeneration.gt(0)) return '算上全局速率，你正在获得 ' + format(n(tmp.ri.resetGain).mul(tmp.ri.passiveGeneration).mul(player.devSpeed))+' Dot每秒'},
+     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
+     ["display-text",
+     function() {return '你的曲库中有 ' + format(player.ri.songs) + ' 首歌曲！'},
+     {"color": "#ffffff", "font-size": "24px", "font-family": "Comic Sans MS"}],//曲库
+     "buyables",
+],
+unlocked(){return hasUpgrade('ri',17)}
+    },
+    "Collaboration Effects": {
+     content: [ ["infobox","ceBox"],
+     "main-display",
+     "prestige-button","blank",
+     "resource-display","blank",
+     ["display-text", function() {if(player.devSpeed.gt(1)&&tmp.ri.passiveGeneration.gt(0)) return '算上全局速率，你正在获得 ' + format(n(tmp.ri.resetGain).mul(tmp.ri.passiveGeneration).mul(player.devSpeed))+' Dot每秒'},
+     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
+     ["display-text",
+     function() { return 'Rizline联动效果:'},
+     {"color": "#ffffff", "font-size": "24px", "font-family": "Comic Sans MS"}],//riz
+     ["display-text",
+     function() {if(gba('ri',11).gte(1)) return '1.Dot获取量直接增益×'+format(tmp.ri.riz1)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//riz1
+     ["display-text",
+     function() {if(gba('ri',12).gte(1)) return '2.全局速率^'+format(tmp.ri.riz2,3)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//riz2
+     "blank",["display-text",
+     function() {if(gba('ri',11).gte(1)) return 'Phigros联动效果:'},
+     {"color": "#ffffff", "font-size": "24px", "font-family": "Comic Sans MS"}],//phi
+     ["display-text",
+     function() {if(gba('ri',11).gte(1)) return '1.延后RKS上限至'+format(tmp.ri.phi1)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//phi1
+     ["display-text",
+     function() {if(gba('ri',11).gte(2)) return '2.弱化判定区间挑战的第3个减益(^'+format(tmp.ri.phi2,3)+')'},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//phi2
+     ["display-text",
+     function() {if(gba('ri',11).gte(4)) return '3.Phidata额外乘数×'+format(tmp.ri.phi3)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//phi3
+     "blank",["display-text",
+     function() {if(gba('ri',12).gte(1)) return 'Lanota联动效果:'},
+     {"color": "#ffffff", "font-size": "24px", "font-family": "Comic Sans MS"}],//la
+     ["display-text",
+     function() {if(gba('ri',12).gte(1)) return '1.诗篇获取量×'+format(tmp.ri.la1,3)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//la1
+     ["display-text",
+     function() {if(gba('ri',12).gte(2)) return '2.诗篇升级“小潜力股”底数变为'+format(tmp.ri.la2)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//la2
+     "blank",["display-text",
+     function() {if(gba('ri',13).gte(1)) return 'Milthm联动效果:'},
+     {"color": "#ffffff", "font-size": "24px", "font-family": "Comic Sans MS"}],//mil
+     ["display-text",
+     function() {if(gba('ri',13).gte(1)) return '1.Milthm维度×'+format(tmp.ri.mil1)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//mil1
+     ["display-text",
+     function() {if(gba('ri',13).gte(3)) return '2.Milthm维度购买倍率+'+format(tmp.ri.mil2,3)},
+     {"color": "#ffffff", "font-size": "20px", "font-family": "Comic Sans MS"}],//mil2
+],
+unlocked(){return hasUpgrade('ri',17)}
+    },
+    "Challenges": {
+        content: [ //["infobox","chalBox"],
+     "main-display",
+     "prestige-button","blank",
+     "resource-display","blank",
+     ["display-text", function() {if(player.devSpeed.gt(1)&&tmp.ri.passiveGeneration.gt(0)) return '算上全局速率，你正在获得 ' + format(n(tmp.ri.resetGain).mul(tmp.ri.passiveGeneration).mul(player.devSpeed))+' Dot每秒'},
+     {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],"blank",
+    "challenges",
+],
+  unlocked(){return hasUpgrade('ri',27)}
+},
+},
+    milestones: {
+    0: {
+        requirementDescription: "累计 1 Dot",
+        effectDescription: "保留所有Rotaeno里程碑和Rotaeno挑战完成次数",
+        done() { return player.ri.total.gte(1) }
+    },
+    1: {
+        requirementDescription: "累计 2 Dot",
+        effectDescription: "保留所有Milthm和判定里程碑，解锁第三行判定升级",
+        tooltip:"里程碑数值是斐波那契数列哦",
+        done() { return player.ri.total.gte(2) }
+    },
+    2: {
+        requirementDescription: "累计 3 Dot",
+        effectDescription: "保留Rotaeno、Milthm和判定升级",
+        done() { return player.ri.total.gte(3) }
+    },
+    3: {
+        requirementDescription: "累计 5 Dot",
+        effectDescription: "保留Rot升级树(它们不再消耗Rot点数)和Milthm维度",
+        done() { return player.ri.total.gte(5) }
+    },
+    4: {
+        requirementDescription: "累计 8 Dot",
+        effectDescription: "自动获得判定线，它们什么也不重置（判定区间挑战内除外）",
+        done() { return player.ri.total.gte(8) }
+    },
+    5: {
+        requirementDescription: "累计 13 Dot",
+        effectDescription: "自动填充Notes，保留最佳判定区间",
+        done() { return player.ri.total.gte(13) }
+    },
+    6: {
+        requirementDescription: "累计 21 Dot",
+        effectDescription: "获得Rot点数不再消耗资源，自动购买最大Rot点数获得可购买",
+        done() { return player.ri.total.gte(21) }
+    },
+    7: {
+        requirementDescription: "累计 34 Dot",
+        effectDescription: "保留Milthm数量",
+        done() { return player.ri.total.gte(34) }
+    },
+    8: {
+        requirementDescription: "累计 55 Dot",
+        effectDescription: "保留Rot点数和Rot点数获得可购买",
+        done() { return player.ri.total.gte(55) }
+    },
+    9: {
+        requirementDescription: "累计 89 Dot",
+        effectDescription: "Notes获取量×1e1000",
+        done() { return player.ri.total.gte(89) }
+    },
+    10: {
+        requirementDescription: "累计 144 Dot",
+        effectDescription: "你可以购买最大判定线",
+        done() { return player.ri.total.gte(144) }
+    },
+    11: {
+        requirementDescription: "累计 6765 Dot",
+        effectDescription: "减弱判定区间挑战的减益效果2",
+        tooltip:"从1,1,2,3,5…算起，这是斐波那契数列的第20项！<br>效果^0.72",
+        done() { return player.ri.total.gte(6765) }
+    },
+    },
+    upgrades: {
+    11:{ title: "Pastel Lines",
+      description: "弱化判定区间挑战的第一个减益（指数×1.01，最大为1）",
+       cost:n(1),
+       tooltip:"本层级升级名来源于Rizline内Disc 1的曲目名称，按照游戏内解锁顺序排序",
+     },
+    12:{ title: "Power Attack",
+      description: "增强Rot升级树161的效果（旋律获取变快了）",
+       cost:n(2),
+       unlocked() {return hasUpgrade('ri',11)},
+     },
+    13:{ title: "Gleam",
+      description: "填充Notes获取量^1.1",
+       cost:n(10),
+       unlocked() {return hasUpgrade('ri',12)},
+     },
+    14:{ title: "Skyscape",
+      description() {
+       let a="旋律获取量"
+       if(hasUpgrade('j',34)) a="旋律和Dot获取量"
+       return '基于Dot数量增益'+a
+      },
+       cost:n(30),
+       effect() {
+       let eff = player.ri.points.max(1).pow(0.3)
+       if(eff.log10().gte(3)) eff = n(10).pow(eff.log10().sub(2).pow(0.5).add(2))//sc
+       return eff
+      },
+      effectDisplay() { return format(this.effect())+"×" },
+       unlocked() {return hasUpgrade('ri',13)},
+     },
+    15:{ title: "On And On!!",
+      description: "基于Dot指数提升填充Notes",
+       cost:n(100),
+       effect() {
+       let eff = player.ri.points.max(10).log(10).pow(0.3)
+       if(eff.gte(2)) eff = eff.sub(2).div(2).add(2)//sc
+       return eff
+      },
+      effectDisplay() { return "^"+format(this.effect(),3) },
+       unlocked() {return hasUpgrade('ri',14)},
+     },
+    16:{ title: "Polygons",
+      description: "解锁第6和第7个判定区间效果",
+       cost:n(120),
+       unlocked() {return hasUpgrade('ri',15)},
+     },
+    17:{ title: "Abgrund",
+      description: "解锁Ri层级的新功能：联动！你可以和其他音游联动，给两个层级不同的增益！",
+       cost:n(1e4),
+       unlocked() {return hasUpgrade('j',37)},
+     },
+    21:{ title: "Journey To The Rainbows",
+      description: "最佳判定区间可以指数提升填充Notes",
+       cost:n(1e5),
+       unlocked() {return hasUpgrade('ri',17)},
+     },
+    22:{ title: "Midnight Flux",
+      description: "超过1e60的旋律增益课题力量获取量",
+       cost:n(5e6),
+       effect() {
+       let eff = player.r.points.max(1e60).div(1e60).pow(5)
+       if(eff.log10().gte(10)) eff = n(10).pow(eff.log10().sub(10).pow(0.8).add(10))//sc
+       return eff
+      },
+      effectDisplay() { return format(this.effect())+"×" },
+       unlocked() {return hasUpgrade('ri',21)},
+     },
+    23:{ title: "NO ONE YES MAN",
+      description: "在350ms及更严的判定区间中，增强判定区间第4个效果",
+       cost:n(5e7),
+       unlocked() {return hasUpgrade('ri',22)},
+     },
+    24:{ title: "Clock Paradox",
+      description: "解锁第二个联动对象，Lanota，Dot×2",
+       cost:n(1e9),
+       unlocked() {return hasUpgrade('ri',23)},
+     },
+    25:{ title: "FRIEND",
+      description: "基于曲库中歌曲数量增益曲包获取量(25后生效)",
+       cost:n(1e11),
+       effect() {
+       eff = player.ri.songs.max(1).pow(0.5).log(5)
+       return eff.max(1)
+      },
+      effectDisplay() { return format(this.effect(),3)+"×" },
+       unlocked() {return hasUpgrade('ri',24)},
+     },
+    26:{ title: "Shattered",
+      description: "当你在325ms及更严的判定区间挑战中时，课题力量乘以Dot数量",
+       cost:n(5e11),
+       effect() {
+       let eff = n(1)
+       if(gcs('j',11)==1&&player.j.pdqj0.lte(325)) eff=player.ri.points
+       return eff.max(1)
+      },
+      effectDisplay() { return format(this.effect())+"×" },
+       unlocked() {return hasUpgrade('ri',25)},
+     },
+    27:{ title: "Swing Sweet Twee Dance feat. ななきなな",
+      description: "解锁Rizline挑战，基于此升级标题长度增益课题力量",
+       cost:n(5e12),
+       effect() { return n(44)},
+      effectDisplay() { return format(this.effect())+"×" },
+       unlocked() {return hasUpgrade('ri',26)},
+     },
+    31:{ title: "V!rtuaresort",
+      description: "解锁第三个联动对象，Milthm",
+       cost:n(2e14),
+       unlocked() {return hasUpgrade('ri',27)},
+     },
+    32:{ title: "Dice 20",
+      description: "减弱用Milthm购买Rot点数的价格",
+       cost:n(4e14),
+       unlocked() {return hasUpgrade('ri',31)},
+     },
+    33:{ title: "macro.wav",
+      description: "RiC1的奖励效果对填充Notes的软上限也生效",
+       cost:n(1.5e15),
+       unlocked() {return hasUpgrade('ri',31)},
+     },
+    34:{ title: "The Next Arcady",
+      description: "减弱用Notes购买Rot点数的价格",
+       cost:n(4e15),
+       unlocked() {return hasUpgrade('ri',33)},
+     },
+    35:{ title: "The Next Arcady",
+      description: "计数频率效果以极低效率增益全局速率",
+       cost:n(5e15),
+      effect() {
+       let a=buyableEffect('mi',11).max(1)
+       return a.log(2).pow(0.3)
+      },
+      effectDisplay() { return format(this.effect())+"×" },
+       unlocked() {return hasUpgrade('ri',34)},
+     },
+    36:{ title: "Sakura Fubuki",
+      description: "减弱用旋律购买Rot点数的价格",
+       cost:n(2e16),
+       unlocked() {return hasUpgrade('ri',35)},
+     },
+    37:{ title: "Authentic (Game ver.)",
+      description: "解??下?一个???级",
+       cost:n(1.5e17),
+       unlocked() {return hasUpgrade('ri',36)},
+     },
+    },
+    buyables:{
+ 11: {
+				title: "Phigros联动",
+				cost(x=player[this.layer].buyables[this.id]) {
+				 let cost=n(1e5).mul(n(10).pow(x))
+				 if(x==0) cost=n(5e4)
+				 if(x==4) cost=n(5e9)
+				 if(x==5) cost=n(2e308)
+    return cost
+                },
+				display() { // Everything else displayed in the buyable button after the title
+       let data = tmp[this.layer].buyables[this.id]
+       return "需要 " + format(data.cost) + " Dot"+"<br>联动次数: " + format(player[this.layer].buyables[this.id]) + "<br>你从Phigros获得了" +format(this.effect()) +"首歌曲！"
+                },
+      unlocked() { return hasUpgrade('ri',17)}, 
+      effect(x=player[this.layer].buyables[this.id]) {
+       let eff
+       if(x==0) eff=0
+       if(x==1) eff=1
+       if(x==2) eff=3
+       if(x==3) eff=5
+       if(x==4) eff=8
+       if(x==5) eff=10
+       return eff
+      },
+      canAfford() {
+      return player.ri.points.gte(tmp[this.layer].buyables[this.id].cost)},
+       buy() { 
+    player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+                },
+     purchaseLimit() {return n(5)},
+     style: {'height':'150px'},
+			},
+ 12: {
+				title: "Lanota联动",
+				cost(x=player[this.layer].buyables[this.id]) {
+				 let cost=n(2.5e10).mul(n(5).pow(x))
+				 if(x==5) cost=n(2e308)
+    return cost
+                },
+				display() { // Everything else displayed in the buyable button after the title
+       let data = tmp[this.layer].buyables[this.id]
+       return "需要 " + format(data.cost) + " Dot"+"<br>联动次数: " + format(player[this.layer].buyables[this.id]) + "<br>你从Lanota获得了" +format(this.effect()) +"首歌曲！"
+                },
+      unlocked() { return hasUpgrade('ri',24)}, 
+      effect(x=player[this.layer].buyables[this.id]) {
+       let eff
+       if(x==0) eff=0
+       if(x==1) eff=1
+       if(x==2) eff=4
+       if(x==3) eff=7
+       if(x==4) eff=10
+       if(x==5) eff=14
+       return eff
+      },
+      canAfford() {
+      return player.ri.points.gte(tmp[this.layer].buyables[this.id].cost)},
+       buy() { 
+    player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+                },
+     purchaseLimit() {return n(5)},
+     style: {'height':'150px'},
+			},
+ 13: {
+				title: "Milthm联动",
+				cost(x=player[this.layer].buyables[this.id]) {
+				 let cost=n(1.5e14).mul(n(5).pow(x))
+				 if(x==5) cost=n(2e308)
+    return cost
+                },
+				display() { // Everything else displayed in the buyable button after the title
+       let data = tmp[this.layer].buyables[this.id]
+       return "需要 " + format(data.cost) + " Dot"+"<br>联动次数: " + format(player[this.layer].buyables[this.id]) + "<br>你从Milthm获得了" +format(this.effect()) +"首歌曲！"
+                },
+      unlocked() { return hasUpgrade('ri',31)}, 
+      effect(x=player[this.layer].buyables[this.id]) {
+       let eff
+       if(x==0) eff=0
+       if(x==1) eff=1
+       if(x==2) eff=4
+       if(x==3) eff=8
+       if(x==4) eff=12
+       if(x==5) eff=16
+       return eff
+      },
+      canAfford() {
+      return player.ri.points.gte(tmp[this.layer].buyables[this.id].cost)},
+       buy() { 
+    player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+                },
+     purchaseLimit() {return n(5)},
+     style: {'height':'150px'},
+			},
+    },
+    challenges: {
+     11: {
+        name: "RiC1 ",
+        challengeDescription(){
+          return "你被困在"+format(tmp.ri.ric1)+"ms判定区间挑战中，禁用判定线重置，旋律获取量^0.5<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/5"},
+          req() {let a=challengeCompletions('ri',11)
+           if(a==0) return n(5e40)
+           if(a==1) return n(1e39)
+           if(a==2) return n(5e37)
+           if(a==3) return n(2e36)
+           if(a==4) return n(6e36)
+           else return n(2e308)
+          },
+        goalDescription(){return format(this.req())+" 旋律"},
+        rewardDescription(){
+         let rew="Dot获取量^"+format(challengeEffect(this.layer,this.id),3)
+         if(hasUpgrade('ri',33)) rew=rew+"，填充Notes软上限效果^"+format(n(1).div(challengeEffect(this.layer,this.id).pow(2)),3)
+         return rew
+        },
+        rewardEffect() {eff=n(challengeCompletions(this.layer,this.id)).add(1).pow(0.1)
+          return eff
+        },
+        onEnter() {
+         player.j.pdqj0=tmp.ri.ric1
+         layers.j.clickables[11].onClick()
+        },
+        onExit() {
+         options.theme=themes[0]
+         changeTheme()
+        },
+        unlocked(){return hasUpgrade('ri',27)},
+        completionLimit(){
+          return n(5)},
+        canComplete: function() {
+          return player.r.points.gte(this.req())},
+        },
+    },
+})//Rizline
