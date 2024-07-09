@@ -2295,7 +2295,7 @@ pdqj1() {
  let b=n(1).div(n(500).div(a.max(1)).pow(0.5))
 if(a.lt(450)) b=b.pow(n(450).div(a.max(1))).div(n(10).div(a.add(50).div(5).pow(0.5)))
 if(hasUpgrade('ri',11)) b=b.mul(1.01)
-if(player.j.pdqj0.lte(298)) b=n(0)//仅限0.5版本
+if(player.j.pdqj0.lte(298)&&!inChallenge('ri',11)) b=n(0)//仅限0.5版本
  return b.min(1)
 },
 pdqj2() {
