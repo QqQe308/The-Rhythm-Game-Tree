@@ -1,9 +1,66 @@
+var formatsave = {
+  encoder: new TextEncoder(),
+  decoder: new TextDecoder(),
+  startString: 'TRGTSaveFile',
+  endString: 'EndOfSaveFile',
+  steps: [{
+      encode: JSON.stringify,
+      decode: JSON.parse
+    },
+    {
+      encode: x => formatsave.encoder.encode(x),
+      decode: x => formatsave.decoder.decode(x)
+    },
+    {
+      encode: x => pako.deflate(x),
+      decode: x => pako.inflate(x)
+    },
+    {
+      encode: x => Array.from(x).map(i => String.fromCharCode(i)).join(""),
+      decode: x => Uint8Array.from(Array.from(x).map(i => i.charCodeAt(0)))
+    },
+    {
+      encode: x => btoa(x),
+      decode: x => atob(x)
+    },
+    {
+      encode: x => x.replace(/=+$/g, "").replace(/0/g, "0a").replace(/\+/g, "0b").replace(/\//g, "0c"),
+      decode: x => x.replace(/0b/g, "+").replace(/0c/g, "/").replace(/0a/g, "0")
+    },
+    {
+      encode: x => formatsave.startString + x + formatsave.endString,
+      decode: x => x.slice(formatsave.startString.length, -formatsave.endString.length),
+    }
+  ],
+  encode(s) {
+    return this.steps.reduce((x, f) => f.encode(x), s);
+  },
+  decode(s) {
+    if (s.startsWith(formatsave.startString)) {
+      return this.steps.reduceRight((x, f) => f.decode(x), s);
+    } else {
+      return JSON.parse(atob(s));
+    }
+  },
+}
+
+
+function updateTitle() {
+  if(gcs('S',21)) document.title = `音乐游戏树`
+  if(gcs('S',22)) document.title = `音乐游戏树 - ${format(player.points)} Notes`
+  if(gcs('S',23)) document.title = `音乐游戏树 - ${format(player.a.ptt)} PTT`
+  if(gcs('S',24)) document.title = `音乐游戏树 - ${format(player.p.rks)} RKS`
+  if(gcs('S',25)) document.title = `音乐游戏树 - ${format(player.c.power)} Cytus力量`
+  if(gcs('S',26)) document.title = `音乐游戏树 - ${format(player.ch.enp)} 课题力量`
+  if(gcs('S',27)) document.title = `音乐游戏树 - ${format(player.r.notes)} 填充Notes`
+  requestAnimationFrame(updateTitle)
+}
 // ************ Save stuff ************
 function save(force) {
 	NaNcheck(player)
 	if (NaNalert && !force) return
-	localStorage.setItem(modInfo.id, btoa(unescape(encodeURIComponent(JSON.stringify(player)))));
-	localStorage.setItem(modInfo.id+"_options", btoa(unescape(encodeURIComponent(JSON.stringify(options)))));
+	localStorage.setItem(modInfo.id, formatsave.encode(player));
+	localStorage.setItem(modInfo.id+"_options", formatsave.encode(options));
 
 }
 function startPlayerBase() {
@@ -14,7 +71,7 @@ function startPlayerBase() {
 		notify: {},
 		versionType: modInfo.id,
 		version: VERSION.num,
-		beta: VERSION.name,
+		beta: VERSION.beta,
 		timePlayed: 0,
 		keepGoing: false,
 		hasNaN: false,
@@ -192,7 +249,7 @@ function load() {
 		options = getStartOptions();
 	}
 	else {
-		player = Object.assign(getStartPlayer(), JSON.parse(decodeURIComponent(escape(atob(get)))));
+		player = Object.assign(getStartPlayer(), formatsave.decode(get));
 		fixSave();
 		loadOptions();
 	}
@@ -214,12 +271,13 @@ function load() {
 	updateTemp();
 	updateTabFormats()
 	loadVue();
+	updateTitle();
 }
 
 function loadOptions() {
 	let get2 = localStorage.getItem(modInfo.id+"_options");
 	if (get2) 
-		options = Object.assign(getStartOptions(), JSON.parse(decodeURIComponent(escape(atob(get2)))));
+		options = Object.assign(getStartOptions(), formatsave.decode(get2));
 	else 
 		options = getStartOptions()
 	if (themes.indexOf(options.theme) < 0) theme = "default"
@@ -259,7 +317,7 @@ function NaNcheck(data) {
 }
 function exportSave() {
 	//if (NaNalert) return
-	let str = btoa(JSON.stringify(player));
+	let str = formatsave.encode(player);
 
 	const el = document.createElement("textarea");
 	el.value = str;
@@ -273,7 +331,7 @@ function importSave(imported = undefined, forced = false) {
 	if (imported === undefined)
 		imported = prompt("Paste your save here");
 	try {
-		tempPlr = Object.assign(getStartPlayer(), JSON.parse(atob(imported)));
+		tempPlr = Object.assign(getStartPlayer(), formatsave.decode(imported));
 		if (tempPlr.versionType != modInfo.id && !forced && !confirm("This save appears to be for a different mod! Are you sure you want to import?")) // Wrong save (use "Forced" to force it to accept.)
 			return;
 		player = tempPlr;
