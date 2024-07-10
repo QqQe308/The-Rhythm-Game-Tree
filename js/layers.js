@@ -1430,7 +1430,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
     },
     36:{title:"Songs.songs",
     description() {return "基于超过1e200000的歌曲指数提升Rot升级83的效果"},
-    cost: n('1e2196000'),
+    cost: n('1e216000'),
     effect() {
      let a=player.s.points.max(10).log(10).div(10000).sub(19).max(0).pow(0.5).max(1)
         return a.min(10)},
