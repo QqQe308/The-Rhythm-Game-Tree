@@ -173,8 +173,12 @@ function generatePoints(layer, diff) {
 }
 
 function doReset(layer, force=false) {
+ if(layer=="e") player.e.bestOnce=player.e.bestOnce.max(tmp.e.getResetGain)
+ 
 	if (tmp[layer].type == "none") return
 	let row = tmp[layer].row
+		if(n(row).gt(4)&&gcs('j',11)) {clickClickable('j',11);changeTheme()}
+ 
 	if (!force) {
 		
 		if (tmp[layer].canReset === false) return;
@@ -185,7 +189,7 @@ function doReset(layer, force=false) {
 			if (tmp[layer].baseAmount.lt(tmp[layer].nextAt)) return;
 			gain =(tmp[layer].canBuyMax ? gain : 1)
 		} 
-
+		
 
 		if (layers[layer].onPrestige)
 			run(layers[layer].onPrestige, layers[layer], gain)
@@ -320,6 +324,7 @@ function autobuyUpgrades(layer){
 }
 
 function gameLoop(diff) {
+ 
 	if (isEndgame() || tmp.gameEnded){
 		tmp.gameEnded = true
 		clearParticles()
@@ -411,6 +416,7 @@ var interval = setInterval(function() {
 		}
 		if (!options.offlineProd || player.offTime.remain <= 0) player.offTime = undefined
 	}
+	if(player.devSpeed.neq(0)) player.timeplayed=player.timeplayed.add(diff)
 	if (player.devSpeed) diff =diff.mul(player.devSpeed)
 	player.time = now
 	if (needCanvasUpdate){ resizeCanvas();
