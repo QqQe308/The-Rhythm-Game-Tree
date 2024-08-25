@@ -3425,6 +3425,7 @@ unlocked(){return hasUpgrade('ri',17)}
      onEnter() {
       player.ri.theme=options.theme
       player.j.pdqj0=tmp.ri.ric1
+      player.j.pdqj00=tmp.ri.ric1
       layers.j.clickables[11].onClick()
      },
      onExit() {
