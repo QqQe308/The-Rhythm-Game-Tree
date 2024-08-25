@@ -433,7 +433,7 @@ QqQ="QqQe308";banana="3.8642180e38642180";Liu="6.666666666666666666666666e308";f
    },
   114: {
    name: "真课题模式",
-   done() {return player.j.pdqj0.lte(40)&&gcs('j',11)==1},
+   done() {return player.j.pdqj00.lte(40)&&gcs('j',11)==1},
    onComplete(){player.A.ach=player.A.ach.add(1)},
    tooltip:"进入40ms或更严的判定区间挑战<br>好好想一想，怎么做到呢",
    textStyle: {'color': '#c9364b'},
