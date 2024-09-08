@@ -70,7 +70,7 @@ QqQ="QqQe308";banana="3.8642180e38642180";Liu="6.666666666666666666666666e308";f
      name: "制作音游<br>🏆",
      done() {return player.a.points.gte(1)},
      onComplete(){player.A.ach=player.A.ach.add(1)},
-     tooltip: "获得一个源点！<br>奖励：源点获取基本指数为0.5，Notes×1e50",
+     tooltip: "获得一个源点！<br>Notes×1e50",
      textStyle: {'color': '#DDBBDD'},
      },
      14: {
@@ -96,9 +96,9 @@ QqQ="QqQe308";banana="3.8642180e38642180";Liu="6.666666666666666666666666e308";f
      },
      22: {
      name: "韵律源点<br>🏆",
-     done() {return player.a.points.gte(1e10)},
+     done() {return player.a.points.gte(2e12)},
      onComplete(){player.A.ach=player.A.ach.add(1)},
-     tooltip: "达到1e10源点！<br>奖励：歌曲基本指数+0.616",
+     tooltip: "达到2e12源点！<br>奖励：歌曲基本指数+0.616",
      textStyle: {'color': '#DD66AA'},
      },
      23: {
@@ -545,7 +545,7 @@ style() { return { 'background-color': hasAchievement('A',1011)?"#308308":"#ff48
      },
      1013: {
      name: "隐藏成就7",
-     done() {return false},//如果你是个狠人。就改代码吧！控制台输入layers.A.achievements[1013].done=function() {return true}即可拿到成就。你还可以拿到上一个成就。
+     done() {return false},
      tooltip() {
      if(hasAchievement('A',1013)) return "反抗作者<br>很好。"
      else return "反抗作者<br>这个成就没有达成方式。"
@@ -748,11 +748,11 @@ addLayer("S", {
   infoboxes: {
  introBox: {
   title: "统计层级",
-  body(){return "本层级统计部分游戏内数据，会随着游戏进度增加"},
+  body(){return "本层级统计部分游戏内数据，会随着游戏进度增加<br>层级重置获取资源公式：基本获取量×获取量增益^获取量指数×额外乘数。"},
      },
  displayBox: {
   title: "统计层级",
-  body(){return "此处你可以在游戏主界面和标题显示重要的游戏资源，会随着游戏进度增加"},
+  body(){return "此处你可以在游戏主界面和标题显示重要的游戏资源，会随着游戏进度增加<br>"},
      },
 },
     name: "Statistics",
@@ -768,7 +768,7 @@ addLayer("S", {
      content: [ ["infobox","introBox"],
      ["display-text",
      function() {if(player.s.unlocked)
-     {return '你有 ' + format(player.s.points) + ' 歌曲<br>歌曲基本获得量：' + format(tmp.s.gainMult) + '<br>歌曲获得指数：' + format(tmp.s.gainExp.mul(tmp.s.exponent)) + '<br>歌曲额外增益：' + format(tmp.s.directMult) }},
+     {return '你有 ' + format(player.s.points) + ' 歌曲<br>歌曲基本获取量: '+format(tmp.s.baseAmount.div(tmp.s.requires).pow(tmp.s.exponent).pow(tmp.s.gainExp))+'<br>歌曲获取量增益: ' + format(tmp.s.gainMult) + '<br>歌曲获得指数: ' + format(tmp.s.gainExp) + '<br>歌曲额外乘数: ' + format(tmp.s.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//s
      ["display-text",
      function() {if(player.sp.unlocked())
@@ -778,7 +778,7 @@ addLayer("S", {
      "blank",
      ["display-text",
      function() {if(player.a.unlocked())
-     {return '你有 ' + format(player.a.points) + ' 源点<br>源点基本获得量：' + format(tmp.a.gainMult) + '<br>源点获得指数：' + format(tmp.a.gainExp.mul(tmp.a.exponent)) + '<br>源点额外增益：' + format(tmp.a.directMult)}},
+     {return '你有 ' + format(player.a.points) + ' 源点<br>源点基本获取量: '+format(tmp.a.baseAmount.div(tmp.a.requires).pow(tmp.a.exponent).pow(tmp.a.gainExp))+'<br>源点获取量增益: ' + format(tmp.a.gainMult) + '<br>源点获取指数: ' + format(tmp.a.gainExp) + '<br>源点额外乘数: ' + format(tmp.a.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//a
      ["display-text",
      function() {if(player.sp.unlocked())
@@ -798,13 +798,13 @@ addLayer("S", {
      "blank",
      ["display-text",
      function() {if(player.l.unlocked())
-     {return '你有 ' + format(player.l.points) + ' 诗篇<br>诗篇基本获得量：' + format(tmp.l.gainMult) + '<br>诗篇获得指数：' + format(tmp.l.gainExp.mul(tmp.l.exponent)) + '<br>诗篇额外增益：' + format(tmp.l.directMult) }},
+     {return '你有 ' + format(player.l.points) + ' 诗篇<br>诗篇基本获取量: '+format(tmp.l.baseAmount.div(tmp.l.requires).pow(tmp.l.exponent).pow(tmp.l.gainExp))+'<br>诗篇获取量增益: ' + format(tmp.l.gainMult) + '<br>诗篇获取指数: ' + format(tmp.l.gainExp) + '<br>诗篇额外乘数: ' + format(tmp.l.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//l
      "blank",
      "blank",
      ["display-text",
-     function() { if(player.p.unlocked())
-     {return '你有 ' + format(player.p.points) + ' Phidata<br>Phidata基本获得量：' + format(tmp.p.gainMult) + '<br>Phidata获得指数：' + format(tmp.p.gainExp.mul(tmp.p.exponent)) + '<br>Phidata额外增益：' + format(tmp.p.directMult) } },
+     function() {if(player.p.unlocked())
+     {return '你有 ' + format(player.p.points) + ' Phidata<br>Phidata基本获取量: '+format(tmp.p.baseAmount.div(tmp.p.requires).pow(tmp.p.exponent).pow(tmp.p.gainExp))+'<br>Phidata获取量增益: ' + format(tmp.p.gainMult) + '<br>Phidata获取指数: ' + format(tmp.p.gainExp) + '<br>Phidata额外乘数: ' + format(tmp.p.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//p
      ["display-text",
      function() {if(player.p.rks.gt(0))
@@ -814,19 +814,19 @@ addLayer("S", {
      "blank",
      ["display-text",
      function() {if(player.m.unlocked())
-     {return '你有 ' + format(player.m.points) + ' 魔王曲<br>魔王曲基本获得量：' + format(tmp.m.gainMult) + '<br>魔王曲获得指数：' + format(tmp.m.gainExp.mul(tmp.m.exponent)) + '<br>魔王曲额外增益：' + format(tmp.m.directMult)}},
+     {return '你有 ' + format(player.m.points) + ' 魔王曲<br>魔王曲基本获取量: '+format(tmp.m.baseAmount.div(tmp.m.requires).pow(tmp.m.exponent).pow(tmp.m.gainExp))+'<br>魔王曲获取量增益: ' + format(tmp.m.gainMult) + '<br>魔王曲获取指数: ' + format(tmp.m.gainExp) + '<br>魔王曲额外乘数: ' + format(tmp.m.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//m
      "blank",
      "blank",
      ["display-text",
      function() {if(player.c.unlocked())
-     {return '你有 ' + format(player.c.points) + ' Cyten<br>Cyten基本获得量：' + format(tmp.c.gainMult) + '<br>Cyten获得指数：' + format(tmp.c.gainExp.mul(tmp.c.exponent))+ '<br>Cyten额外增益：' + format(tmp.c.directMult)+"<br>当前Cytus力量："+format(player.c.power)}},
+     {return '你有 ' + format(player.c.points) + ' Cyten<br>Cyten基本获取量: '+format(tmp.c.baseAmount.div(tmp.c.requires).pow(tmp.c.exponent).pow(tmp.c.gainExp))+'<br>Cyten获取量增益: ' + format(tmp.c.gainMult) + '<br>Cyten获取指数: ' + format(tmp.c.gainExp) + '<br>Cyten额外乘数: ' + format(tmp.c.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//c
      "blank",
      "blank",
      ["display-text",
      function() {if(player.ch.unlocked())
-     {return '你有 ' + format(player.ch.points) + ' 谱面<br>谱面基本获得量：' + format(tmp.ch.gainMult) + '<br>谱面获得指数：' + format(tmp.ch.gainExp.mul(tmp.ch.exponent))+ '<br>谱面额外增益：' + format(tmp.ch.directMult)}},
+     {return '你有 ' + format(player.ch.points) + ' 谱面<br>谱面基本获取量: '+format(tmp.ch.baseAmount.div(tmp.ch.requires).pow(tmp.ch.exponent).pow(tmp.ch.gainExp))+'<br>谱面获取量增益: ' + format(tmp.ch.gainMult) + '<br>谱面获取指数: ' + format(tmp.ch.gainExp) + '<br>谱面额外乘数: ' + format(tmp.ch.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//ch
     ["display-text",
      function() {if(hasMilestone('ch',1)) return '当前物量: ' + format(player.ch.note) + '<br>物量对应定数：'+format(player.ch.dif)},
@@ -853,13 +853,13 @@ addLayer("S", {
      "blank",
      ["display-text",
      function() {if(player.sp.unlocked())
-     {return '你有 ' + format(player.sp.points) + ' 曲包<br>曲包基本获得量：' + format(tmp.sp.gainMult) + '<br>曲包获得指数：' + format(tmp.sp.gainExp.mul(tmp.sp.exponent))+ '<br>曲包额外增益：' + format(tmp.sp.directMult)}},
+     {return '你有 ' + format(player.sp.points) + ' 曲包<br>曲包基本获取量: '+format(tmp.sp.baseAmount.div(tmp.sp.requires).pow(tmp.sp.exponent).pow(tmp.sp.gainExp))+'<br>曲包获取量增益: ' + format(tmp.sp.gainMult) + '<br>曲包获取指数: ' + format(tmp.sp.gainExp) + '<br>曲包额外乘数: ' + format(tmp.sp.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//sp
      "blank",
      "blank",
      ["display-text",
-     function() {if(layers.r.layerShown())
-     {return '你有 ' + format(player.r.points) + ' 旋律<br>旋律基本获得量：' + format(tmp.r.gainMult) + '<br>旋律获得指数：' + format(tmp.r.gainExp.mul(tmp.r.exponent))+ '<br>旋律额外增益：' + format(tmp.r.directMult)}},
+     function() {if(tmp.r.layerShown)
+     {return '你有 ' + format(player.r.points) + ' 旋律<br>旋律基本获取量: '+format(tmp.r.baseAmount.div(tmp.r.requires).pow(tmp.r.exponent).pow(tmp.e.gainExp))+'<br>旋律获取量增益: ' + format(tmp.r.gainMult) + '<br>旋律获取指数: ' + format(tmp.r.gainExp) + '<br>旋律额外乘数: ' + format(tmp.r.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//r
     ["display-text",
      function() {if(hasMilestone('r',0)) return '累计Rot点数：'+format(player.r.rota)},
@@ -898,20 +898,20 @@ addLayer("S", {
      function() {if(hasMilestone('mi',6)) return 'Milthm维度9: ' +format(player.mi.dim9)},
      {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],"blank","blank",//md9
      ["display-text",
-     function() {if(tmp.j.layerShown)
-     {return '你有 ' + format(player.j.points) + ' 判定线<br>判定线基本获得量：' + format(tmp.j.gainMult) + '<br>判定线获得指数：' + format(tmp.j.gainExp.mul(tmp.j.exponent))+ '<br>判定线额外增益：' + format(tmp.j.directMult)}},
+     function() {if(player.j.unlocked())
+     {return '你有 ' + format(player.j.points) + ' 判定线<br>判定线基本获取量: '+format(tmp.j.baseAmount.div(tmp.j.requires).pow(tmp.j.exponent).pow(tmp.j.gainExp))+'<br>判定线获取量增益: ' + format(tmp.j.gainMult) + '<br>判定线获取指数: ' + format(tmp.j.gainExp) + '<br>判定线额外乘数: ' + format(tmp.j.directMult) }},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//j
      ["display-text",
      function() {if(hasMilestone('j',0)) return '你的最佳判定区间是' +format(player.j.pdqja) +'ms！'},
      {"color": "#ffffff", "font-size": "12px", "font-family": "Comic Sans MS"}],"blank","blank",//pdqj
      ["display-text",
      function() {if(player.ri.unlocked())
-     {return '你有 ' + format(player.ri.points) + '  Dot<br>Dot基本获得量：' + format(tmp.ri.gainMult) + '<br>Dot获得指数：' + format(tmp.ri.gainExp.mul(tmp.ri.exponent))+ '<br>Dot额外增益：' + format(tmp.ri.directMult)}},
+     {return '你有 ' + format(player.ri.points) + '  Dot<br>Dot基本获得量：' + format(tmp.ri.gainMult) + '<br>Dot获得指数：' + format(tmp.ri.gainExp.mul(tmp.ri.exponent))+ '<br>Dot额外乘数：' + format(tmp.ri.directMult)}},
      {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],"blank","blank",//ri
      ["display-text",
      function() {if(player.e.unlocked())
-     {return '你有 ' + format(player.e.points) + '  经验<br>一次最佳经验: '+format(player.e.bestOnce)}},
-     {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//exp
+     {return '你有 ' + format(player.e.points) + ' 经验<br>源点基本获取量: '+format(tmp.e.baseAmount.div(tmp.e.requires).pow(tmp.e.exponent).pow(tmp.e.gainExp))+'<br>经验获取量增益: ' + format(tmp.e.gainMult) + '<br>经验获取指数: ' + format(tmp.e.gainExp) + '<br>经验额外乘数: ' + format(tmp.e.directMult) }},
+     {"color": "#ffffff", "font-size": "22px", "font-family": "Comic Sans MS"},],//e
 
      ["blank","10000px"],
      ["display-text","恭喜发现彩蛋！你可以在控制台输入“QqQ”，“banana”，“Liu”，“fufu”，“Loader”，“yszqzls”，“yyyxs”，“Genshin”，“Phigros”获取隐藏彩蛋哦！同时，也可以输入“long2024”获取音乐游戏树全体作者（共1人）的真挚祝福！！！！！！！！！！当然，你也可以选择不获取隐藏彩蛋，毕竟比较无聊"],//???
@@ -1374,12 +1374,9 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
      if(player.devSpeed.neq(0)) {
 			player.s.sc=tmp.s.scCal
 			player.s.sce=tmp.s.sceCal
-			if (tmp.s.buyables['11'].canAfford&&hasUpgrade('s',24)) {
-    setBuyableAmount('s',11, gba('s',11).add((player.s.points.div(tmp.s.buyables['11'].cost.add(1)).max(1)).log(3).div(2)))}
-    if(tmp.s.buyables['12'].canAfford&&hasUpgrade('s',24)) 
-    {setBuyableAmount('s',12, gba('s',12).add((player.s.points.div(tmp.s.buyables['12'].cost.add(1)).max(1)).log(3).div(2)))}
-   if(tmp.s.buyables['13'].canAfford&&hasMilestone('p',3))  
-   {setBuyableAmount('s',13, gba('s',13).add((player.s.points.div(tmp.s.buyables['13'].cost.add(1)).max(1)).log(5).div(5)))}
+			if (tmp.s.buyables['11'].canAfford&&hasUpgrade('s',24)) tmp.s.buyables[11].buy()
+    if(tmp.s.buyables['12'].canAfford&&hasUpgrade('s',24)) tmp.s.buyables[12].buy()
+   if(tmp.s.buyables['13'].canAfford&&hasUpgrade('s',24))  tmp.s.buyables[13].buy()
      }
 	},
      upgrades: {
@@ -1432,22 +1429,22 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
  effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     22:{title:"终于结束挂机",
     description:"解锁更多Arcaea升级，源点获取量变为原来的10倍（源点软上限：1e10）",
-    cost: n(1e7),
+    cost: n(1e9),
     unlocked() { return (hasChallenge('a', 11))},
      effect() {
      return n(10) }, },
     23:{title:"单曲精选集",
     description:"歌曲基本指数增加0.5，源点获取量×5",
-    cost: n(1e14),
+    cost: n(5e18),
     unlocked() { return (hasUpgrade('a', 17))},},
     24:{title:"歌曲太多了…",
-    description:"解锁两个歌曲可购买，源点获取指数+0.1（软上限前）",
-    cost: n(1e28),
+    description:"解锁两个歌曲可购买，自动购买歌曲可购买，源点获取指数+0.1（软上限前）",
+    cost: n(5e29),
     unlocked() { return (hasUpgrade('a', 21))},},
     25:{title:"极限数值",
-    description:"根据歌曲数量增益源点获取量",
+    description:"根据歌曲数量增益源点获取量，自动购买最大歌曲可购买",
     cost: n(1e96),
-    unlocked() { return (hasMilestone('l', 1))},
+    unlocked() { return (hasMilestone('l', 0))},
     effect() {
      return player.s.points.add(10).log(2).pow(1.2).add(1) },
  effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" },
@@ -1517,50 +1514,53 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
     buyables: {
     11: {
      cost(){return this.effect().pow(3)},
-     display() { return "基于购买次数增加歌曲的乘数（软上限前）<br>价格："+format(this.cost())+"歌曲<br>效果：×"+format(this.effect())},
+     display() { return "基于购买次数增加歌曲的获取量<br>价格："+format(tmp.s.buyables[11].cost)+"歌曲<br>效果：×"+format(this.effect())},
      title: "著名曲师",
-     effect() {return this.unlocked()?n(2).pow(gba(this.layer,this.id).add(1)):n(1)},
+     effect() {return this.unlocked()?n(2).pow(gba(this.layer,this.id)):n(1)},
      unlocked(){unlock= false
      if(hasChallenge('a',13)) unlock=true
      if(hasMilestone('p',1)) unlock=true
    return unlock
      },
-     canAfford() { return player[this.layer].points.gte(this.cost()) },
+     canAfford() { return player[this.layer].points.gte(tmp.s.buyables[11].cost) },
      buy() {
-     setBuyableAmount(this.layer, this.id, gba(this.layer,this.id).add((player.s.points.div(this.cost())).log(2).div(3)))
+      let a=n(1)
+      if(hasUpgrade('s',25)) a=player.s.points.div(tmp.s.buyables[11].cost).log(2).div(3)
+     setBuyableAmount(this.layer, this.id, gba(this.layer,this.id).add(a))
      },
      
     },
     12: {
      cost(){return this.effect().pow(2)},
-     display() { return "基于购买次数增加Note乘数<br>价格："+format(this.cost())+"歌曲<br>效果：×"+format(this.effect())},
+     display() { return "基于购买次数增加Notes获取量<br>价格："+format(tmp.s.buyables[12].cost)+"歌曲<br>效果：×"+format(this.effect())},
      title: "著名谱师",
-     effect() {return this.unlocked()?n(3).pow(gba(this.layer,this.id).add(1)):n(1)},
+     effect() {return this.unlocked()?n(3).pow(gba(this.layer,this.id)):n(1)},
      unlocked(){unlock= false
      if(hasUpgrade('s',24)) unlock=true
      if(hasMilestone('p',1)) unlock=true
    return unlock
      },
-     canAfford() { return player[this.layer].points.gte(this.cost()) },
+     canAfford() { return player[this.layer].points.gte(tmp.s.buyables[12].cost) },
      buy() {
-     setBuyableAmount(this.layer, this.id, gba(this.layer,this.id).add((player.s.points.div(this.cost())).log(3).div(2)))
+      let a=n(1)
+      if(hasUpgrade('s',25)) a=player.s.points.div(tmp.s.buyables[12].cost).log(3).div(2)
+     setBuyableAmount(this.layer, this.id, gba(this.layer,this.id).add(a))
      },
-     
     },
     13: {
      cost(){return this.effect().pow(10)},
-     display() { return "基于购买次数增加源点乘数<br>价格："+format(this.cost())+"歌曲<br>效果：×"+format(this.effect())},
+     display() { return "基于购买次数增加源点获取量<br>价格："+format(tmp.s.buyables[13].cost)+"歌曲<br>效果：×"+format(this.effect())},
      title: "著名画师",
-     effect() {return this.unlocked()?n(5).pow(gba(this.layer,this.id).add(1)):n(1)},
+     effect() {return this.unlocked()?n(5).pow(gba(this.layer,this.id)):n(1)},
      unlocked(){unlock= false
      if(hasUpgrade('s',24)) unlock=true
    return unlock
      },
-     canAfford() { return player[this.layer].points.gte(this.cost()) },
+     canAfford() { return player[this.layer].points.gte(tmp.s.buyables[13].cost) },
      buy() {
-     if(!hasMilestone('p',1)){player[this.layer].points = player[this.layer].points.sub(this.cost())}
-     if(!hasMilestone('p',1)){setBuyableAmount(this.layer, this.id, gba(this.layer, this.id).add(1))}
-     if(hasMilestone('p',1)){setBuyableAmount(this.layer, this.id, gba(this.layer,this.id).add((player.s.points.div(this.cost())).log(5).div(5)))}
+     let a=n(1)
+      if(hasUpgrade('s',25)) a=player.s.points.div(tmp.s.buyables[13].cost).log(5).div(10)
+     setBuyableAmount(this.layer, this.id, gba(this.layer,this.id).add(a))
      },
      
     },
@@ -1626,7 +1626,7 @@ addLayer("a", {
      sce=player.a.sce
 
      if (hasUpgrade('s', 16)) mult = mult.times(2)
-     if (hasChallenge('a', 12)) mult = mult.times(15)
+     if (hasChallenge('a', 12)) mult = mult.times(5)
      if (hasUpgrade('s', 22)) mult = mult.times(10)
      if(hasUpgrade('s',23)){mult = mult.times(5)}
      if(hasUpgrade('s',25)){mult = mult.times(upgradeEffect('s',25))}
@@ -1741,13 +1741,14 @@ eff=n(1e4).pow(sn.pow(0.5))
 if(tmp.a.drEff2.gte(1)) eff=eff.pow(tmp.a.drEff2)
 if(eff.log10().gte(1000)) eff = n(10).pow(eff.log10().sub(1000).pow(0.8).add(1000))//sc
 if(eff.log10().gte(5000)) eff = n(10).pow(eff.log10().sub(5000).pow(0.5).add(5000))//sc2
+if(eff.gte("e7e4")) eff=n("e7e4")
 if(!hasAchievement('A',74)) return n(1)
 return eff},
     snEff3() {
   sn=player.a.sn.max(1)
 eff=sn.log(100).pow(2.5).add(1)
 if(tmp.a.drEff2.gte(1)) eff=eff.pow(tmp.a.drEff2)
-if(eff>10) eff = eff.sub(9).pow(0.5).add(9)//sc
+if(eff.gte(10)) eff = eff.sub(9).pow(0.5).add(9)//sc
 if(!hasUpgrade('sp',13)) return n(1)
 return eff
     },
@@ -1757,13 +1758,15 @@ eff=n('1e1000').pow(sn.pow(0.4).div(10))
 if(tmp.a.drEff2.gte(1)) eff=eff.pow(tmp.a.drEff2)
 if(eff.log10().gte(10000)) eff = n(10).pow(eff.log10().sub(10000).pow(0.8).add(10000))//sc
 if(eff.log10().gte(100000)) eff = n(10).pow(eff.log10().sub(100000).pow(0.5).add(100000))//sc2
+eff=eff.min("e1.3e5")
 if(!hasUpgrade('ch',54)) return n(1)
 return eff},
     snEff5() {
   sn=player.a.sn.max(1)
 eff=sn.log(100).div(3).pow(0.5).sub(0.75).max(0)
 if(tmp.a.drEff2.gte(1)) eff=eff.mul(tmp.a.drEff2)
-if(eff>1) eff = eff.pow(0.5)//sc
+if(eff.gte(1)) eff = eff.pow(0.5)//sc
+eff=eff.min(1.32)
 if(!hasUpgrade('sp',22)) return n(1)
 return eff
     },
@@ -1791,18 +1794,21 @@ return eff
     drEff3() {
   dr=player.a.dr.max(1)
 eff=dr.add(1).log(10).add(1).pow(0.4).sub(1).div(10).add(1)
+eff=eff.min(1.21)
 if(!hasUpgrade('sp',22)) return n(1)
 return eff
     },
     drEff4() {
   dr=player.a.dr.max(1)
 eff=dr.add(1).log(15).add(1).pow(0.4).sub(1).div(10).add(1)
+eff=eff.min(1.19)
 if(!hasUpgrade('sp',25)) return n(1)
 return eff
     },
     drEff5() {
   dr=player.a.dr.max(1)
 eff=dr.add(1).log(18).add(1).pow(0.4).sub(1).div(10).add(1)
+eff=eff.min(1.2)
 if(!hasUpgrade('sp',27)) return n(1)
 return eff
     },
@@ -1823,7 +1829,7 @@ return eff
      }
 		},
     layerShown(){
-    return player.a.points.gt(0)||player.a.unlocked()||hasAchievement('A',111)},
+    return player.a.points.gt(0)||hasUpgrade('a',11)||player.a.unlocked()||hasAchievement('A',111)},
  passiveGeneration(){
    mult = n(0)
   if(hasUpgrade('s',17))
@@ -1835,7 +1841,7 @@ return eff
   if(hasMilestone('r',0))
   mult = mult.add(10);
   return mult },
-  softcap:n (1e10),
+  softcap:n(1e10),
   softcapPower:n(0.05),
   autoUpgrade() {upg=false
  if(hasMilestone('p',2)||hasMilestone('c',0))upg=true
@@ -1884,28 +1890,28 @@ return eff
     12: {
      name: "Present",
      challengeDescription:"Notes获取量变为原来的1e-500倍",
-     goalDescription:"1e20 Notes",
-     rewardDescription:"源点获取量变为原来的15倍",
+     goalDescription:"1e80 Notes",
+     rewardDescription:"源点获取量变为原来的5倍",
      unlocked(){unlock= false
      if(hasChallenge('a',11)) unlock=true
    return unlock
      },
-     canComplete: function() {return player.points.gt(1e20)||hasMilestone('p',0)},
+     canComplete: function() {return player.points.gt(1e80)||hasMilestone('p',0)},
     },
     13: {
      name: "Future",
      challengeDescription:"歌曲获取量^0.35，且Notes获取量×1e-500",
-     goalDescription:"1e200 Notes",
-     rewardDescription:"解锁一个歌曲可购买，并自动购买",
+     goalDescription:"1e240 Notes",
+     rewardDescription:"解锁一个歌曲可购买",
      unlocked(){unlock= false
      if(hasChallenge('a',12)) unlock=true
    return unlock
      },
-     canComplete: function() {return player.points.gt(1e200)||hasMilestone('p',0)},
+     canComplete: function() {return player.points.gt(1e240)||hasMilestone('p',0)},
     },
     14: {
      name: "Beyond",
-     challengeDescription:"歌曲获取量^0.15，且Notes获取量×1e-800",
+     challengeDescription:"歌曲获取量^0.15，且Notes获取量×1.919e-810",
      goalDescription:"114514 Notes",
      rewardDescription:"解锁下一个层级，歌曲和源点的指数×1.2（软上限前）",
      unlocked(){unlock= false
@@ -1933,7 +1939,7 @@ return eff
     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
     13:{ title: "我知道，这很痛苦",
     description:"每秒获得100%重置时获得的歌曲",
-   cost: n(2),
+   cost: n(3),
     unlocked() { return (hasUpgrade('a', 12))},
      },
     14:{ title: "优质曲库",
@@ -1945,37 +1951,37 @@ return eff
     cost: n(500),
     unlocked() { return (hasUpgrade('s', 17))},},
     16:{title:"有那么快吗？",
-    description:"歌曲^1.25，Notes×1e30（挑战中可能有效！）",
-    cost: n(9999),
-    unlocked() { return (hasChallenge('a', 11))},},
+    description:"歌曲^1.25，Notes×1e30",
+    cost: n(5e5),
+    unlocked() { return hasUpgrade('s',22)},},
     17:{title:"高质量曲库",
     description:"再次解锁更多歌曲升级",
-    cost: n(199999),
+    cost: n(3e9),
     unlocked() { return (hasChallenge('a', 12))},},
-     21:{title:"挑战3的额外奖励？？",
+     21:{title:"Future的额外奖励？",
     description:"歌曲基本指数增加0.25",
-    cost: n(3e8),
+    cost: n(1e12),
     unlocked() { return (hasChallenge('a', 13))},},
     22:{title:"购买歌曲",
     description:"歌曲指数乘以1.2（软上限前）",
-    cost: n(3e9),
+    cost: n(2.5e12),
     unlocked() { return (hasUpgrade('a', 21))},},
     23:{title:"真的有软上限吗？",
     description:"歌曲和源点指数+1（软上限前）",
-    cost: n(1e12),
+    cost: n(5e12),
     unlocked() { return (hasUpgrade('a', 22))},},
     24:{title:"未来的挑战",
     description:"解锁第四个挑战“Beyond”，歌曲指数×1.2（软上限前）",
-    cost: n(1e13),
+    cost: n(1e14),
     unlocked() { return (hasUpgrade('a', 23))},},
     25:{ title: "韵律之光",
     description:"源点指数乘以1.2（软上限前）",
-    cost: n(5e14),
+    cost: n(1e16),
     unlocked() { return (hasMilestone('l', 0))}, },
     26:{ title: "韵律的力量 II",
     description:"根据PTT增益源点，效果是100^(PTT+1)（软上限前）",
-    cost: n(1.5e15),
-    unlocked() { return (hasMilestone('l', 1))},
+    cost: n(5e16),
+    unlocked() { return hasMilestone('l', 1)},
     effect() {
    return n(100).pow(player.a.ptt.add(1))
     },
@@ -1983,7 +1989,7 @@ return eff
     27:{ title: "韵律之神",
     description: "解锁下一个层级，Phigros",
     cost: n(1e17),
-    unlocked() { return (hasMilestone('l', 2))}, },
+    unlocked() { return hasUpgrade('a',26)}, },
     31:{ 
      fullDisplay() {return "Singularity<br>加强PTT对Phidata的增益效果<br>当前效果："+format(this.effect())+"×<br>需要：8 PTT"},
     cost() {return n(8)},
@@ -2182,11 +2188,13 @@ tabFormat: {
    "Upgrades": {
      content: [ ["infobox","introBox"],
    "main-display",
-    "prestige-button",
+    "prestige-button","resource-display",
      ["display-text",
-     function() {return '你有 ' + format(player.s.points) + ' 歌曲<br>你正在获得 ' + format(n(tmp.a.resetGain).mul(tmp.a.passiveGeneration))+' 源点每秒'},
      function() {
-     if(tmp.a.gainMult.log10().gte(player.a.sc)) return "由于源点获取量超过"+format(n(10).pow(player.a.sc))+"，源点获得量超出部分指数^"+format(player.a.sce)+"！//2"
+      let a=''
+     if(tmp.a.resetGain.gte(10)) a=a+ "由于源点获取量超过1e10，源点获得量超出部分^0.05！//1"
+     if(tmp.a.gainMult.log10().gte(player.a.sc)) a=a+"由于源点获取量超过"+format(n(10).pow(player.a.sc))+"，源点获得量超出部分指数^"+format(player.a.sce)+"！//2"
+     return a
      },
      {"color": "#ffffff", "font-size": "14px", "font-family": "Comic Sans MS"}],
     "upgrades",
@@ -2363,12 +2371,10 @@ addLayer("l", {
      layerDataReset(this.layer, kept)
      }
     },
-  softcap:n (1e1000000),
-  softcapPower:n(0.05),
     upgrades: {
     11:{ title: "本源之点",
     description:"在源点层级解锁“PTT”界面",
-    cost: n(2),
+    cost: n(3),
     unlocked() {return hasMilestone('l',1)}, },
     12:{ title: "潜能无限",
     description() {return "解锁下一个PTT可点击，PTT对Note也有提升效果"},
@@ -2411,20 +2417,15 @@ addLayer("l", {
    },
     milestones: {
     0: {
-     requirementDescription: "获得1个诗篇",
-     effectDescription: "自动购买歌曲升级，解锁一个Arcaea升级",
-     done() { return player.l.points.gte(1) }
-    },
-    1: {
      requirementDescription: "获得2个诗篇",
-     effectDescription: "解锁一个歌曲升级和一个Arcaea升级，解锁Lanota升级",
-     unlocked() {return hasMilestone('l',0)},
+     effectDescription: "自动购买歌曲升级，解锁一个歌曲升级和一个Arcaea升级",
+     unlocked() {return true},
      done() { return player.l.points.gte(2) }
     },
-    2: {
+    1: {
      requirementDescription: "获得3个诗篇",
-     effectDescription: "解锁更多升级",
-     unlocked() {return hasMilestone('l',1)},
+     effectDescription: "解锁Lanota升级，解锁2个Arcaea升级",
+     unlocked() {return true},
      done() { return player.l.points.gte(3) }
     },
 },
@@ -2681,8 +2682,8 @@ addLayer("p", {
      13: {
      name: "IN",
      challengeDescription(){
-   if(!hasUpgrade('p',21)){return "歌曲和源点层级被禁用，歌曲和源点^0.1，Note×1e-55<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/2"}
-   if(hasUpgrade('p',21)){return "歌曲和源点层级被禁用，歌曲和源点^0.1，Note×1e-55<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/5"}},
+   if(!hasUpgrade('p',21)){return "歌曲和源点层级被禁用，歌曲和源点^0.1，Notes×1e-55<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/2"}
+   if(hasUpgrade('p',21)){return "歌曲和源点层级被禁用，歌曲和源点^0.1，Notes×1e-55<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/5"}},
      goalDescription(){return "1e"+n(200).add(n(challengeCompletions(this.layer,this.id)).mul(100))+" Notes"},
      rewardDescription(){return "根据挑战完成次数指数提升Notes<br>效果：^"+challengeEffect(this.layer,this.id).mul(100).round().div(100)},
      rewardEffect() {return n( challengeCompletions(this.layer,this.id)).add(1).pow(0.2).div(5.2).add(0.8077)},

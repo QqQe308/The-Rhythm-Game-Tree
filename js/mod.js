@@ -11,11 +11,11 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.55",
-	name: "E is for Experiences",
+	num: "0.57",
+	name: "Rebalance II",
 }
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：e1.213e7 Notes，下一个更新:新层级！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：e1.213e7 Notes，下一个更新:更多重平衡！`
 
 // Determines when the game "ends"
 function isEndgame() {
@@ -34,7 +34,7 @@ var displayThings = [
    if(gcs('S',14)) b=b+"<br>课题力量: "+format(player.ch.enp)
    if(gcs('S',15)) b=b+"<br>填充Notes: "+format(player.r.notes)
    if(gcs('S',16)) b=b+"<br>游玩时长: "+formatTime(player.timeplayed)
-   let a= "v0.55游戏结局: e1.213e7 Notes！"
+   let a= "v0.57游戏结局: e1.213e7 Notes！"
    if(inChallenge('r',12)&&player.devSpeed.eq(0)) a=a+"<br>你需要在Rot升级树里选择升级，并且点击升级12确定以开始挑战！"
   if(isEndgame()) a=a+"<br>已达到该版本结局！"
   if(getPointGen().gte(player.pointSoftcapStart.pow(0.9))) a=a+"<br>Notes获取量在"+format(player.pointSoftcapStart)+"达到软上限！<br>软上限效果:超过部分^"+format(player.pointSoftcapPower,3)
@@ -43,6 +43,10 @@ var displayThings = [
 ]
 
 let changelog = `<h1>更新日志</h1><br>
+<h2>v0.57 Rebalance II 2024/8/26<br>
+<h3>- 重平衡1e100歌曲前的游戏流程<br>
+<h3>- 修复了一个炸档bug<br>
+- 游戏结局：e1.213e7 Notes<br><br>
 <h2>v0.55 E is for Experience 2024/7/26-2024/8/21<br>
 <h3>- 添加1个层级：经验<br>
 - 添加2+14=16个里程碑，7+14=21个升级，1个挑战，2+5=7个可购买<br>
@@ -141,7 +145,7 @@ function getPointGen() {
 	if (inChallenge('a', 12)) gain = gain.times('1e-500')
 	if (inChallenge('a', 13)) gain = gain.times('1e-500')
 	if(buyableEffect('s',12).gte(1)) gain = gain.times(buyableEffect('s',12))
-	if (inChallenge('a', 14)) gain = gain.times('1e-800')
+	if (inChallenge('a', 14)) gain = gain.times('1.919e-810')
 	if (hasUpgrade('p', 14)) gain = gain.times(upgradeEffect('p', 14))
 	if (inChallenge('p', 13)) gain = gain.times(1e-55)
 	if (hasUpgrade('p', 25)) gain = gain.times(1e308)
