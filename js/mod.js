@@ -11,7 +11,7 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.57",
+	num: "0.58",
 	name: "Rebalance II",
 }
 
@@ -43,8 +43,9 @@ var displayThings = [
 ]
 
 let changelog = `<h1>更新日志</h1><br>
-<h2>v0.57 Rebalance II 2024/8/26<br>
-<h3>- 重平衡1e100歌曲前的游戏流程<br>
+<h2>v0.58 Rebalance II 2024/8/26-2024/10/1<br>
+<h3>- 重平衡1Cyten前的游戏流程<br>
+<h3>- 为游戏添加了攻略(Pre-Cytus)<br>
 <h3>- 修复了一个炸档bug<br>
 - 游戏结局：e1.213e7 Notes<br><br>
 <h2>v0.55 E is for Experience 2024/7/26-2024/8/21<br>
