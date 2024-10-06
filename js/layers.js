@@ -1467,7 +1467,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
         cost(){return this.effect().pow(3)},
         display() { return "基于购买次数增加歌曲的乘数（软上限前）<br>价格："+format(this.cost())+"歌曲<br>效果：×"+format(this.effect())},
         title: "著名曲师",
-        effect() {return n(2).pow(gba(this.layer,this.id).add(1))},
+        effect() {return n(2).pow(gba(this.layer,this.id))},
         unlocked(){unlock= false
         if(hasChallenge('a',13)) unlock=true
         if(hasMilestone('p',1)) unlock=true
@@ -1483,7 +1483,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
         cost(){return this.effect().pow(2)},
         display() { return "基于购买次数增加Note乘数<br>价格："+format(this.cost())+"歌曲<br>效果：×"+format(this.effect())},
         title: "著名谱师",
-        effect() {return n(3).pow(gba(this.layer,this.id).add(1))},
+        effect() {return n(3).pow(gba(this.layer,this.id))},
         unlocked(){unlock= false
         if(hasUpgrade('s',24)) unlock=true
         if(hasMilestone('p',1)) unlock=true
@@ -1568,7 +1568,7 @@ addLayer("a", {
     effectDescription() { 
      return "Notes和歌曲增益乘以"+format(player['a'].points.add(1))},
     gainMult() { //againmult//
-        mult = n(.5)
+        mult = n(2)
         sc = player.a.sc
         sce=player.a.sce
 
@@ -2260,10 +2260,11 @@ addLayer("l", {
     },
     gainExp() { //lgainexp
       exp= n(0.07)
+      if(!hasChallenge('c',11)) {
       if(player.l.points.gte(4)) exp= n(0.06)
       if(player.l.points.gte(15)) exp= n(0.015).div(player.l.points.sub(14).pow(0.5))
       if(player.l.points.gte(30)) exp= n(0.001)
-      if(hasChallenge('c',11)) exp=exp.max(0.003)
+      }
       if(hasUpgrade('ch',27)) exp=exp.max(0.075)
       if(buyableEffect('c',24)>1) exp = exp.times(buyableEffect('c',24))
        return exp
