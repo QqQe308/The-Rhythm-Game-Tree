@@ -2044,11 +2044,11 @@ return eff
       canClick() {return true},
       onClick() {
        let pttMax=player.l.points.min(35).add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0)
-       player.a.pttMax = player.a.pttMax.add(pttMax).min(tmp.ri.ric1)
+       player.a.pttMax = player.a.pttMax.add(pttMax).min(tmp.ri.arc1)
       },
       onHold() {
        let pttMax=player.l.points.min(35).add(1).log(10).add(1).pow(2).sub(player.a.pttMax.mul(player.a.pttMax2)).div(2).max(0)
-        player.a.pttMax = player.a.pttMax.add(pttMax).min(tmp.ri.ric1)
+        player.a.pttMax = player.a.pttMax.add(pttMax).min(tmp.ri.arc1)
       },
       unlocked() {return hasMilestone('l',2)||hasMilestone('p',1)}
     },
