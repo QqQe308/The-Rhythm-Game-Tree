@@ -4012,7 +4012,7 @@ addLayer("ch", {
     if(hasUpgrade('ch',31)) mult=mult.times(upgradeEffect('ch',31))
     if(hasUpgrade('ch',33)) mult=mult.times(1.1)
     if(buyableEffect('c',31)>1) exp = exp.times(buyableEffect('c',31))
-      return mult.min(4000)
+      return mult.min(n(4000).add(clickableEffect('e',16))
     },
     dif() {
       dif = player.ch.note.div(50).pow(0.8).max(1)
@@ -4025,6 +4025,7 @@ addLayer("ch", {
     tapEff() {
       tap = n(2).pow(player.ch.tap.max(0))
     tap=tap.pow(player.ch.dif)
+    tap=tap.pow(clickableEffect('e',17))
       return tap},
     dragEff() {
       drag = player.ch.drag.add(1).log(10).div(10).add(1).min(1.5)
