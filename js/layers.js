@@ -4012,7 +4012,7 @@ addLayer("ch", {
     if(hasUpgrade('ch',31)) mult=mult.times(upgradeEffect('ch',31))
     if(hasUpgrade('ch',33)) mult=mult.times(1.1)
     if(buyableEffect('c',31)>1) exp = exp.times(buyableEffect('c',31))
-      return mult.min(n(4000).add(clickableEffect('e',16))
+      return mult.min(n(4000).add(clickableEffect('e',16)))
     },
     dif() {
       dif = player.ch.note.div(50).pow(0.8).max(1)
