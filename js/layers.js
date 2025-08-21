@@ -523,183 +523,6 @@ style() { return { 'background-color': hasAchievement('A',1011)?"#308308":"#ff48
 },
 },
 )//Achievements
-addLayer("t", {
-  infoboxes: {
- introBox: {
-  title: "测试层级",
-  body(){return "如果你存档出了问题（比如Note无止尽的增长），请重置本层级！（本层级保留所有层级的升级、挑战、可购买等，只会重置Notes和每层的资源）<br>目前版本无炸档bug，故此层级什么也不重置，作为测试层级使用"},
-        },
-},
-    name: "test",
-    symbol: "T",
-    position: 0,
-    startData() { return {
-        unlocked() { return true},
-		points: n(0),
-    }},
-     color: "#ffffff",
-    requires: n(0), 
-    resource: "测试",
-    baseResource: "Notes", 
-    baseAmount() {return player.points}, 
-    type: "static", 
-    exponent: 1, 
-    effect(){
-      return {Notes: 1}
-    },
-    effectDescription() { 
-    },
-    gainMult() { 
-        mult = n(1)
-        return mult
-    },
-    gainExp() { 
-      exp= n(0.5)
-       return exp
-    },
-    directMult() { 
-        mult = n(1)
-        return mult
-    },
-    row: 6, 
-    hotkeys: [
-        {key: "t", description: "T: Reset for tests", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
-    layerShown(){ return true},
-    resetsNothing() {return true},
-    upgrades: {
-    11:{ title: "测试",
-      description: "提升Notes获取量（假的）",
-       cost(){
-        cost= n("1.8e308")
-        cost=cost.div(buyableEffect('t',11))
-        return cost
-       },
-      effect() {
-       eff = n(1)
-        if(hasAchievement('A',1001)) eff=n("1.80e308")
-       eff=eff.pow(challengeEffect('t',11))
-       return eff
-      },
-     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
-    12:{ title: "手机版Qol",
-      description: "获得隐藏成就2、3",
-     cost:n(1000),
-     onPurchase() {
-QqQ="a";banana="b";Liu="c";fufu=['d'];Loader="e";yszqzls="f";yyyxs="g";Genshin="h";Phigros="i";long2024="j";QqQe308="k"
-     },
-    },
-    },
-    milestones: {
-    0: {
-        requirementDescription: "测试里程碑",
-        effectDescription() {
-  if(hasAchievement('A',1011)) return "需要1.80e308测试或完成隐藏成就6"
-  else return "需要1.80e308测试"
-        },
-        done() { return player.t.points.gte(1.80e308)||hasAchievement('A',1011) }
-    },
-      
-    },
-    challenges: {
-      11: {
-        name: "测试",
-        challengeDescription(){
-   return "Notes获取量^1<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/10"},
-        goalDescription(){return n(10).add(n(challengeCompletions(this.layer,this.id)).mul(0))+" Notes"},
-        rewardDescription(){return "增加测试升级的效果<br>效果：^"+format(challengeEffect(this.layer,this.id))},
-        rewardEffect() {eff=n(challengeCompletions(this.layer,this.id)).pow(114514)
-   return eff
-        },
-        unlocked(){return hasAchievement('A',1004)},
-        completionLimit(){
-   return n(10)},
-        canComplete: function() {
-   return player.points.gte(n(10).add(n(0).mul(n(challengeCompletions(this.layer,this.id)))))},
-        },
-       },
-    buyables:{ 
-    11: {
-				title: "测试",
-				cost(x=player[this.layer].buyables[this.id]) { // cost for buying xth buyable, can be an object if there are multiple currencies
-     if (x.gte(25)) x = x.pow(2).div(25)
-     let cost = Decimal.pow(1.0001, x.mul(1.0001).pow(1.0001))
-    return cost
-         },
-				effect(x=player[this.layer].buyables[this.id]) {eff=n(2).pow(x.pow(1.255))
-				  return eff
-				},
-				display() { // Everything else displayed in the buyable button after the title
-       let data = tmp[this.layer].buyables[this.id]
-       return (("价格: " + format(data.cost) + " 测试")+"<br>数量: " + format(player[this.layer].buyables[this.id])
-      +"/250<br>测试升级1的价格÷" + format(data.effect))
-         },
-      unlocked() { return hasAchievement('A',1005)}, 
-      canAfford() {
-      return player[this.layer].points.gte(tmp[this.layer].buyables[this.id].cost)},
-      purchaseLimit() {return n(250)},
-       buy() { 
-   cost = tmp[this.layer].buyables[this.id].cost
-     player[this.layer].points = player[this.layer].points.sub(cost)	
-    player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
-         },
-     buyMax() {
-					if (!this.canAfford()) return;
-					let tempBuy = player.c.power.max(1).log(2).root(1.5).div(2)
-					if (tempBuy.gte(25)) tempBuy = tempBuy.times(25).sqrt();
-					let target = tempBuy.plus(1).floor();
-					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
-				},
-         style: {'height':'200px'},
-			},
-   },
-    clickables:{       
-    11: {
-    title(){return "手机版Qol"},
-    display: "按住以自动重置获得测试",
-   canClick() {return true},
-    onClick() { doReset('t') },
-    onHold() { doReset('t') },
-     unlocked(){return hasAchievement('A',1001)},
-        },
-    21: {
-    title(){return "暂停游戏"},
-    display: "将游戏速度设定为0，再次点击重置",
-    onClick() {
-    if(gcs('t',21)==1) setClickableState('t',21,0)
-    else setClickableState('t',21,1)
-    },
-    canClick() {return true},
-    unlocked() {return true},
-        },
-    31: {
-    title(){return "显示存档长度"},
-    display() {
-     let a="没有"
-     if(gcs('t',31)==1) a="正在"
-     return "现在"+a+"显示存档长度！"
-    },
-    onClick() {
-    if(gcs('t',31)==1) setClickableState('t',31,0)
-    else setClickableState('t',31,1)
-    },
-    canClick() {return true},
-    unlocked() {return true},
-        },
-    41: {
-    title(){return "强制切换Shift"},
-    display() { let a="没有"
-    if(player.shitDown) a="正在"
-    return "手机版Qol，目前"+a+"按下shift<br>冷知识：按下Shift再点击层级可以锁定显示层级资源（测试层级除外）！（需要开启设置相关功能）"},
-    onClick() {
-    player.shitDown=!player.shitDown
-    },
-    canClick() {return true},
-    unlocked() {return true},
-    style: {'height':'200px','width':'200px'},
-        },
-   },
-})//Test
 addLayer("S", {
   infoboxes: {
  introBox: {
@@ -1127,12 +950,193 @@ addLayer("S", {
         },
     },
 })//Statistcs
+addLayer("t", {
+  infoboxes: {
+ introBox: {
+  title: "测试层级",
+  body(){return "如果你存档出了问题（比如Note无止尽的增长），请重置本层级！（本层级保留所有层级的升级、挑战、可购买等，只会重置Notes和每层的资源）<br>目前版本无炸档bug，故此层级什么也不重置，作为测试层级使用"},
+        },
+},
+    name: "test",
+    symbol: "T",
+    position: 0,
+    startData() { return {
+        unlocked() { return true},
+		points: n(0),
+    }},
+     color: "#ffffff",
+    requires: n(0), 
+    resource: "测试",
+    baseResource: "Notes", 
+    baseAmount() {return player.points}, 
+    type: "static", 
+    exponent: 1, 
+    effect(){
+      return {Notes: 1}
+    },
+    effectDescription() { 
+    },
+    gainMult() { 
+        mult = n(1)
+        return mult
+    },
+    gainExp() { 
+      exp= n(0.5)
+       return exp
+    },
+    directMult() { 
+        mult = n(1)
+        return mult
+    },
+    row: 6, 
+    hotkeys: [
+        {key: "t", description: "T: Reset for tests", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown(){ return true},
+    resetsNothing() {return true},
+    upgrades: {
+    11:{ title: "测试",
+      description: "提升Notes获取量（假的）",
+       cost(){
+        cost= n("1.8e308")
+        cost=cost.div(buyableEffect('t',11))
+        return cost
+       },
+      effect() {
+       eff = n(1)
+        if(hasAchievement('A',1001)) eff=n("1.80e308")
+       eff=eff.pow(challengeEffect('t',11))
+       return eff
+      },
+     effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×" }, },
+    12:{ title: "手机版Qol",
+      description: "获得隐藏成就2、3",
+     cost:n(1000),
+     onPurchase() {
+QqQ="a";banana="b";Liu="c";fufu=['d'];Loader="e";yszqzls="f";yyyxs="g";Genshin="h";Phigros="i";long2024="j";QqQe308="k"
+     },
+    },
+    },
+    milestones: {
+    0: {
+        requirementDescription: "测试里程碑",
+        effectDescription() {
+  if(hasAchievement('A',1011)) return "需要1.80e308测试或完成隐藏成就6"
+  else return "需要1.80e308测试"
+        },
+        done() { return player.t.points.gte(1.80e308)||hasAchievement('A',1011) }
+    },
+      
+    },
+    challenges: {
+      11: {
+        name: "测试",
+        challengeDescription(){
+   return "Notes获取量^1<br>完成次数:"+challengeCompletions(this.layer,this.id)+"/10"},
+        goalDescription(){return n(10).add(n(challengeCompletions(this.layer,this.id)).mul(0))+" Notes"},
+        rewardDescription(){return "增加测试升级的效果<br>效果：^"+format(challengeEffect(this.layer,this.id))},
+        rewardEffect() {eff=n(challengeCompletions(this.layer,this.id)).pow(114514)
+   return eff
+        },
+        unlocked(){return hasAchievement('A',1004)},
+        completionLimit(){
+   return n(10)},
+        canComplete: function() {
+   return player.points.gte(n(10).add(n(0).mul(n(challengeCompletions(this.layer,this.id)))))},
+        },
+       },
+    buyables:{ 
+    11: {
+				title: "测试",
+				cost(x=player[this.layer].buyables[this.id]) { // cost for buying xth buyable, can be an object if there are multiple currencies
+     if (x.gte(25)) x = x.pow(2).div(25)
+     let cost = Decimal.pow(1.0001, x.mul(1.0001).pow(1.0001))
+    return cost
+         },
+				effect(x=player[this.layer].buyables[this.id]) {eff=n(2).pow(x.pow(1.255))
+				  return eff
+				},
+				display() { // Everything else displayed in the buyable button after the title
+       let data = tmp[this.layer].buyables[this.id]
+       return (("价格: " + format(data.cost) + " 测试")+"<br>数量: " + format(player[this.layer].buyables[this.id])
+      +"/250<br>测试升级1的价格÷" + format(data.effect))
+         },
+      unlocked() { return hasAchievement('A',1005)}, 
+      canAfford() {
+      return player[this.layer].points.gte(tmp[this.layer].buyables[this.id].cost)},
+      purchaseLimit() {return n(250)},
+       buy() { 
+   cost = tmp[this.layer].buyables[this.id].cost
+     player[this.layer].points = player[this.layer].points.sub(cost)	
+    player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+         },
+     buyMax() {
+					if (!this.canAfford()) return;
+					let tempBuy = player.c.power.max(1).log(2).root(1.5).div(2)
+					if (tempBuy.gte(25)) tempBuy = tempBuy.times(25).sqrt();
+					let target = tempBuy.plus(1).floor();
+					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
+				},
+         style: {'height':'200px'},
+			},
+   },
+    clickables:{       
+    11: {
+    title(){return "手机版Qol"},
+    display: "按住以自动重置获得测试",
+   canClick() {return true},
+    onClick() { doReset('t') },
+    onHold() { doReset('t') },
+     unlocked(){return hasAchievement('A',1001)},
+        },
+    21: {
+    title(){return "暂停游戏"},
+    display: "将游戏速度设定为0，再次点击重置",
+    onClick() {
+    if(gcs('t',21)==1) setClickableState('t',21,0)
+    else setClickableState('t',21,1)
+    },
+    canClick() {return true},
+    unlocked() {return true},
+        },
+    31: {
+    title(){return "显示存档长度"},
+    display() {
+     let a="没有"
+     if(gcs('t',31)==1) a="正在"
+     return "现在"+a+"显示存档长度！"
+    },
+    onClick() {
+    if(gcs('t',31)==1) setClickableState('t',31,0)
+    else setClickableState('t',31,1)
+    },
+    canClick() {return true},
+    unlocked() {return true},
+        },
+    41: {
+    title(){return "强制切换Shift"},
+    display() { let a="没有"
+    if(player.shitDown) a="正在"
+    return "手机版Qol，目前"+a+"按下shift<br>冷知识：按下Shift再点击层级可以锁定显示层级资源（测试层级除外）！（需要开启设置相关功能）"},
+    onClick() {
+    player.shitDown=!player.shitDown
+    },
+    canClick() {return true},
+    unlocked() {return true},
+    style: {'height':'200px','width':'200px'},
+        },
+   },
+})//Test
 //Row 0
 addLayer("s", {
   infoboxes: {
  introBox: {
   title: "层级1--歌曲",
   body(){return "欢迎您来到本游戏！本游戏的玩法是模组树，主题是音乐游戏！<br>作者：QqQe308（B站一只新手Up）<br>无特殊说明情况下，增益乘数在增益指数前生效（额外乘数除外）<br>为了能够成功导出存档，标签页中不能出现中文字符，故采用英文代替（2024.7.9记：其实现在可以了，但是懒得改了）"},
+        },
+ stopUpdatingBox: {
+  title: "停更通知",
+  body(){return "你好，我是QqQe308，这个游戏的作者，目前游戏已经停止更新，很长一段时间内不会有任何新内容，或许再过个一两年我会重拾这个项目，但那是后话了。感谢你的游玩与支持，玩得开心。"},
         },
 },
     name: "songs", // This is optional, only used in a few places, If absent it just uses the layer main-display
@@ -1250,6 +1254,7 @@ if(hasAchievement('A',71)) exp=exp.add(0.1)
     tabFormat: {
    "General": {
         content: [ ["infobox","introBox"],
+  ["infobox","stopUpdatingBox"],
    "main-display",
     "prestige-button",
     "resource-display",
@@ -2006,7 +2011,7 @@ return eff
       effect() {return n(1).div(player.a.points.add(15).log(150).pow(0.2).min(8).max(1))},
     unlocked() { return hasChallenge('c',11)&&hasUpgrade('s',34)},},
     45:{ 
-      fullDisplay() {return "Tempetissimo<br>根据累计前八个Cytus可购买数量增益Note<br>当前效果:×"+format(this.effect())+"<br>价格: 1e1230源点"},
+      fullDisplay() {return "Tempestissimo<br>根据累计前八个Cytus可购买数量增益Note<br>当前效果:×"+format(this.effect())+"<br>价格: 1e1230源点"},
       cost: n('1e1230'),
       effect() {return n(2.02e20).pow(gba('c',11).add(gba('c',12)).add(gba('c',13)).add(gba('c',14)).add(gba('c',21)).add(gba('c',22)).add(gba('c',23)).add(gba('c',24)))},
     unlocked() { return hasChallenge('c',11)&&hasUpgrade('l',17)},},

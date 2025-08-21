@@ -11,11 +11,11 @@ let modInfo = {
 }
 // Set your version in num and name
 let VERSION = {
-	num: "0.59",
-	name: "Rebalance II",
+	num: "0.599",
+	name: "Stop Updating",
 }
 
-let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新！<br>当前结局：e1.213e7 Notes，下一个更新:更多重平衡！`
+let winText = `恭喜通关！你已经完成了你的音游之旅…吗？请期待下一个更新……<br>当前结局：e1.213e7 Notes，下一个更新…还会有吗`
 
 // Determines when the game "ends"
 function isEndgame() {
@@ -36,14 +36,16 @@ var displayThings = [
    if(gcs('S',16)) b=b+"<br>游玩时长: "+formatTime(player.timeplayed)
    let a= "v0.59游戏结局: e1.213e7 Notes！"
    if(inChallenge('r',12)&&player.devSpeed.eq(0)) a=a+"<br>你需要在Rot升级树里选择升级，并且点击升级12确定以开始挑战！"
-  if(isEndgame()) a=a+"<br>已达到该版本结局！"
+  if(isEndgame()) a=a+"<br>恭喜通关！"
   if(getPointGen().gte(player.pointSoftcapStart.pow(0.9))) a=a+"<br>Notes获取量在"+format(player.pointSoftcapStart)+"达到软上限！<br>软上限效果:超过部分^"+format(player.pointSoftcapPower,3)
-  a=a+"<br>音乐游戏树一周年快乐！"
    return a+b
   }
 ]
 
 let changelog = `<h1>更新日志</h1><br>
+<h2>v0.599 Stop Updating 2025/08/21<br>
+<h3>- 游戏(长期)停更<br>
+<h3>- 修复vue.js<br><br>
 <h2>v0.59 Rebalance II 2024/8/26-2024/10/6<br>
 <h3>- 重平衡1Cyten前的游戏流程<br>
 <h3>- 为游戏添加了攻略(Pre-Cytus)<br>
