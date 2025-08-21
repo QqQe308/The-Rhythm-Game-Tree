@@ -13,7 +13,7 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
 
-	<script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.12/vue.min.js"></script>
+	<script src="js/vue.js"></script>
 	<script src="js/technical/break_eternity.js"></script>
 	<script src="js/technical/layerSupport.js"></script>
 
@@ -50,11 +50,11 @@
 			<br>
 			<h2>{{modInfo.name}} {{VERSION.withoutName}}</h2><br><br>
 			<h3 v-html="modInfo.winText"></h3><br>
-			<h3>去gityx.com，https://b23.tv/RsqjjpD等地方看看有没有更新吧！</h3><br><br>
+			<h3>可以前往gityx.com和B站@QqQe308找到作者！</h3><br><br>
 			<div v-if="!player.timePlayedReset">你用了 {{formatTime(player.timePlayed)}} (游戏时间)通关！</div>
 			<br>
 			<button class="longUpg can" onclick="hardReset(true)">重新开始(不建议!)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button
-				class="longUpg can" onclick="keepGoing()">等待更新</button>
+				class="longUpg can" onclick="keepGoing()">等待更新(真的会更新吗？)</button>
 			<br><br><br>
 			<span v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink"
 					target="_blank">{{modInfo.discordName}}</a><br></span>
